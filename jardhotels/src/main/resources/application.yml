@@ -1,6 +1,6 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.postgresql
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://45.84.210.174:65432/2023-BBE-1-G2
     username: Backend_2023_G2
     password: 1qaz2wsx

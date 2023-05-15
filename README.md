@@ -1,4 +1,4 @@
-# Backend Grupo 2 - 2023
+# BACKEND 2023
 
 ## Integrantes del Grupo 2:
 - Antonio Crespo Gómez

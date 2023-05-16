@@ -5,7 +5,7 @@ import com.campusdual.jardhotels.model.types.Stars;
 public class HotelDTO {
     private int id;
     private String name;
-    private Stars stars;
+    private int stars;
     private String address;
 
     public int getId() {
@@ -24,11 +24,11 @@ public class HotelDTO {
         this.name = name;
     }
 
-    public Stars getStars() {
+    public int getStars() {
         return stars;
     }
 
-    public void setStars(Stars stars) {
+    public void setStars(int stars) {
         this.stars = stars;
     }
 

@@ -16,7 +16,7 @@ public class Hotel {
     private String name;
 
     @Column
-    private Stars stars;
+    private int stars;
 
     @Column
     private String address;
@@ -37,11 +37,11 @@ public class Hotel {
         this.name = name;
     }
 
-    public Stars getStars() {
+    public int getStars() {
         return stars;
     }
 
-    public void setStars(Stars stars) {
+    public void setStars(int stars) {
         this.stars = stars;
     }
 

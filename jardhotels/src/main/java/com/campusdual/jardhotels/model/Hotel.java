@@ -1,7 +1,5 @@
 package com.campusdual.jardhotels.model;
 
-import com.campusdual.jardhotels.model.types.Stars;
-
 import javax.persistence.*;
 
 @Entity

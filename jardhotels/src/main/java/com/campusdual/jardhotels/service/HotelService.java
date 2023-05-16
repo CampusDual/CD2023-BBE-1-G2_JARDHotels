@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("HotelService")
 @Lazy
 public class HotelService implements IHotelService {
@@ -21,6 +23,18 @@ public class HotelService implements IHotelService {
         Hotel hotel = HotelMapper.INSTANCE.toEntity(hotelDTO);
         hotelDAO.saveAndFlush(hotel);
         return hotel.getId();
+    }
+
+    @Override
+    public int deleteHotel(HotelDTO hotelDTO) {
+        Hotel hotel = HotelMapper.INSTANCE.toEntity(hotelDTO);
+        hotelDAO.delete(hotel);
+        return hotelDTO.getId();
+    }
+
+    @Override
+    public List<HotelDTO> queryAll() {
+        return HotelMapper.INSTANCE.toDtoList(hotelDAO.findAll());
     }
 
 }

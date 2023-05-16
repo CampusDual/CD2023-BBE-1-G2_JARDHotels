@@ -1,7 +1,5 @@
 package com.campusdual.jardhotels.model.dto;
 
-import com.campusdual.jardhotels.model.types.Stars;
-
 public class HotelDTO {
     private int id;
     private String name;

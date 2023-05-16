@@ -5,6 +5,7 @@ public class RoomDTO {
     private int number;
     private int capacity;
     private String description;
+    private int hotel;
 
     public int getId() {
         return id;
@@ -36,5 +37,13 @@ public class RoomDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(int hotel) {
+        this.hotel = hotel;
     }
 }

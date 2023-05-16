@@ -1,6 +1,7 @@
 package com.campusdual.jardhotels.service;
 
 
+import com.campusdual.jardhotels.model.Hotel;
 import com.campusdual.jardhotels.model.Room;
 import com.campusdual.jardhotels.model.dao.RoomDAO;
 import com.campusdual.jardhotels.model.dto.RoomDTO;
@@ -30,11 +31,18 @@ public class RoomServiceTest {
 
     @Test
     void addRoomTest() {
+        Hotel hotel = new Hotel();
+        hotel.setId(1);
+        hotel.setName("One");
+        hotel.setAddress("address");
+        hotel.setStars(1);
+
         Room room = new Room();
         room.setId(1);
         room.setNumber(1);
         room.setCapacity(1);
         room.setDescription("description");
+        room.setHotel(hotel);
 
         RoomDTO roomDTO = RoomMapper.INSTANCE.toDto(room);
         when(roomDAO.saveAndFlush(any(Room.class))).thenReturn(room);

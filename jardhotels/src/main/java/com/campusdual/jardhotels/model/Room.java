@@ -19,6 +19,10 @@ public class Room {
     @Column
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "hotel")
+    private Hotel hotel;
+
     public int getId() {
         return id;
     }
@@ -49,5 +53,13 @@ public class Room {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 }

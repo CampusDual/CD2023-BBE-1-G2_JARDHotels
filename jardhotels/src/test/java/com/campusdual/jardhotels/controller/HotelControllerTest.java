@@ -2,6 +2,7 @@ package com.campusdual.jardhotels.controller;
 
 
 import com.campusdual.jardhotels.model.Hotel;
+import com.campusdual.jardhotels.model.dto.HotelDTO;
 import com.campusdual.jardhotels.service.HotelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +20,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,7 +51,23 @@ public class HotelControllerTest {
                 .content(new ObjectMapper().writeValueAsString(hotel))).andReturn();
         assertEquals(HttpStatus.OK.value(),mvcResult.getResponse().getStatus());
     }
-    @Test void deleteHotelTest() throws Exception {
+    @Test
+    void deleteHotelTest() throws Exception {
+        HotelDTO hotelDTO = new HotelDTO();
+        hotelDTO.setName("hotelname");
+        hotelDTO.setStars(1);
+        hotelDTO.setAddress("address");
 
+        when(hotelService.deleteHotel(any(HotelDTO.class))).thenReturn(1);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete("/hotels/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(hotelDTO)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+
+        verify(hotelService, times(1)).deleteHotel(any(HotelDTO.class));
     }
 }

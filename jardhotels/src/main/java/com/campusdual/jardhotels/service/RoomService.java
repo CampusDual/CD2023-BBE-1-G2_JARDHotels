@@ -36,4 +36,9 @@ public class RoomService implements IRoomService {
         return RoomMapper.INSTANCE.toDtoList(roomDAO.findAll());
     }
 
+    @Override
+    public RoomDTO queryRoom(RoomDTO roomDTO) {
+        Room room = RoomMapper.INSTANCE.toEntity(roomDTO);
+        return RoomMapper.INSTANCE.toDto(roomDAO.getReferenceById(room.getId()));
+    }
 }

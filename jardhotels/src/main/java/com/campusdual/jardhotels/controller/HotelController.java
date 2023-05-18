@@ -1,9 +1,12 @@
 package com.campusdual.jardhotels.controller;
 
 import com.campusdual.jardhotels.api.IHotelService;
+import com.campusdual.jardhotels.exceptions.HotelNotFound;
 import com.campusdual.jardhotels.model.dto.HotelDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,6 +24,11 @@ public class HotelController {
 
     @DeleteMapping(value = "/delete")
     public int deleteHotel(@RequestBody HotelDTO hotelDTO) {
+        try {
+            hotelService.queryHotel(hotelDTO);
+        } catch (Exception e) {
+            throw new HotelNotFound("Hotel not found");
+        }
         return hotelService.deleteHotel(hotelDTO);
     }
 

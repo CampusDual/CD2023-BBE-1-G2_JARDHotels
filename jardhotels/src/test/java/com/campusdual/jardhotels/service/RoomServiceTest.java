@@ -1,7 +1,5 @@
 package com.campusdual.jardhotels.service;
 
-
-import com.campusdual.jardhotels.model.Hotel;
 import com.campusdual.jardhotels.model.Room;
 import com.campusdual.jardhotels.model.dao.RoomDAO;
 import com.campusdual.jardhotels.model.dto.RoomDTO;
@@ -15,8 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -31,44 +28,101 @@ public class RoomServiceTest {
 
     @Test
     void addRoomTest() {
-        Hotel hotel = new Hotel();
-        hotel.setId(1);
-        hotel.setName("One");
-        hotel.setAddress("address");
-        hotel.setStars(1);
 
+        // given
         Room room = new Room();
         room.setId(1);
-        room.setNumber(1);
-        room.setCapacity(1);
-        room.setDescription("description");
-        room.setHotel(hotel);
-
         RoomDTO roomDTO = RoomMapper.INSTANCE.toDto(room);
+
+        // when
         when(roomDAO.saveAndFlush(any(Room.class))).thenReturn(room);
         int insertedId = roomService.insertRoom(roomDTO);
-        assertNotNull(insertedId);
-        assertEquals(room.getId(), insertedId);
+
+        // then
         verify(roomDAO, times(1)).saveAndFlush(any(Room.class));
-        verify(roomDAO, times(0)).findAll();
-    }
-
-    @Test
-    void deleteRoomTest() {
-        RoomDTO roomDTO = new RoomDTO();
-        roomDTO.setId(1);
-
-        doNothing().when(roomDAO).delete(any(Room.class));
-        int id = roomService.deleteRoom(roomDTO);
-        verify(roomDAO, times(1)).delete(any(Room.class));
-        assertEquals(roomDTO.getId(), id);
+        assertEquals(room.getId(), insertedId);
     }
 
     @Test
     void queryAllRoomTest() {
+
+        // given
         List<Room> rooms = List.of(new Room(), new Room(), new Room());
+
+        // when
         when(roomDAO.findAll()).thenReturn(rooms);
-        List<RoomDTO> roomDTOS = roomService.queryAll();
-        assertEquals(3, roomDTOS.size());
+        List<RoomDTO> queriedRooms = roomService.queryAll();
+
+        // then
+        assertEquals(rooms.size(), queriedRooms.size());
+    }
+
+    @Test
+    void queryRoomTest() {
+
+        // given
+        Room room = new Room();
+        room.setId(1);
+        RoomDTO roomDTO = RoomMapper.INSTANCE.toDto(room);
+
+        // when
+        when(roomDAO.getReferenceById(anyInt())).thenReturn(room);
+        RoomDTO queriedRoom = roomService.queryRoom(roomDTO);
+
+        // then
+        verify(roomDAO, times(1)).getReferenceById(anyInt());
+        assertNotNull(queriedRoom);
+        assertEquals(room.getId(), queriedRoom.getId());
+    }
+
+    @Test
+    void getNonExistingRoomTest() {
+
+        // given
+        int nonExistentId = 99;
+        Room room = new Room();
+        room.setId(nonExistentId);
+        RoomDTO roomDTO = RoomMapper.INSTANCE.toDto(room);
+
+        // when
+        when(roomDAO.getReferenceById(nonExistentId)).thenReturn(null);
+        RoomDTO queriedRoom = roomService.queryRoom(roomDTO);
+
+        // then
+        verify(roomDAO, times(1)).getReferenceById(nonExistentId);
+        assertNull(queriedRoom);
+    }
+
+    @Test
+    void updateRoomTest() {
+
+        // given
+        Room room = new Room();
+        room.setId(1);
+        RoomDTO roomDTO = RoomMapper.INSTANCE.toDto(room);
+
+        // when
+        when(roomDAO.saveAndFlush(any(Room.class))).thenReturn(room);
+        RoomDTO updatedRoom = roomService.updateRoom(roomDTO);
+
+        // then
+        verify(roomDAO, times(1)).saveAndFlush(any(Room.class));
+        assertEquals(room.getId(), updatedRoom.getId());
+    }
+    
+    @Test
+    void deleteRoomTest() {
+
+        // given
+        RoomDTO roomDTO = new RoomDTO();
+        roomDTO.setId(1);
+
+        // when
+        doNothing().when(roomDAO).delete(any(Room.class));
+        int id = roomService.deleteRoom(roomDTO);
+
+        // then
+        verify(roomDAO, times(1)).delete(any(Room.class));
+        assertEquals(roomDTO.getId(), id);
     }
 }

@@ -13,4 +13,6 @@ public interface IHotelService {
 
     HotelDTO queryHotel(HotelDTO hotelDTO);
 
+    HotelDTO updateHotel(HotelDTO hotelDTO);
+
 }

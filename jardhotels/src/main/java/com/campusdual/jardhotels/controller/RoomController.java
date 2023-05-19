@@ -2,6 +2,7 @@ package com.campusdual.jardhotels.controller;
 
 import com.campusdual.jardhotels.api.IHotelService;
 import com.campusdual.jardhotels.api.IRoomService;
+import com.campusdual.jardhotels.exceptions.ForbiddenOperation;
 import com.campusdual.jardhotels.exceptions.HotelNotFound;
 import com.campusdual.jardhotels.exceptions.NotUniqueRoomNumber;
 import com.campusdual.jardhotels.exceptions.RoomNotFound;
@@ -57,4 +58,29 @@ public class RoomController {
         return roomService.queryAll();
     }
 
+    @PutMapping(value = "/update")
+    public RoomDTO updateRoom(@RequestBody RoomDTO roomDTO) {
+
+        RoomDTO roomDB;
+        try {
+            roomDB = roomService.queryRoom(roomDTO);
+
+        } catch (Exception e) {
+            throw new RoomNotFound("Room not found");
+        }
+
+        if (roomDTO.getHotel() != 0 && roomDTO.getHotel() != roomDB.getHotel())
+            throw new ForbiddenOperation("You cannot change the hotel");
+
+        if (roomDTO.getNumber() != 0)
+            roomDB.setNumber(roomDTO.getNumber());
+
+        if (roomDTO.getCapacity() != 0)
+            roomDB.setCapacity(roomDTO.getCapacity());
+
+        if (roomDTO.getDescription() != null)
+            roomDB.setDescription(roomDTO.getDescription());
+
+        return roomService.updateRoom(roomDB);
+    }
 }

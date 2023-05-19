@@ -12,4 +12,6 @@ public interface IRoomService {
     List<RoomDTO> queryAll();
 
     RoomDTO queryRoom(RoomDTO roomDTO);
+
+    RoomDTO updateRoom(RoomDTO roomDTO);
 }

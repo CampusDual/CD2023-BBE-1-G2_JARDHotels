@@ -4,9 +4,7 @@ import com.campusdual.jardhotels.api.IHotelService;
 import com.campusdual.jardhotels.exceptions.HotelNotFound;
 import com.campusdual.jardhotels.model.dto.HotelDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -37,4 +35,26 @@ public class HotelController {
         return hotelService.queryAll();
     }
 
+    @PutMapping(value = "/update")
+    public HotelDTO updateHotel(@RequestBody HotelDTO hotelDTO) {
+
+        HotelDTO hotelDB;
+
+        try {
+            hotelDB = hotelService.queryHotel(hotelDTO);
+        } catch (Exception e) {
+            throw new HotelNotFound("Hotel not found");
+        }
+
+        if (hotelDTO.getName() != null)
+            hotelDB.setName(hotelDTO.getName());
+
+        if (hotelDTO.getStars() != 0)
+            hotelDB.setStars(hotelDTO.getStars());
+
+        if (hotelDTO.getAddress() != null)
+            hotelDB.setAddress(hotelDTO.getAddress());
+
+        return hotelService.updateHotel(hotelDB);
+    }
 }

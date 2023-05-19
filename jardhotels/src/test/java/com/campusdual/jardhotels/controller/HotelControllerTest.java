@@ -3,6 +3,7 @@ package com.campusdual.jardhotels.controller;
 import com.campusdual.jardhotels.exceptions.HotelNotFound;
 import com.campusdual.jardhotels.model.Hotel;
 import com.campusdual.jardhotels.model.dto.HotelDTO;
+import com.campusdual.jardhotels.model.dto.dtomapper.HotelMapper;
 import com.campusdual.jardhotels.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,6 +73,24 @@ public class HotelControllerTest {
         assertEquals(hotelDTOS.size(), new ObjectMapper().readTree(getAllMvcResult.getResponse()
                 .getContentAsString()).size());
 
+    }
+
+    @Test
+    void updateHotelTest() throws Exception {
+
+        // given
+        HotelDTO hotelDTO = new HotelDTO();
+        hotelDTO.setId(1);
+
+        // when
+        when(hotelService.queryHotel(any(HotelDTO.class))).thenReturn(hotelDTO);
+        when(hotelService.updateHotel(any(HotelDTO.class))).thenReturn(hotelDTO);
+        MvcResult updateMvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/hotels/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(hotelDTO))).andReturn();
+
+        // then
+        assertEquals(HttpStatus.OK.value(), updateMvcResult.getResponse().getStatus());
     }
 
     @Test

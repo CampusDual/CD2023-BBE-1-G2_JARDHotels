@@ -102,6 +102,24 @@ public class RoomControllerTest {
     }
 
     @Test
+    void updateRoomTest() throws Exception {
+
+        // given
+        RoomDTO roomDTO = new RoomDTO();
+        roomDTO.setId(1);
+
+        // when
+        when(roomService.queryRoom(any(RoomDTO.class))).thenReturn(roomDTO);
+        when(roomService.updateRoom(any(RoomDTO.class))).thenReturn(roomDTO);
+        MvcResult updateMvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/rooms/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(roomDTO))).andReturn();
+
+        // then
+        assertEquals(HttpStatus.OK.value(), updateMvcResult.getResponse().getStatus());
+    }
+
+    @Test
     void deleteRoomTest() throws Exception {
 
         // given

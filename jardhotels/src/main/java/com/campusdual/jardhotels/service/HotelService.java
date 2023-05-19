@@ -37,4 +37,18 @@ public class HotelService implements IHotelService {
         return HotelMapper.INSTANCE.toDtoList(hotelDAO.findAll());
     }
 
+    @Override
+    public HotelDTO queryHotel(HotelDTO hotelDTO) {
+        Hotel hotel = HotelMapper.INSTANCE.toEntity(hotelDTO);
+        return HotelMapper.INSTANCE.toDto(hotelDAO.getReferenceById(hotel.getId()));
+    }
+
+    @Override
+    public HotelDTO updateHotel(HotelDTO hotelDTO) {
+
+        Hotel hotel = HotelMapper.INSTANCE.toEntity(hotelDTO);
+        hotelDAO.saveAndFlush(hotel);
+        return hotelDTO;
+    }
+
 }

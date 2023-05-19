@@ -1,8 +1,10 @@
 package com.campusdual.jardhotels.service;
 import com.campusdual.jardhotels.api.IRoomService;
+import com.campusdual.jardhotels.model.Hotel;
 import com.campusdual.jardhotels.model.Room;
 import com.campusdual.jardhotels.model.dao.RoomDAO;
 import com.campusdual.jardhotels.model.dto.RoomDTO;
+import com.campusdual.jardhotels.model.dto.dtomapper.HotelMapper;
 import com.campusdual.jardhotels.model.dto.dtomapper.RoomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -36,4 +38,17 @@ public class RoomService implements IRoomService {
         return RoomMapper.INSTANCE.toDtoList(roomDAO.findAll());
     }
 
+    @Override
+    public RoomDTO queryRoom(RoomDTO roomDTO) {
+        Room room = RoomMapper.INSTANCE.toEntity(roomDTO);
+        return RoomMapper.INSTANCE.toDto(roomDAO.getReferenceById(room.getId()));
+    }
+
+    @Override
+    public RoomDTO updateRoom(RoomDTO roomDTO) {
+
+        Room room = RoomMapper.INSTANCE.toEntity(roomDTO);
+        roomDAO.saveAndFlush(room);
+        return roomDTO;
+    }
 }

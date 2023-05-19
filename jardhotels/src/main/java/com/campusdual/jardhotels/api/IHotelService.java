@@ -11,4 +11,8 @@ public interface IHotelService {
 
     List<HotelDTO> queryAll();
 
+    HotelDTO queryHotel(HotelDTO hotelDTO);
+
+    HotelDTO updateHotel(HotelDTO hotelDTO);
+
 }

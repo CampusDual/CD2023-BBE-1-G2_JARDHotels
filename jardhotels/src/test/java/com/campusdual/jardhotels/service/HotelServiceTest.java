@@ -1,5 +1,6 @@
 package com.campusdual.jardhotels.service;
 
+import com.campusdual.jardhotels.exceptions.HotelNotFound;
 import com.campusdual.jardhotels.model.Hotel;
 import com.campusdual.jardhotels.model.dao.HotelDAO;
 import com.campusdual.jardhotels.model.dto.HotelDTO;

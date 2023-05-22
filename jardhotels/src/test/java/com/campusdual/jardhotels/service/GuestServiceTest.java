@@ -43,6 +43,7 @@ public class GuestServiceTest {
         assertEquals(guest.getId(), insertedId);
     }
 
+
     @Test
     void getGuestTest() {
 
@@ -59,4 +60,5 @@ public class GuestServiceTest {
         verify(guestDAO, times(1)).getReferenceById(anyInt());
         assertEquals(guest.getId(), queriedGuest.getId());
     }
+
 }

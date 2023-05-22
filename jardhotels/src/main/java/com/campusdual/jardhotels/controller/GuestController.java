@@ -19,6 +19,7 @@ public class GuestController {
         return guestService.insertGuest(guestDTO);
     }
 
+
     @PostMapping(value = "/get")
     public GuestDTO getGuest(@RequestBody GuestDTO guestDTO) {
         return guestService.queryGuest(guestDTO);

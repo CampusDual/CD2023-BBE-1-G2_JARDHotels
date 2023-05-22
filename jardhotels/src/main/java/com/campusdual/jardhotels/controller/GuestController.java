@@ -21,11 +21,6 @@ public class GuestController {
 
     @DeleteMapping(value = "/delete")
     public int deleteGuest(@RequestBody GuestDTO guestDTO) {
-        /*try {
-            guestService.queryGuest(guestDTO);
-        } catch (Exception e) {
-            throw new GuestNotFound("Guest not found");
-        }*/
         return guestService.deleteGuest(guestDTO);
     }
 
@@ -34,26 +29,4 @@ public class GuestController {
         return guestService.queryAll();
     }
 
-    /*@PutMapping(value = "/update")
-    public GuestDTO updateGuest(@RequestBody GuestDTO guestDTO) {
-
-        GuestDTO guestDB;
-
-        try {
-            guestDB = guestService.queryGuest(guestDTO);
-        } catch (Exception e) {
-            throw new GuestNotFound("Guest not found");
-        }
-
-        if (guestDTO.getName() != null)
-            guestDB.setName(guestDTO.getName());
-
-        if (guestDTO.getStars() != 0)
-            guestDB.setStars(guestDTO.getStars());
-
-        if (guestDTO.getAddress() != null)
-            guestDB.setAddress(guestDTO.getAddress());
-
-        return guestService.updateGuest(guestDB);
-    }*/
 }

@@ -61,4 +61,21 @@ public class GuestServiceTest {
         assertEquals(guest.getId(), queriedGuest.getId());
     }
 
+    @Test
+    void deleteGuestTest() {
+
+        // given
+        Guest guest = new Guest();
+        guest.setId(1);
+        GuestDTO guestDTO = GuestMapper.INSTANCE.toDto(guest);
+
+        // when
+        doNothing().when(guestDAO).delete(any(Guest.class));
+        int deletedId = guestService.deleteGuest(guestDTO);
+
+        // then
+        verify(guestDAO, times(1)).delete(any(Guest.class));
+        assertEquals(guest.getId(), deletedId);
+    }
+
 }

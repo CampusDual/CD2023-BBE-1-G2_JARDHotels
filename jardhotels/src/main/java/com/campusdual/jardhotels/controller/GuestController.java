@@ -19,6 +19,11 @@ public class GuestController {
         return guestService.insertGuest(guestDTO);
     }
 
+    @GetMapping(value = "/get")
+    public GuestDTO getGuest(@RequestBody GuestDTO guestDTO) {
+        return guestService.queryGuest(guestDTO);
+    }
+
     @DeleteMapping(value = "/delete")
     public int deleteGuest(@RequestBody GuestDTO guestDTO) {
         return guestService.deleteGuest(guestDTO);

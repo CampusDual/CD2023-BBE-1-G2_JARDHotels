@@ -42,4 +42,23 @@ public class GuestServiceTest {
         verify(guestDAO, times(1)).saveAndFlush(any(Guest.class));
         assertEquals(guest.getId(), insertedId);
     }
+
+
+    @Test
+    void getGuestTest() {
+
+        // given
+        Guest guest = new Guest();
+        guest.setId(1);
+        GuestDTO guestDTO = GuestMapper.INSTANCE.toDto(guest);
+
+        // when
+        when(guestDAO.getReferenceById(anyInt())).thenReturn(guest);
+        GuestDTO queriedGuest = guestService.queryGuest(guestDTO);
+
+        // then
+        verify(guestDAO, times(1)).getReferenceById(anyInt());
+        assertEquals(guest.getId(), queriedGuest.getId());
+    }
+
 }

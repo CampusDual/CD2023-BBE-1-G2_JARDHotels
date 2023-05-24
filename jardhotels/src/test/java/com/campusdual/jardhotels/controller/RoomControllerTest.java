@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class RoomControllerTest {
+public class  RoomControllerTest {
 
     private MockMvc mockMvc;
 

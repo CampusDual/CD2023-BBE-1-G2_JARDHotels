@@ -1,0 +1,5 @@
+com\campusdual\jardhotelsontimize\model\core\service\HotelService.class
+com\campusdual\jardhotelsontimize\model\core\dao\HotelDao.class
+com\campusdual\jardhotelsontimize\model\core\dao\UserDao.class
+com\campusdual\jardhotelsontimize\model\core\service\UserService.class
+com\campusdual\jardhotelsontimize\model\core\dao\UserRoleDao.class

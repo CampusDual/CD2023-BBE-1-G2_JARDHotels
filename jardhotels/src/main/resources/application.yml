@@ -1,6 +1,4 @@
-spring:
-  jackson:
-    time-zone: Europe/Madrid
+-spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://45.84.210.174:65432/2023-BBE-1-G2

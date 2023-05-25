@@ -27,7 +27,7 @@ ontimize:
          upper-like: true
    security:
       mode: default
-      ignore-paths: /app/**
+      ignore-paths: /**
       role-information-service:
          role-repository: UserRoleDao
          role-name-column: ROLENAME
@@ -64,8 +64,8 @@ spring:
    datasource:
       driver-class-name: org.postgresql.Driver
       jdbc-url: jdbc:postgresql://45.84.210.174:65432/2023-BBE-1-G2
-      username: SA
-      password:
+      username: Backend_2023_G2
+      password: 1qaz2wsx
       initial-size: 10
       test-on-borrow: true
    main:

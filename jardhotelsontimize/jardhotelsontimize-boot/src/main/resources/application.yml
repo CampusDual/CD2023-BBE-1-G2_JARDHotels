@@ -20,8 +20,8 @@ ontimize:
             - OPTIONS
             - DELETE
    jdbc:
-      name-convention: upper
-      sqlhandler: hsqldb
+      name-convention: lower
+      sqlhandler: postgresql
       sql-condition-processor:
          uppper-string: true
          upper-like: true

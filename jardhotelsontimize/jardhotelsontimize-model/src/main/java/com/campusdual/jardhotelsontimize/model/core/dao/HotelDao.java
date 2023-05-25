@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 @Lazy
 @ConfigurationFile(configurationFile = "dao/HotelDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
 public class HotelDao extends OntimizeJdbcDaoSupport {
-    public static final String ATTR_ID = "ID";
-    public static final String ATTR_NAME = "NAME";
-    public static final String ATTR_STARS = "STARS";
-    public static final String ATTR_ADDRESS = "ADDRESS";
+    public static final String ATTR_ID = "id";
+    public static final String ATTR_NAME = "name";
+    public static final String ATTR_STARS = "stars";
+    public static final String ATTR_ADDRESS = "address";
 
 
 

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 @Lazy
 @ConfigurationFile(configurationFile = "dao/RoomDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
 public class RoomDao extends OntimizeJdbcDaoSupport {
-    public static final String ATTR_ID = "ID";
-    public static final String ATTR_NUMBER = "NUMBER";
-    public static final String ATTR_CAPACITY = "CAPACITY";
-    public static final String ATTR_DESCRIPTION = "DESCRIPTION";
-    public static final String ATTR_HOTEL = "HOTEL";
+    public static final String ATTR_ID = "id";
+    public static final String ATTR_NUMBER = "number";
+    public static final String ATTR_CAPACITY = "capacity";
+    public static final String ATTR_DESCRIPTION = "description";
+    public static final String ATTR_HOTEL = "hotel";
 }

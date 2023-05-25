@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class HotelRestController extends ORestController<IHotelService>{
 
     @Autowired
-    private IHotelService hotelService;
+    private IHotelService iHotelService;
     @Override
     public IHotelService getService() {
-        return this.hotelService;
+        return this.iHotelService;
     }
 }

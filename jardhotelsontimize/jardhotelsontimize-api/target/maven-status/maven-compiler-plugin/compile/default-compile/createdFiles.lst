@@ -1,2 +1,5 @@
+com\campusdual\jardhotelsontimize\api\core\service\IBookingService.class
+com\campusdual\jardhotelsontimize\api\core\service\IGuestService.class
 com\campusdual\jardhotelsontimize\api\core\service\IHotelService.class
+com\campusdual\jardhotelsontimize\api\core\service\IRoomService.class
 com\campusdual\jardhotelsontimize\api\core\service\IUserService.class

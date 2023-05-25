@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hotels")
+@RequestMapping("/rooms")
 public class RoomRestController extends ORestController<IRoomService> {
 
     @Autowired

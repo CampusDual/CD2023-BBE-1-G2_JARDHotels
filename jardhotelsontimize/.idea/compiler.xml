@@ -7,9 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jardhotelsontimize-ws" />
+        <module name="jardhotelsontimize-model" />
         <module name="jardhotelsontimize-api" />
         <module name="jardhotelsontimize-boot" />
-        <module name="jardhotelsontimize-model" />
       </profile>
     </annotationProcessing>
   </component>

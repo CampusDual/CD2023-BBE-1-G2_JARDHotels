@@ -1,5 +1,13 @@
-com\campusdual\jardhotelsontimize\api\core\service\IBookingService.class
-com\campusdual\jardhotelsontimize\api\core\service\IGuestService.class
-com\campusdual\jardhotelsontimize\api\core\service\IHotelService.class
-com\campusdual\jardhotelsontimize\api\core\service\IRoomService.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\CheckinLowerThanCurrentDate.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\NotUniqueRoomNumber.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\OverlappingBooking.class
 com\campusdual\jardhotelsontimize\api\core\service\IUserService.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\GuestNotFound.class
+com\campusdual\jardhotelsontimize\api\core\service\IHotelService.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\RoomNotFound.class
+com\campusdual\jardhotelsontimize\api\core\service\IBookingService.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\CheckinGreaterThanCheckout.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\HotelNotFound.class
+com\campusdual\jardhotelsontimize\api\core\service\IGuestService.class
+com\campusdual\jardhotelsontimize\api\core\service\IRoomService.class
+com\campusdual\jardhotelsontimize\api\core\exceptions\ForbiddenOperation.class

@@ -1,5 +1,6 @@
 package com.campusdual.jardhotelsontimize.model.core.service;
 
+import com.campusdual.jardhotelsontimize.api.core.exceptions.HotelNotFound;
 import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
 import com.campusdual.jardhotelsontimize.model.core.dao.RoomDao;
 import com.ontimize.jee.common.dto.EntityResult;
@@ -28,7 +29,14 @@ public class RoomService implements IRoomService {
 
     @Override
     public EntityResult roomInsert(Map<String, Object> attrMap) {
-        return this.daoHelper.insert(this.roomDao, attrMap);
+        try {
+            return this.daoHelper.insert(this.roomDao, attrMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            throw new HotelNotFound("Hotel not found");
+//            throw new NotUniqueRoomNumber("A room with this number already exists in the same hotel");
+        }
     }
 
     @Override

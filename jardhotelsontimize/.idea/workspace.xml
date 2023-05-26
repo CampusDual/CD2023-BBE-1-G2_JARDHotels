@@ -5,42 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f3a8ab-9c21-4556-a3bf-7ce8f59b4589" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../2023-BBE-1-G2.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-api/target/classes/com/campusdual/jardhotelsontimize/api/core/service/IHotelService.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-api/target/classes/com/campusdual/jardhotelsontimize/api/core/service/IHotelService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-api/target/classes/com/campusdual/jardhotelsontimize/api/core/service/IUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-api/target/classes/com/campusdual/jardhotelsontimize/api/core/service/IUserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/CheckinGreaterThanCheckout.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/CheckinLowerThanCurrentDate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/ForbiddenOperation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/GuestNotFound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/HotelNotFound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/NotUniqueRoomNumber.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/OverlappingBooking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jardhotelsontimize-api/src/main/java/com/campusdual/jardhotelsontimize/api/core/exceptions/RoomNotFound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-api/target/jardhotelsontimize-api-1.0.0-SNAPSHOT-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-api/target/jardhotelsontimize-api-1.0.0-SNAPSHOT-sources.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-api/target/jardhotelsontimize-api-1.0.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-api/target/jardhotelsontimize-api-1.0.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/classes/com/campusdual/jardhotelsontimize/ServerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/classes/com/campusdual/jardhotelsontimize/ServerApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/jardhotelsontimize-boot-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/jardhotelsontimize-boot-sources.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/jardhotelsontimize-boot.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/jardhotelsontimize-boot.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/jardhotelsontimize-boot.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/jardhotelsontimize-boot.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-boot/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-boot/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/dao/BookingDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/dao/BookingDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/dao/GuestDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/dao/GuestDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/dao/HotelDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/dao/HotelDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/dao/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/dao/UserDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/dao/UserRoleDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/dao/UserRoleDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/service/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/service/BookingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/service/HotelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/service/HotelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/src/main/java/com/campusdual/jardhotelsontimize/model/core/service/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/BookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/BookingService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/HotelService.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/HotelService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/RoomService.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/classes/com/campusdual/jardhotelsontimize/model/core/service/RoomService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/jardhotelsontimize-model-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/jardhotelsontimize-model-sources.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/jardhotelsontimize-model.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/jardhotelsontimize-model.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/HotelRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/HotelRestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/MainRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/MainRestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/TestRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/TestRestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/UserRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/classes/com/campusdual/jardhotelsontimize/ws/core/rest/UserRestController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/jardhotelsontimize-ws-1.0.0-SNAPSHOT-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/jardhotelsontimize-ws-1.0.0-SNAPSHOT-sources.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/jardhotelsontimize-ws-1.0.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/jardhotelsontimize-ws-1.0.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jardhotelsontimize-ws/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/jardhotelsontimize-ws/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,12 +62,18 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/GitHub/Imatia/2023-BBE-1-G2/jardhotelsontimize/jardhotelsontimize-model/src/main/resources/dao"
+    "last_opened_file_path": "C:/GitHub/Imatia/2023-BBE-1-G2/jardhotelsontimize/jardhotelsontimize-ws"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitHub\Imatia\2023-BBE-1-G2\jardhotelsontimize\jardhotelsontimize-ws" />
       <recent name="C:\GitHub\Imatia\2023-BBE-1-G2\jardhotelsontimize\jardhotelsontimize-model\src\main\resources\dao" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitHub\Imatia\2023-BBE-1-G2\jardhotelsontimize\jardhotelsontimize-api\src\main\java\com\campusdual\jardhotelsontimize\api\core\exceptions" />
+      <recent name="C:\GitHub\Imatia\2023-BBE-1-G2\jardhotelsontimize\jardhotelsontimize-model" />
+      <recent name="C:\GitHub\Imatia\2023-BBE-1-G2\jardhotelsontimize" />
     </key>
   </component>
   <component name="RunManager" selected="Application.ServerApplication">

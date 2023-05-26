@@ -22,8 +22,9 @@ public class BookingService implements IBookingService {
     private BookingDao bookingDao;
 
     @Override
-    public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) {
-        return this.daoHelper.query(this.bookingDao, keyMap, attrList);
+    public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) { // TODO recuperar fecha
+        EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
+        return result;
     }
 
     @Override

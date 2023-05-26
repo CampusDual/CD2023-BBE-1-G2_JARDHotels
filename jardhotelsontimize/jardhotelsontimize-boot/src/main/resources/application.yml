@@ -55,6 +55,8 @@ ontimize:
          role-name-column: ROLENAME
 server:
    port: 65431
+   error:
+      include-message: always
    tomcat:
       uri-encoding: UTF-8
    compression:

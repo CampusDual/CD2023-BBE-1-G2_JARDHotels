@@ -25,9 +25,13 @@ public class HotelService implements IHotelService {
     private HotelDao hotelDao;
 
     @Override
-    public EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList) { // TODO comprobar si tiene cuerpo
+    public EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         EntityResult result = this.daoHelper.query(this.hotelDao,keyMap,attrList);
+        if(result.toString().contains("id"))
+            result.setMessage("The hotel has been found");
+        else
+            result.setMessage("The hotel doesn't exists");
 
         return result;
     }
@@ -46,24 +50,26 @@ public class HotelService implements IHotelService {
         EntityResult result = this.daoHelper.update(this.hotelDao,attrMap,keyMap);
         if (result.getCode() == 0)
             result.setMessage("Successful hotel update");
-        if (result.getCode() == 2) {
+        if (result.getCode() == 2)
             result.setMessage("Hotel not found");
-        }
+
         return result;
     }
 
     @Override
-    public EntityResult hotelDelete(Map<String, Object> keyMap) { // TODO arreglar comprobacion
+    public EntityResult hotelDelete(Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();
+        attrList.add("id");
         attrList.add("name");
         EntityResult query = this.daoHelper.query(this.hotelDao,keyMap,attrList);
 
         EntityResult result = this.daoHelper.delete(this.hotelDao,keyMap);
-        if (query.getCode() != 0)
-        {result.setMessage("Error");}
+
+        if (query.toString().contains("id"))
+            result.setMessage("Successful hotel delete");
         else
-            result.setMessage("Correcto");
+            result.setMessage("Hotel not found");
         return result;
     }
 }

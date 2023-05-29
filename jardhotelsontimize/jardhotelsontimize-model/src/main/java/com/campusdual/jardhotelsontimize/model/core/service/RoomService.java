@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,8 @@ public class RoomService implements IRoomService {
     @Autowired
     private RoomDao roomDao;
 
+    HotelService hotelService;
+
     @Override
     public EntityResult roomQuery(Map<String, Object> keyMap, List<String> attrList) {
         return this.daoHelper.query(this.roomDao, keyMap, attrList);
@@ -29,14 +33,22 @@ public class RoomService implements IRoomService {
 
     @Override
     public EntityResult roomInsert(Map<String, Object> attrMap) {
+        List<String>attrList = new ArrayList<>();
+        attrList.add("id");
+        EntityResult result = roomQuery(attrMap, attrList);
         try {
-            return this.daoHelper.insert(this.roomDao, attrMap);
-        } catch (Exception e) {
-            e.printStackTrace();
+            result =  this.daoHelper.insert(this.roomDao, attrMap);
+            result.setMessage("Successful room insertion");
+        }catch (Exception e){
             System.err.println(e.getMessage());
-            throw new HotelNotFound("Hotel not found");
-//            throw new NotUniqueRoomNumber("A room with this number already exists in the same hotel");
+            if(e.getMessage().contains("room_hotel_fkey"))
+                result.setMessage("Repeated number in hotel");
+            else
+                result.setMessage("Hotel not found");
+
+            result.setColumnSQLTypes(new HashMap());
         }
+        return result;
     }
 
     @Override

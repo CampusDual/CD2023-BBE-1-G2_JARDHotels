@@ -22,7 +22,7 @@ public class BookingService implements IBookingService {
     private BookingDao bookingDao;
 
     @Override
-    public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) { // TODO recuperar fecha
+    public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
         return result;
     }

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +31,10 @@ public class HotelService implements IHotelService {
         EntityResult result = this.daoHelper.query(this.hotelDao,keyMap,attrList);
         if(result.toString().contains("id"))
             result.setMessage("The hotel has been found");
-        else
+        else {
             result.setMessage("The hotel doesn't exists");
+            result.setColumnSQLTypes(new HashMap());
+        }
 
         return result;
     }

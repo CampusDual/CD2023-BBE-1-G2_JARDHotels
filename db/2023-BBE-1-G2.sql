@@ -2,6 +2,9 @@ DROP TABLE IF EXISTS booking;
 DROP TABLE IF EXISTS guest;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS hotel;
+drop table if exists country;
+drop table if exists coin;
+
 
 CREATE TABLE IF NOT EXISTS hotel(
 	id SERIAL PRIMARY KEY,
@@ -12,6 +15,9 @@ CREATE TABLE IF NOT EXISTS hotel(
 	CONSTRAINT "Stars must be between one and five" 
 		CHECK(stars >= 1 AND stars <= 5)
 );
+
+
+
 
 CREATE TABLE IF NOT EXISTS room(
 	id SERIAL PRIMARY KEY,
@@ -45,11 +51,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER check_hotel_room_update
 BEFORE UPDATE ON room
 FOR EACH ROW
 EXECUTE FUNCTION check_hotel_from_room();
 
+
+
+create table if not exists coin (
+	id SERIAL PRIMARY KEY,
+	coin VARCHAR(30) NOT NULL
+);
+
+create table if not exists country (
+	id SERIAL PRIMARY KEY,
+	country VARCHAR(60) NOT NULL,
+	coin int not null,
+	FOREIGN KEY(coin) REFERENCES coin(id) 
+	ON DELETE CASCADE 
+	ON UPDATE CASCADE
+);
 
 CREATE TABLE IF NOT EXISTS guest (
 	id SERIAL PRIMARY KEY,
@@ -58,6 +80,11 @@ CREATE TABLE IF NOT EXISTS guest (
 	phone VARCHAR(12) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	documentation VARCHAR(80) NOT NULL,
+	country INTEGER NOT NULL,
+	
+	FOREIGN KEY(country) REFERENCES country(id) 
+		ON DELETE CASCADE 
+		ON UPDATE CASCADE,
 	
 	CONSTRAINT "Repeated documentation in another guest" 
 		UNIQUE (documentation),
@@ -65,6 +92,9 @@ CREATE TABLE IF NOT EXISTS guest (
 	CONSTRAINT "Invalid email format" 
 		CHECK (email ~* '^[A-ZA-Z0-9._%+-]+@[A-ZA-Z0-9.-]+\.[A-ZA-Z]{2,}$')
 );
+
+
+
 
 CREATE TABLE IF NOT EXISTS booking (
 	id SERIAL PRIMARY KEY,

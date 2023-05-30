@@ -15,4 +15,5 @@ public class GuestDao extends OntimizeJdbcDaoSupport {
     public static final String ATTR_PHONE = "phone";
     public static final String ATTR_EMAIL = "email";
     public static final String ATTR_DOCUMENTATION = "documentation";
+    public static final String ATTR_COUNTRY = "country";
 }

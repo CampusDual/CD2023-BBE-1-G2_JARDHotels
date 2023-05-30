@@ -13,7 +13,4 @@ public class HotelDao extends OntimizeJdbcDaoSupport {
     public static final String ATTR_NAME = "name";
     public static final String ATTR_STARS = "stars";
     public static final String ATTR_ADDRESS = "address";
-
-
-
 }

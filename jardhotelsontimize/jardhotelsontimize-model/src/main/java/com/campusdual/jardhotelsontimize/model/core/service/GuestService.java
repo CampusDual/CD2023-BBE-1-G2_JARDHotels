@@ -44,7 +44,7 @@ public class GuestService implements IGuestService {
         try{
             result = this.daoHelper.insert(this.guestDao, attrMap);
         }catch (Exception e){
-            
+        
 
         }
         return result;

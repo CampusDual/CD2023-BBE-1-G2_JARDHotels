@@ -173,7 +173,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION verify_phone_united_states() RETURNS TRIGGER AS $$
 BEGIN
   IF NEW.phone !~ '^\(\d{3}\)\d{3}-\d{4}$' THEN
-    RAISE EXCEPTION 'The format for the phone in united states is incorrect';
+    RAISE EXCEPTION 'The format for the phone in United States is incorrect';
   END IF;
 
   RETURN NEW;

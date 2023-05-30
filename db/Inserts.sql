@@ -1,4 +1,4 @@
-INSERT INTO HOTEL (NAME, STARS, ADDRESS) VALUES
+INSERT INTO hotel (name, stars, address) VALUES
     ('Hotel Grand Hyatt', 5, '123 Main Street, Cityville'),
     ('Hotel Hilton', 4, '456 Elm Avenue, Townsville'),
     ('Hotel Marriott', 4, '789 Oak Lane, Villageland'),
@@ -10,7 +10,7 @@ INSERT INTO HOTEL (NAME, STARS, ADDRESS) VALUES
     ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside'),
     ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside');
 
-INSERT INTO ROOM (NUMBER, CAPACITY, DESCRIPTION, HOTEL) VALUES
+INSERT INTO room (number, capacity, description, hotel) VALUES
     (101, 2, 'Standard Room with a queen bed', 1),
     (102, 2, 'Standard Room with a queen bed', 1),
     (201, 4, 'Family Suite with two queen beds', 2),
@@ -22,7 +22,7 @@ INSERT INTO ROOM (NUMBER, CAPACITY, DESCRIPTION, HOTEL) VALUES
     (501, 2, 'Deluxe Room with a king bed and ocean view', 5),
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5);
 
-INSERT INTO GUEST (NAME, SURNAME, PHONE, EMAIL, DOCUMENTATION) VALUES
+INSERT INTO guest (name, surname, phone, email, documentation) VALUES
     ('Juan', 'Gómez', '123456789', 'juangomez@example.com', '12345678A'),
     ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B'),
     ('Antonio', 'López', '555555555', 'antoniolopez@example.com', '23456789C'),
@@ -34,7 +34,7 @@ INSERT INTO GUEST (NAME, SURNAME, PHONE, EMAIL, DOCUMENTATION) VALUES
     ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I'),
     ('Ana', 'Jiménez', '222333444', 'anajimenez@example.com', '89012345J');
 
-INSERT INTO BOOKING (ROOM, GUEST, CHECKINDATE, CHECKOUTDATE)
+INSERT INTO booking (room, guest, checkindate, checkoutdate)
 VALUES
     (1, 2, '2024-05-01', '2024-05-05'),
     (3, 5, '2024-06-10', '2024-06-15'),

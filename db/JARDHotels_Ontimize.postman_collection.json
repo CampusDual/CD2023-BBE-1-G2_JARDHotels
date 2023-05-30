@@ -1,0 +1,721 @@
+{
+	"info": {
+		"_postman_id": "0b5be85d-96a7-450b-93f9-6484faaa662b",
+		"name": "JARDHotels_Ontimize",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hotel",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Hotel 6\",\r\n        \"stars\": 5,\r\n        \"address\": \"Calle 6\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/hotel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"hotel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/hotel/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"hotel",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/hotels/hotel?columns=id,name,stars,address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"hotel"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,name,stars,address"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/hotel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"hotel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 8\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/hotel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"hotel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"number\": 2,\r\n        \"capacity\": 2,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 4\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/room/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"room",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/room?columns=id,number,capacity,description",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"room"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,number,capacity,description"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 8\r\n    },\r\n    \"data\": {\r\n        \"number\": 1,\r\n        \"capacity\": 1,\r\n        \"description\": \"cama individual\",\r\n        \"hotel\": 4\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 8\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"room"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Guest",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Rosa\",\r\n        \"surname\": \"López\",\r\n        \"phone\": \"111222332\",\r\n        \"email\": \"rosa@gmail.com\",\r\n        \"documentation\": \"76543210A\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/guests/guest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"guests",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/guests/guest/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"guests",
+								"guest",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,email,documentation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"guests",
+								"guest"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,name,surname,phone,email,documentation"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Pilar\",\r\n        \"surname\": \"Ramírez\",\r\n        \"phone\": \"111222334\",\r\n        \"email\": \"pilar@gmail.com\",\r\n        \"documentation\": \"76543210Z\"\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/guests/guest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"guests",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/guests/guest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"guests",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"room\": 2,\r\n        \"guest\": 2,\r\n        \"checkindate\": \"2026-06-01\",\r\n        \"checkoutdate\": \"2026-06-07\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/bookings/booking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bookings",
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    },\r\n    \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\"],\r\n    \"sqltypes\": {\r\n        \"checkoutdate\": 91,\r\n        \"checkindate\": 91,\r\n        \"guest\": 4,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/bookings/booking/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bookings",
+								"booking",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,checkindate,checkoutdate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bookings",
+								"booking"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,room,guest,checkindate,checkoutdate"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n        \"room\": 3,\r\n        \"guest\": 2,\r\n        \"checkindate\": \"2026-06-01\",\r\n        \"checkoutdate\": \"2026-06-10\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"checkoutdate\": 91,\r\n        \"checkindate\": 91\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/bookings/booking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bookings",
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/bookings/booking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bookings",
+								"booking"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -24,31 +24,32 @@ INSERT INTO room (number, capacity, description, hotel) VALUES
    
 INSERT INTO coin (coin) VALUES 
 ('€'),
-('$');
+('$'),
+('Other');
 
 
-INSERT INTO country (country) VALUES 
-	('Spain'),
-	('United States'),
-	('United Kingdom'),
-	('France'),
-	('Germany'),
-	('Portugal'),
-	('China'),
-	('Other');
+INSERT INTO country (country, coin) VALUES 
+	('Spain' ,1),
+	('United States', 2),
+	('United Kingdom', 3),
+	('France', 1),
+	('Germany', 1),
+	('Portugal', 1),
+	('China', 3),
+	('Other', 3);
 
 
 INSERT INTO guest (name, surname, phone, email, documentation, country) VALUES
-    ('Juan', 'Gómez', '123456789', 'juangomez@example.com', '12345678A', 'Spain'),
-    ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B', 'Germany'),
-    ('Antonio', 'López', '555555555', 'antoniolopez@example.com', '23456789C', 'United States'),
-    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 'Other'),
-    ('Manuel', 'Martínez', '444444444', 'manuelmartinez@example.com', '34567890E', 'China'),
-    ('Laura', 'Fernández', '666666666', 'laurafernandez@example.com', '67890123F', 'France'),
-    ('Pedro', 'Navarro', '999999999', 'pedronavarro@example.com', '45678901G', 'Portugal'),
-    ('Isabel', 'Sánchez', '777777777', 'isabelsanchez@example.com', '78901234H', 'Spain'),
-    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 'Other'),
-    ('Ana', 'Jiménez', '222333444', 'anajimenez@example.com', '89012345J', 'Other');
+    ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1),
+    ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B', 5),
+    ('Antonio', 'López', '(123)123-1234', 'antoniolopez@example.com', '111222333', 2),
+    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8),
+    ('Manuel', 'Martínez', '444444444', 'manuelmartinez@example.com', '34567890E', 7),
+    ('Laura', 'Fernández', '666666666', 'laurafernandez@example.com', '67890123F', 4),
+    ('Pedro', 'Navarro', '999999999', 'pedronavarro@example.com', '45678901G', 6),
+    ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1),
+    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8),
+    ('Ana', 'Jiménez', '222333444', 'anajimenez@example.com', '89012345J', 8);
 
 INSERT INTO booking (room, guest, checkindate, checkoutdate)
 VALUES

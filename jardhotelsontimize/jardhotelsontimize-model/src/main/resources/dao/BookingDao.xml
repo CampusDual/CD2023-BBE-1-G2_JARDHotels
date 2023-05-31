@@ -12,5 +12,26 @@
         <Column>id</Column>
     </UpdateKeys>
     <GeneratedKey>id</GeneratedKey>
+    <Queries>
+        <Query id="default">
+            <ValidColumns>
+                <Column>id</Column>
+                <Column>room</Column>
+                <Column>guest</Column>
+                <Column>checkindate</Column>
+                <Column>checkoutdate</Column>
+            </ValidColumns>
+            <Sentence>
+                <![CDATA[
+                    SELECT
+                        #COLUMNS#
+                    FROM
+                        ${mainschema}.booking
+                    #WHERE#
+                    ORDER BY checkindate DESC
+                ]]>
+            </Sentence>
+        </Query>
+    </Queries>
 
 </JdbcEntitySetup>

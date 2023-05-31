@@ -21,18 +21,35 @@ INSERT INTO room (number, capacity, description, hotel) VALUES
     (402, 2, 'Double Room with two double beds', 4),
     (501, 2, 'Deluxe Room with a king bed and ocean view', 5),
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5);
+   
+INSERT INTO coin (coin) VALUES 
+('€'),
+('$'),
+('Other');
 
-INSERT INTO guest (name, surname, phone, email, documentation) VALUES
-    ('Juan', 'Gómez', '123456789', 'juangomez@example.com', '12345678A'),
-    ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B'),
-    ('Antonio', 'López', '555555555', 'antoniolopez@example.com', '23456789C'),
-    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D'),
-    ('Manuel', 'Martínez', '444444444', 'manuelmartinez@example.com', '34567890E'),
-    ('Laura', 'Fernández', '666666666', 'laurafernandez@example.com', '67890123F'),
-    ('Pedro', 'Navarro', '999999999', 'pedronavarro@example.com', '45678901G'),
-    ('Isabel', 'Sánchez', '777777777', 'isabelsanchez@example.com', '78901234H'),
-    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I'),
-    ('Ana', 'Jiménez', '222333444', 'anajimenez@example.com', '89012345J');
+
+INSERT INTO country (country, coin) VALUES 
+	('Spain' ,1),
+	('United States', 2),
+	('United Kingdom', 3),
+	('France', 1),
+	('Germany', 1),
+	('Portugal', 1),
+	('China', 3),
+	('Other', 3);
+
+
+INSERT INTO guest (name, surname, phone, email, documentation, country) VALUES
+    ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1),
+    ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B', 5),
+    ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2),
+    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8),
+    ('Manuel', 'Martínez', '444444444', 'manuelmartinez@example.com', '34567890E', 7),
+    ('Laura', 'Fernández', '666666666', 'laurafernandez@example.com', '67890123F', 4),
+    ('Pedro', 'Navarro', '999999999', 'pedronavarro@example.com', '45678901G', 6),
+    ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1),
+    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8),
+    ('Ana', 'Jiménez', '222333444', 'anajimenez@example.com', '89012345J', 8);
 
 INSERT INTO booking (room, guest, checkindate, checkoutdate)
 VALUES
@@ -46,3 +63,4 @@ VALUES
     (6, 3, '2025-03-15', '2025-03-20'),
     (10, 7, '2025-05-01', '2025-05-05'),
     (9, 8, '2025-06-10', '2025-06-15');
+

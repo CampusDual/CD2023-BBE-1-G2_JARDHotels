@@ -18,7 +18,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"NAME\": \"Hotel 6\",\r\n    \"STARS\": 5,\r\n    \"ADDRESS\": \"Calle 6\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel 6\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle 6\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,7 +50,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 1\r\n    },\r\n    \"data\": {\r\n        \"NAME\": \"Hotel 1\",\r\n        \"STARS\": 1,\r\n        \"ADDRESS\": \"Calle 1\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -138,7 +138,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/hotels/hotel?columns=ID,NAME,STARS,ADDRESS",
+							"raw": "http://localhost:65431/hotels/hotel?columns=id,name,stars,address",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -151,7 +151,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "ID,NAME,STARS,ADDRESS"
+									"value": "id,name,stars,address"
 								}
 							]
 						}
@@ -168,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 8\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 7\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -205,7 +205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"NUMBER\": 2,\r\n    \"CAPACITY\": 2,\r\n    \"DESCRIPTION\": \"cama de matrimonio\",\r\n    \"HOTEL\": 4\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"number\": 2,\r\n    \"capacity\": 2,\r\n    \"description\": \"cama de matrimonio\",\r\n    \"hotel\": 4\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -237,7 +237,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 8\r\n    },\r\n    \"data\": {\r\n         \"NUMBER\": 1,\r\n    \"CAPACITY\": 1,\r\n    \"DESCRIPTION\": \"cama individual\",\r\n    \"HOTEL\": 4\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 2\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 5\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -269,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 1\r\n    },\r\n     \"columns\": [\"ID\",\"NUMBER\",\"CAPACITY\",\"DESCRIPTION\",\"HOTEL\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +325,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/rooms/room?columns=ID,NUMBER,CAPACITY,DESCRIPTION",
+							"raw": "http://localhost:65431/rooms/room?columns=id,number,capacity,description",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -338,7 +338,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "ID,NUMBER,CAPACITY,DESCRIPTION"
+									"value": "id,number,capacity,description"
 								}
 							]
 						}
@@ -355,7 +355,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 8\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 8\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -392,7 +392,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"NAME\": \"Cliente 4\",\r\n    \"SURNAME\": \"Apellido 4\",\r\n    \"PHONE\": \"666666666\",\r\n    \"EMAIL\": \"cliente4@gmail.com\",\r\n    \"DOCUMENTATION\": \"44444444A\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Cliente 4\",\r\n    \"surname\": \"Apellido 4\",\r\n    \"phone\": \"+11122334455\",\r\n    \"email\": \"cliente4@gmail.com\",\r\n    \"documentation\": \"987654321\",\r\n    \"country\": 2\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -424,7 +424,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n    \"data\": {\r\n    \"NAME\": \"Cliente 5\",\r\n    \"SURNAME\": \"Apellido 5\",\r\n    \"PHONE\": \"666666666\",\r\n    \"EMAIL\": \"cliente5@gmail.com\",\r\n    \"DOCUMENTATION\": \"44444444A\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Cliente 5\",\r\n    \"surname\": \"Apellido 5\",\r\n    \"phone\": \"666666666\",\r\n    \"email\": \"cliente5@gmail.com\",\r\n    \"documentation\": \"44444444A\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -456,7 +456,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n     \"columns\": [\"ID\",\"NAME\",\"SURNAME\",\"PHONE\",\"EMAIL\",\"DOCUMENTATION\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -486,25 +486,13 @@
 					},
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "demouser",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "demo",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 7\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -512,20 +500,20 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/rooms/room?columns=ID,NUMBER,CAPACITY,DESCRIPTION",
+							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,email,documentation,country",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "65431",
 							"path": [
-								"rooms",
-								"room"
+								"guests",
+								"guest"
 							],
 							"query": [
 								{
 									"key": "columns",
-									"value": "ID,NUMBER,CAPACITY,DESCRIPTION"
+									"value": "id,name,surname,phone,email,documentation,country"
 								}
 							]
 						}
@@ -542,7 +530,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 7\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -550,15 +538,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/rooms/room",
+							"raw": "http://localhost:65431/guests/guest",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "65431",
 							"path": [
-								"rooms",
-								"room"
+								"guests",
+								"guest"
 							]
 						}
 					},
@@ -579,7 +567,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"ROOM\": 2,\r\n    \"GUEST\": 2,\r\n    \"CHECKINDATE\": \"2023-06-01T16:00:00\",\r\n    \"CHECKOUTDATE\": \"2023-06-07T12:00:00\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"ROOM\": 3,\r\n    \"GUEST\": 1,\r\n    \"CHECKINDATE\": \"2023-06-22\",\r\n    \"CHECKOUTDATE\": \"2023-06-25\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -611,7 +599,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n    \"data\": {\r\n    \"NAME\": \"Cliente 5\",\r\n    \"SURNAME\": \"Apellido 5\",\r\n    \"PHONE\": \"666666666\",\r\n    \"EMAIL\": \"cliente5@gmail.com\",\r\n    \"DOCUMENTATION\": \"44444444A\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 3\r\n    },\r\n    \"data\": {\r\n    \"ROOM\": 1,\r\n    \"GUEST\": 1,\r\n    \"CHECKINDATE\": \"2023-06-02\",\r\n    \"CHECKOUTDATE\": \"2023-06-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"CHECKOUTDATE\": 93,\r\n        \"GUEST\": 4,\r\n        \"CHECKINDATE\": 93,\r\n        \"ID\": 4,\r\n        \"ROOM\": 4\r\n    } \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -619,15 +607,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/guests/guest",
+							"raw": "http://localhost:65431/bookings/booking",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "65431",
 							"path": [
-								"guests",
-								"guest"
+								"bookings",
+								"booking"
 							]
 						}
 					},

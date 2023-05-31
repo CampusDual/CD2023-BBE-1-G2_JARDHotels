@@ -77,7 +77,45 @@ public class GuestService implements IGuestService {
 
     @Override
     public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
-        return this.daoHelper.update(this.guestDao, attrMap, keyMap);
+        List<String> attrList = new ArrayList<>();
+        attrList.add("id");
+        EntityResult result = guestQuery(keyMap, attrList);
+        if (result.getMessage().contains("The guest doesn't exists"))
+            return result;
+        try {
+            result = this.daoHelper.update(this.guestDao, attrMap, keyMap);
+            result.setMessage("Successful guest update");
+        }catch (Exception e){
+            if (e.getMessage().contains("verify_documentation_spain()")) {
+                if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
+                    result.setMessage("The spanish DNI must have 9 characters");
+                else if (e.getMessage().contains(("The 8 first characters of a spanish DNI must be numbers")))
+                    result.setMessage("The 8 first characters of a spanish DNI must be numbers");
+                else if (e.getMessage().contains(("The last character of a spanish DNI must be a letter")))
+                    result.setMessage("The last character of a spanish DNI must be a letter");
+                else if (e.getMessage().contains(("The letter of the spanish DNI is incorrect")))
+                    result.setMessage("The letter of the spanish DNI is incorrect");
+                else result.setMessage("The format of the spanish DNI is incorrect");
+            } else if (e.getMessage().contains("verify_phone_spain()")) {
+                if (e.getMessage().contains(("The format for the spanish phone is incorrect. It must be +34 and 9 numbers")))
+                    result.setMessage("The format for the spanish phone is incorrect. It must be +34 and 9 numbers");
+                else result.setMessage("The format for the spanish phone is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_united_states()")) {
+                if (e.getMessage().contains(("El format for the passport in United States is incorrect")))
+                    result.setMessage("El format for the passport in United States is incorrect. It must be 9 characters");
+                else result.setMessage("The format for the passport in United States is incorrect");
+            } else if (e.getMessage().contains("verify_phone_united_states()")) {
+                if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
+                    result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
+                else result.setMessage("The format for the phone in United States is incorrect");
+            } else if (e.getMessage().contains("Repeated documentation in another guest")) {
+                result.setMessage("Repeated documentation in another guest");
+                result.setColumnSQLTypes(new HashMap());
+            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
+                result.setMessage("The country doesn't exists");
+            }
+        }
+        return result;
 
     }
 

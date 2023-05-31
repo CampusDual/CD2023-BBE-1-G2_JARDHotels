@@ -42,7 +42,7 @@ INSERT INTO country (country, coin) VALUES
 INSERT INTO guest (name, surname, phone, email, documentation, country) VALUES
     ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1),
     ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B', 5),
-    ('Antonio', 'López', '(123)123-1234', 'antoniolopez@example.com', '111222333', 2),
+    ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2),
     ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8),
     ('Manuel', 'Martínez', '444444444', 'manuelmartinez@example.com', '34567890E', 7),
     ('Laura', 'Fernández', '666666666', 'laurafernandez@example.com', '67890123F', 4),

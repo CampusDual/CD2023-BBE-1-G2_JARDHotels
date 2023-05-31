@@ -169,10 +169,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 --Función de Telefono de EEUU
---(3 numeros)3 numeros-4 numeros ej: (123)456-7890 
+--(3 numeros)3 numeros-4 numeros ej: +11234567890
 CREATE OR REPLACE FUNCTION verify_phone_united_states() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\(\d{3}\)\d{3}-\d{4}$' THEN
+  IF NEW.phone !~ '^\\+1\\d{10}$' THEN
     RAISE EXCEPTION 'The format for the phone in United States is incorrect';
   END IF;
 

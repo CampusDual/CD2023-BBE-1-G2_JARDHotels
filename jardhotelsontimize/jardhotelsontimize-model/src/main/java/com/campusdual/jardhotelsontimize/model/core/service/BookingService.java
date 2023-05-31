@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,11 @@ public class BookingService implements IBookingService {
     @Override
     public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
+        if (result.toString().contains("id")) result.setMessage("The booking has been found");
+        else {
+            result.setMessage("The booking doesn't exists");
+            result.setColumnSQLTypes(new HashMap());
+        }
         return result;
     }
 

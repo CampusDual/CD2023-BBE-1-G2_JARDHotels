@@ -20,6 +20,7 @@
                 <Column>guest</Column>
                 <Column>checkindate</Column>
                 <Column>checkoutdate</Column>
+                <Column>totalprice</Column>
             </ValidColumns>
             <Sentence>
                 <![CDATA[

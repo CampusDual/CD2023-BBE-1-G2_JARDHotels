@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS room(
 	capacity INTEGER NOT NULL,
 	description TEXT,
 	hotel INTEGER NOT NULL,
+	price DECIMAL NOT NULL,
 	
 	FOREIGN KEY(hotel) REFERENCES hotel(id) 
 		ON DELETE CASCADE 
@@ -57,7 +58,10 @@ CREATE TABLE IF NOT EXISTS room(
 		CHECK(number >= 1),
 	
 	CONSTRAINT "Capacity must be over zero" 
-		CHECK(capacity >= 1)
+		CHECK(capacity >= 1),
+		
+	CONSTRAINT "The price must be greater than 0"
+		CHECK (price > 0)
 );
 
 CREATE OR REPLACE FUNCTION check_hotel_from_room()
@@ -207,6 +211,7 @@ CREATE TABLE IF NOT EXISTS booking (
 	guest INTEGER NOT NULL,
 	checkindate DATE NOT NULL,
 	checkoutdate DATE NOT NULL,
+	totalprice 	DECIMAL NOT NULL,
 	FOREIGN KEY(room) REFERENCES room(id) 
 		ON DELETE CASCADE 
 		ON UPDATE CASCADE,
@@ -219,7 +224,10 @@ CREATE TABLE IF NOT EXISTS booking (
 		CHECK (checkindate < checkoutdate),
 		
 	CONSTRAINT "Check-in date must be greater than or equal to current date"
-		CHECK (checkindate >= current_date)
+		CHECK (checkindate >= current_date),
+		
+	CONSTRAINT "The total price can't be lower than 0"
+		CHECK (totalprice >= 0)
 );
 
 CREATE OR REPLACE
@@ -245,3 +253,22 @@ CREATE TRIGGER check_booking_overlap_trigger
     BEFORE INSERT OR UPDATE ON booking
     FOR EACH ROW
     EXECUTE FUNCTION check_booking_overlap();
+   
+-- Función para calcular el precio total
+CREATE OR REPLACE FUNCTION calculate_total_price() RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.totalprice IS NULL THEN
+		NEW.totalprice := (NEW.checkoutdate - NEW.checkindate) * (SELECT price FROM room WHERE id = NEW.room);
+	END IF;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- Creación del disparador para calcular el precio total antes de insertar o actualizar en la tabla "booking"
+CREATE TRIGGER calculate_total_price_trigger
+    BEFORE INSERT OR UPDATE ON booking
+    FOR EACH ROW
+    
+    EXECUTE FUNCTION calculate_total_price();

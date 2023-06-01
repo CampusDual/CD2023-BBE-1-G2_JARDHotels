@@ -27,17 +27,17 @@ INSERT INTO hotel (name, stars, address,country) VALUES
     ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside',3),
     ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside',8);
 
-INSERT INTO room (number, capacity, description, hotel) VALUES
-    (101, 2, 'Standard Room with a queen bed', 1),
-    (102, 2, 'Standard Room with a queen bed', 1),
-    (201, 4, 'Family Suite with two queen beds', 2),
-    (202, 4, 'Family Suite with two queen beds', 2),
-    (301, 1, 'Single Room with a twin bed', 3),
-    (302, 1, 'Single Room with a twin bed', 3),
-    (401, 2, 'Double Room with two double beds', 4),
-    (402, 2, 'Double Room with two double beds', 4),
-    (501, 2, 'Deluxe Room with a king bed and ocean view', 5),
-    (502, 2, 'Deluxe Room with a king bed and ocean view', 5);
+INSERT INTO room (number, capacity, description, hotel, price) VALUES
+    (101, 2, 'Standard Room with a queen bed', 1, 50),
+    (102, 2, 'Standard Room with a queen bed', 1, 50),
+    (201, 4, 'Family Suite with two queen beds', 2, 120),
+    (202, 4, 'Family Suite with two queen beds', 2, 120),
+    (301, 1, 'Single Room with a twin bed', 3, 75),
+    (302, 1, 'Single Room with a twin bed', 3, 75),
+    (401, 2, 'Double Room with two double beds', 4, 75),
+    (402, 2, 'Double Room with two double beds', 4, 75),
+    (501, 2, 'Deluxe Room with a king bed and ocean view', 5, 200),
+    (502, 2, 'Deluxe Room with a king bed and ocean view', 5, 200);
    
 
 

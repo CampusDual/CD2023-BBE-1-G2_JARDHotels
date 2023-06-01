@@ -1,10 +1,9 @@
 package com.campusdual.jardhotelsontimize.model.core.service;
 
-import com.campusdual.jardhotelsontimize.api.core.exceptions.HotelNotFound;
 import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -42,19 +41,35 @@ public class HotelService implements IHotelService {
     @Override
     public EntityResult hotelInsert(Map<String, Object> attrMap) {
 
-        EntityResult result = this.daoHelper.insert(this.hotelDao,attrMap);
-        result.setMessage("Successful hotel insertion");
+        EntityResult result = new EntityResultMapImpl();
+
+        try{
+            result = this.daoHelper.insert(this.hotelDao,attrMap);
+            result.setMessage("Successful hotel insertion");
+        }catch (Exception e){
+            result.setCode(0);
+            result.setMessage("The country doesn't exists");
+
+        }
+
         return result;
     }
 
     @Override
     public EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
-        EntityResult result = this.daoHelper.update(this.hotelDao,attrMap,keyMap);
-        if (result.getCode() == 0)
-            result.setMessage("Successful hotel update");
-        if (result.getCode() == 2)
-            result.setMessage("Hotel not found");
+        EntityResult result = new EntityResultMapImpl();
+
+        try {
+            result = this.daoHelper.update(this.hotelDao,attrMap,keyMap);
+            if (result.getCode() == 0)
+                result.setMessage("Successful hotel update");
+            if (result.getCode() == 2)
+                result.setMessage("Hotel not found");
+        }catch (Exception e){
+            result.setMessage("The country doesn't exists");
+            result.setCode(0);
+        }
 
         return result;
     }

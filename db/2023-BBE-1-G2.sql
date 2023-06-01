@@ -5,12 +5,34 @@ DROP TABLE IF EXISTS hotel;
 DROP TABLE IF EXISTS country;
 DROP TABLE IF EXISTS coin;
 
+/******************Tabla moneda******************/
+
+CREATE TABLE IF NOT EXISTS coin (
+	id SERIAL PRIMARY KEY,
+	coin VARCHAR(30) NOT NULL
+);
+
+/******************Tabla país******************/
+
+CREATE TABLE IF NOT EXISTS country (
+	id SERIAL PRIMARY KEY,
+	country VARCHAR(60) NOT NULL,
+	coin INTEGER NOT NULL,
+	FOREIGN KEY(coin) REFERENCES coin(id) 
+	ON DELETE CASCADE 
+	ON UPDATE CASCADE
+);
+
 /******************Tabla hotel******************/
 CREATE TABLE IF NOT EXISTS hotel(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	stars INTEGER NOT NULL,
 	address VARCHAR (200) NOT NULL,
+	country INTEGER NOT NULL,
+	FOREIGN KEY(country) REFERENCES country(id)
+	ON DELETE RESTRICT
+	ON UPDATE CASCADE,
 	
 	CONSTRAINT "Stars must be between one and five" 
 		CHECK(stars >= 1 AND stars <= 5)
@@ -54,23 +76,7 @@ BEFORE UPDATE ON room
 FOR EACH ROW
 EXECUTE FUNCTION check_hotel_from_room();
 
-/******************Tabla moneda******************/
 
-CREATE TABLE IF NOT EXISTS coin (
-	id SERIAL PRIMARY KEY,
-	coin VARCHAR(30) NOT NULL
-);
-
-/******************Tabla país******************/
-
-CREATE TABLE IF NOT EXISTS country (
-	id SERIAL PRIMARY KEY,
-	country VARCHAR(60) NOT NULL,
-	coin int not null,
-	FOREIGN KEY(coin) REFERENCES coin(id) 
-	ON DELETE CASCADE 
-	ON UPDATE CASCADE
-);
 
  /*************************************************/
 /******************Tabla huésped******************/

@@ -1,27 +1,3 @@
-INSERT INTO hotel (name, stars, address) VALUES
-    ('Hotel Grand Hyatt', 5, '123 Main Street, Cityville'),
-    ('Hotel Hilton', 4, '456 Elm Avenue, Townsville'),
-    ('Hotel Marriott', 4, '789 Oak Lane, Villageland'),
-    ('Hotel Radisson', 3, '321 Pine Road, Countryside'),
-    ('Hotel Sheraton', 4, '987 Cedar Drive, Mountainview'),
-    ('Hotel Holiday Inn', 3, '654 Maple Court, Lakeside'),
-    ('Hotel Four Seasons', 5, '876 Birch Street, Beachtown'),
-    ('Hotel Ritz-Carlton', 5, '543 Walnut Circle, Seaside'),
-    ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside'),
-    ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside');
-
-INSERT INTO room (number, capacity, description, hotel) VALUES
-    (101, 2, 'Standard Room with a queen bed', 1),
-    (102, 2, 'Standard Room with a queen bed', 1),
-    (201, 4, 'Family Suite with two queen beds', 2),
-    (202, 4, 'Family Suite with two queen beds', 2),
-    (301, 1, 'Single Room with a twin bed', 3),
-    (302, 1, 'Single Room with a twin bed', 3),
-    (401, 2, 'Double Room with two double beds', 4),
-    (402, 2, 'Double Room with two double beds', 4),
-    (501, 2, 'Deluxe Room with a king bed and ocean view', 5),
-    (502, 2, 'Deluxe Room with a king bed and ocean view', 5);
-   
 INSERT INTO coin (coin) VALUES 
 ('€'),
 ('$'),
@@ -37,6 +13,32 @@ INSERT INTO country (country, coin) VALUES
 	('Portugal', 1),
 	('China', 3),
 	('Other', 3);
+
+
+INSERT INTO hotel (name, stars, address,country) VALUES
+    ('Hotel Grand Hyatt', 5, '123 Main Street, Cityville',3),
+    ('Hotel Hilton', 4, '456 Elm Avenue, Townsville',7),
+    ('Hotel Marriott', 4, '789 Oak Lane, Villageland',4),
+    ('Hotel Radisson', 3, '321 Pine Road, Countryside',1),
+    ('Hotel Sheraton', 4, '987 Cedar Drive, Mountainview',5),
+    ('Hotel Holiday Inn', 3, '654 Maple Court, Lakeside',6),
+    ('Hotel Four Seasons', 5, '876 Birch Street, Beachtown',4),
+    ('Hotel Ritz-Carlton', 5, '543 Walnut Circle, Seaside',2),
+    ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside',3),
+    ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside',8);
+
+INSERT INTO room (number, capacity, description, hotel) VALUES
+    (101, 2, 'Standard Room with a queen bed', 1),
+    (102, 2, 'Standard Room with a queen bed', 1),
+    (201, 4, 'Family Suite with two queen beds', 2),
+    (202, 4, 'Family Suite with two queen beds', 2),
+    (301, 1, 'Single Room with a twin bed', 3),
+    (302, 1, 'Single Room with a twin bed', 3),
+    (401, 2, 'Double Room with two double beds', 4),
+    (402, 2, 'Double Room with two double beds', 4),
+    (501, 2, 'Deluxe Room with a king bed and ocean view', 5),
+    (502, 2, 'Deluxe Room with a king bed and ocean view', 5);
+   
 
 
 INSERT INTO guest (name, surname, phone, email, documentation, country) VALUES

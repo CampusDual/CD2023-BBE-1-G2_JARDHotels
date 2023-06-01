@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "985dee63-92e4-45dc-a671-1a6cf568fc89",
+		"_postman_id": "ded819f0-f205-4779-b879-a427c3618ab7",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -424,7 +424,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Cliente 5\",\r\n    \"surname\": \"Apellido 5\",\r\n    \"phone\": \"666666666\",\r\n    \"email\": \"cliente5@gmail.com\",\r\n    \"documentation\": \"44444444A\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 5\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+16666666663\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"87654321B\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -631,7 +631,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 4\r\n    },\r\n     \"columns\": [\"ID\",\"NAME\",\"SURNAME\",\"PHONE\",\"EMAIL\",\"DOCUMENTATION\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -639,15 +639,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/guests/guest/search",
+							"raw": "http://localhost:65431/bookings/booking/search",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "65431",
 							"path": [
-								"guests",
-								"guest",
+								"bookings",
+								"booking",
 								"search"
 							]
 						}
@@ -734,6 +734,36 @@
 							"path": [
 								"rooms",
 								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByGuest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"guest\": 2\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/bookings/booking/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bookings",
+								"booking",
+								"search"
 							]
 						}
 					},

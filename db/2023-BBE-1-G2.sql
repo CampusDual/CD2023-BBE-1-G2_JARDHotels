@@ -458,7 +458,50 @@ $$ LANGUAGE plpgsql;
 
 -- Creación del disparador para calcular el precio total antes de insertar o actualizar en la tabla "booking"
 CREATE TRIGGER calculate_total_price_trigger
-    BEFORE INSERT OR UPDATE ON booking
+    BEFORE INSERT ON booking
     FOR EACH ROW
     
     EXECUTE FUNCTION calculate_total_price();
+   
+   
+CREATE OR REPLACE FUNCTION prevent_guest_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.guest <> OLD.guest THEN
+        RAISE EXCEPTION 'Changing the guest is not allowed';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_guest_update
+BEFORE UPDATE ON booking
+FOR EACH ROW
+EXECUTE FUNCTION prevent_guest_change();
+
+
+CREATE OR REPLACE FUNCTION prevent_room_hotel_change()
+RETURNS TRIGGER AS $$
+DECLARE
+    old_hotel_id INTEGER;
+    new_hotel_id INTEGER;
+BEGIN
+    old_hotel_id := (SELECT hotel FROM room WHERE id = OLD.room);
+    new_hotel_id := (SELECT hotel FROM room WHERE id = NEW.room);
+    
+    IF old_hotel_id <> new_hotel_id THEN
+        RAISE EXCEPTION 'Changing the room to a different hotel is not allowed';
+    END IF;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_room_hotel_update
+BEFORE UPDATE ON booking
+FOR EACH ROW
+EXECUTE FUNCTION prevent_room_hotel_change();
+
+
+   
+   

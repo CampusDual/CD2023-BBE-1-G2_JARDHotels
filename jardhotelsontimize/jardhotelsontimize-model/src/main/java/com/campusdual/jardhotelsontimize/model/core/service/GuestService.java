@@ -43,6 +43,7 @@ public class GuestService implements IGuestService {
         try {
             result = this.daoHelper.insert(this.guestDao, attrMap);
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             if (e.getMessage().contains("verify_documentation_spain()")) {
                 if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
                     result.setMessage("The spanish DNI must have 9 characters");
@@ -65,12 +66,33 @@ public class GuestService implements IGuestService {
                 if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
                     result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
                 else result.setMessage("The format for the phone in United States is incorrect");
+            } else if(e.getMessage().contains("verify_documentation_united_kingdom()")){
+                result.setMessage("The format for the passport in United Kingdom is incorrect");
+            } else if (e.getMessage().contains("verify_phone_united_kingdom()")) {
+                result.setMessage("The format for the phone in United Kingdom is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_france()")) {
+                result.setMessage("The format for the card in France is incorrect");
+            } else if (e.getMessage().contains("verify_phone_france()")) {
+                result.setMessage("The format for the phone in France is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_germany()")) {
+                result.setMessage("The format for the documentation in Germany is incorrect");
+            } else if (e.getMessage().contains("verify_phone_germany()")) {
+                result.setMessage("The format for the phone in Germany is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_portugal()")) {
+                result.setMessage("The format for the documentation in Portugal is incorrect");
+            } else if (e.getMessage().contains("verify_phone_portugal()")) {
+                result.setMessage("The format for the phone in Portugal is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_china()")) {
+                result.setMessage("The format for the documentation in China is incorrect");
+            } else if (e.getMessage().contains("verify_phone_china()")) {
+                result.setMessage("The format for the phone in China is incorrect");
             } else if (e.getMessage().contains("Repeated documentation in another guest")) {
                 result.setMessage("Repeated documentation in another guest");
                 result.setColumnSQLTypes(new HashMap());
             } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
                 result.setMessage("The country doesn't exists");
-            }
+            } else if (e.getMessage().contains("Invalid email format"))
+                result.setMessage("Invalid email format");
         }
         return result;
     }
@@ -108,12 +130,33 @@ public class GuestService implements IGuestService {
                 if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
                     result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
                 else result.setMessage("The format for the phone in United States is incorrect");
+            } else if(e.getMessage().contains("verify_documentation_united_kingdom()")){
+                result.setMessage("The format for the passport in United Kingdom is incorrect");
+            } else if (e.getMessage().contains("verify_phone_united_kingdom()")) {
+                result.setMessage("The format for the phone in United Kingdom is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_france()")) {
+                result.setMessage("The format for the card in France is incorrect");
+            } else if (e.getMessage().contains("verify_phone_france()")) {
+                result.setMessage("The format for the phone in France is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_germany()")) {
+                result.setMessage("The format for the documentation in Germany is incorrect");
+            } else if (e.getMessage().contains("verify_phone_germany()")) {
+                result.setMessage("The format for the phone in Germany is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_portugal()")) {
+                result.setMessage("The format for the documentation in Portugal is incorrect");
+            } else if (e.getMessage().contains("verify_phone_portugal()")) {
+                result.setMessage("The format for the phone in Portugal is incorrect");
+            } else if (e.getMessage().contains("verify_documentation_china()")) {
+                result.setMessage("The format for the documentation in China is incorrect");
+            } else if (e.getMessage().contains("verify_phone_china()")) {
+                result.setMessage("The format for the phone in China is incorrect");
             } else if (e.getMessage().contains("Repeated documentation in another guest")) {
                 result.setMessage("Repeated documentation in another guest");
                 result.setColumnSQLTypes(new HashMap());
             } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
                 result.setMessage("The country doesn't exists");
-            }
+            } else if (e.getMessage().contains("Invalid email format"))
+                result.setMessage("Invalid email format");
         }
         return result;
 

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "748a2823-ec8f-49e0-8bf6-cf1b48ecc89e",
+		"_postman_id": "9edacaf7-8562-4d7c-bded-a32507fbad08",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -392,7 +392,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Cliente 4\",\r\n    \"surname\": \"Apellido 4\",\r\n    \"phone\": \"+11122334455\",\r\n    \"email\": \"cliente4@gmail.com\",\r\n    \"documentation\": \"987654321\",\r\n    \"country\": 2\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"土豆\",\r\n    \"surname\": \"油炸\",\r\n    \"phone\": \"+861012345678\",\r\n    \"email\": \"chenchin@chen.chin\",\r\n    \"documentation\": \"123456199001010123\",\r\n    \"country\": 7\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

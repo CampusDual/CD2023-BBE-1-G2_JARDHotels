@@ -18,7 +18,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel 6\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle 6\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel 6\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle 6\",\r\n    \"country\": 25\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,7 +50,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":25\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -82,7 +82,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 1\r\n    },\r\n     \"columns\": [\"ID\",\"NAME\",\"STARS\",\"ADDRESS\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -138,7 +138,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/hotels/hotel?columns=id,name,stars,address",
+							"raw": "http://localhost:65431/hotels/hotel?columns=id,name,stars,address,country",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -151,7 +151,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,stars,address"
+									"value": "id,name,stars,address,country"
 								}
 							]
 						}
@@ -687,20 +687,20 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/rooms/room?columns=ID,NUMBER,CAPACITY,DESCRIPTION",
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,checkindate,checkoutdate",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "65431",
 							"path": [
-								"rooms",
-								"room"
+								"bookings",
+								"booking"
 							],
 							"query": [
 								{
 									"key": "columns",
-									"value": "ID,NUMBER,CAPACITY,DESCRIPTION"
+									"value": "id,room,guest,checkindate,checkoutdate"
 								}
 							]
 						}

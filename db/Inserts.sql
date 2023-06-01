@@ -40,18 +40,17 @@ INSERT INTO room (number, capacity, description, hotel, price) VALUES
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5, 200);
    
 
-
 INSERT INTO guest (name, surname, phone, email, documentation, country) VALUES
     ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1),
-    ('María', 'Rodríguez', '987654321', 'mariarodriguez@example.com', '87654321B', 5),
+    ('María', 'Rodríguez', '+4916012345', 'mariarodriguez@example.com', 'XY9876543', 5),
     ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2),
     ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8),
-    ('Manuel', 'Martínez', '444444444', 'manuelmartinez@example.com', '34567890E', 7),
-    ('Laura', 'Fernández', '666666666', 'laurafernandez@example.com', '67890123F', 4),
-    ('Pedro', 'Navarro', '999999999', 'pedronavarro@example.com', '45678901G', 6),
+    ('Manuel', 'Martínez', '+861987654321', 'manuelmartinez@example.com', '987654198512311234', 7),
+    ('Laura', 'Fernández', '+330987654321', 'laurafernandez@example.com', '9305078912345678', 4),
+    ('Pedro', 'Navarro', '+351289876543', 'pedronavarro@example.com', '987654321', 6),
     ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1),
     ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8),
-    ('Ana', 'Jiménez', '222333444', 'anajimenez@example.com', '89012345J', 8);
+    ('Ana', 'Jiménez', '+447876543210', 'anajimenez@example.com', 'G12345678', 3);
 
 INSERT INTO booking (room, guest, checkindate, checkoutdate)
 VALUES

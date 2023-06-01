@@ -203,6 +203,196 @@ WHEN (NEW.country = 2) --Id de EEUU debe ser 2
 EXECUTE FUNCTION verify_documentation_united_states();
 
 
+--REINO UNIDO
+--Función de Pasaporte de Reino Unido ej: AB1234567
+
+CREATE OR REPLACE FUNCTION verify_documentation_united_kingdom() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.documentation !~ '^(?!^0+$)[a-zA-Z0-9]{9}$|^(?!^0+$)[a-zA-Z0-9]{10}$' THEN
+    RAISE EXCEPTION 'The format for the passport in United Kingdom is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--Función de Telefono de Reino Unido ej: +441234567890
+
+CREATE OR REPLACE FUNCTION verify_phone_united_kingdom() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.phone !~ '^\+44[1-9]\d{9}$' THEN
+    RAISE EXCEPTION 'The format for the phone in United Kingdom is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_verify_phone_united_kingdom
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 3) --Id de UK debe ser 3
+EXECUTE FUNCTION verify_phone_united_kingdom();
+
+CREATE TRIGGER trigger_verify_documentation_united_kingdom
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 3) --Id de UK debe ser 3
+EXECUTE FUNCTION verify_documentation_united_kingdom();
+
+
+--FRANCIA
+--Función de Tarjeta Nacional de identidad de Francia ej: 8310123456789016
+
+CREATE OR REPLACE FUNCTION verify_documentation_france() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.documentation !~ '^(?!00000)[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1-2][0-9]|3[0-1])(?:[0-9]{3})(?:(?:[0-8][0-9])|(?:9[0-7]))[0-9]{3}[0-9]{2}$' THEN
+    RAISE EXCEPTION 'The format for the card in France is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--Función de Telefono de Francia ej: +330612345678
+CREATE OR REPLACE FUNCTION verify_phone_france() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.phone !~ '^\+330\d{9}$' THEN
+    RAISE EXCEPTION 'The format for the phone in France is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_verify_phone_france
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 4) --Id de Francia debe ser 4
+EXECUTE FUNCTION verify_phone_france();
+
+CREATE TRIGGER trigger_verify_documentation_france
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 4) --Id de Francia debe ser 4
+EXECUTE FUNCTION verify_documentation_france();
+
+
+--ALEMANIA
+--Función de documento de identidad de Alemania ej: AB1234568
+
+CREATE OR REPLACE FUNCTION verify_documentation_germany() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.documentation !~ '^[A-Z]{2}\d{7}$' THEN
+    RAISE EXCEPTION 'The format for the documentation in Germany is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--Función de Telefono de Alemania ej: +49123456789
+
+CREATE OR REPLACE FUNCTION verify_phone_germany() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.phone !~ '^\+49[1-9]\d{1,4}\d{1,10}$' THEN
+    RAISE EXCEPTION 'The format for the phone in Germany is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_verify_phone_germany
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 5) --Id de Alemania debe ser 5
+EXECUTE FUNCTION verify_phone_germany();
+
+CREATE TRIGGER trigger_verify_documentation_germany
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 5) --Id de Alemania debe ser 5
+EXECUTE FUNCTION verify_documentation_germany();
+
+--PORTUGAL
+--Función de documento de identidad de Portugal ej: 123456789
+
+CREATE OR REPLACE FUNCTION verify_documentation_portugal() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.documentation !~ '^\d{9}$' THEN
+    RAISE EXCEPTION 'The format for the documentation in Portugal is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--Función de Telefono de Portugal ej: +351912345678
+
+CREATE OR REPLACE FUNCTION verify_phone_portugal() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.phone !~ '^\+351[28969]\d{8}$' THEN
+    RAISE EXCEPTION 'The format for the phone in Portugal is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_verify_phone_portugal
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 6) --Id de Portugal debe ser 6
+EXECUTE FUNCTION verify_phone_portugal();
+
+CREATE TRIGGER trigger_verify_documentation_portugal
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 6) --Id de Portugal debe ser 6
+EXECUTE FUNCTION verify_documentation_portugal();
+
+--CHINA
+--Función de documento de China ej: 123456199001010123
+
+CREATE OR REPLACE FUNCTION verify_documentation_china() RETURNS TRIGGER AS $$
+DECLARE
+  birthdate DATE;
+BEGIN
+  IF NEW.documentation !~ '^[1-9]\d{5}(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}[\dX]$' THEN
+    RAISE EXCEPTION 'The format for the documentation in China is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--Función de Telefono de China ej: +861012345678
+
+CREATE OR REPLACE FUNCTION verify_phone_china() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.phone !~ '^\+861\d{9}$' THEN
+    RAISE EXCEPTION 'The format for the phone in China is incorrect';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trigger_verify_phone_china
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 7) --Id de China debe ser 7
+EXECUTE FUNCTION verify_phone_china();
+
+CREATE TRIGGER trigger_verify_documentation_china
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+WHEN (NEW.country = 7) --Id de China debe ser 7
+EXECUTE FUNCTION verify_documentation_china();
+
  /*************************************************/
 /******************Tabla reserva******************/
 CREATE TABLE IF NOT EXISTS booking (

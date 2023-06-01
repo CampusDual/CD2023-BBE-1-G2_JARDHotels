@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ded819f0-f205-4779-b879-a427c3618ab7",
+		"_postman_id": "748a2823-ec8f-49e0-8bf6-cf1b48ecc89e",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -205,7 +205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"number\": 2,\r\n    \"capacity\": 2,\r\n    \"description\": \"cama de matrimonio\",\r\n    \"hotel\": 4\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"number\": 401,\r\n    \"capacity\": 2,\r\n    \"description\": \"cama de matrimonio\",\r\n    \"hotel\": 4,\r\n    \"price\":0\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -269,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +325,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/rooms/room?columns=id,number,capacity,description",
+							"raw": "http://localhost:65431/rooms/room?columns=id,number,capacity,description,hotel,price",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -338,7 +338,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,number,capacity,description"
+									"value": "id,number,capacity,description,hotel,price"
 								}
 							]
 						}
@@ -355,7 +355,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 8\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 15\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -567,7 +567,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"ROOM\": 3,\r\n    \"GUEST\": 1,\r\n    \"CHECKINDATE\": \"2023-06-22\",\r\n    \"CHECKOUTDATE\": \"2023-06-25\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 1,\r\n    \"checkindate\": \"2025-05-01\",\r\n    \"checkoutdate\": \"2025-05-05\",\r\n    \"totalprice\": 0\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -599,7 +599,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 3\r\n    },\r\n    \"data\": {\r\n    \"ROOM\": 1,\r\n    \"GUEST\": 1,\r\n    \"CHECKINDATE\": \"2023-06-02\",\r\n    \"CHECKOUTDATE\": \"2023-06-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"CHECKOUTDATE\": 93,\r\n        \"GUEST\": 4,\r\n        \"CHECKINDATE\": 93,\r\n        \"ID\": 4,\r\n        \"ROOM\": 4\r\n    } \r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"ID\": 3\r\n    },\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 1,\r\n    \"checkindate\": \"2023-06-02\",\r\n    \"checkoutdate\": \"2023-06-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"checkoutdate\": 93,\r\n        \"guest\": 4,\r\n        \"checkindate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -631,7 +631,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -687,7 +687,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,checkindate,checkoutdate",
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,checkindate,checkoutdate,totalprice",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -700,7 +700,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,room,guest,checkindate,checkoutdate"
+									"value": "id,room,guest,checkindate,checkoutdate,totalprice"
 								}
 							]
 						}
@@ -717,7 +717,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 7\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -725,15 +725,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/rooms/room",
+							"raw": "http://localhost:65431/bookings/booking",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "65431",
 							"path": [
-								"rooms",
-								"room"
+								"bookings",
+								"booking"
 							]
 						}
 					},

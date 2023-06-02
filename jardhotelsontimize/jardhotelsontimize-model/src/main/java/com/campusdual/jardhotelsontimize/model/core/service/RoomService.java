@@ -58,6 +58,7 @@ public class RoomService implements IRoomService {
                 result.setMessage("Capacity must be over zero");
             else if (e.getMessage().contains("The price must be greater than 0"))
                 result.setMessage("The price must be greater than 0");
+            else result.setMessage(e.getMessage());
         }
         return result;
     }

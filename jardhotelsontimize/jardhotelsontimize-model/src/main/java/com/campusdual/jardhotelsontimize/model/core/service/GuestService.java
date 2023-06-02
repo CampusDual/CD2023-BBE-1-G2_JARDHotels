@@ -42,6 +42,7 @@ public class GuestService implements IGuestService {
         EntityResult result = guestQuery(attrMap, attrList);
         try {
             result = this.daoHelper.insert(this.guestDao, attrMap);
+            result.setMessage("Successful guest insertion");
         } catch (Exception e) {
             System.err.println(e.getMessage());
             if (e.getMessage().contains("verify_documentation_spain()")) {
@@ -66,7 +67,7 @@ public class GuestService implements IGuestService {
                 if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
                     result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
                 else result.setMessage("The format for the phone in United States is incorrect");
-            } else if(e.getMessage().contains("verify_documentation_united_kingdom()")){
+            } else if (e.getMessage().contains("verify_documentation_united_kingdom()")) {
                 result.setMessage("The format for the passport in United Kingdom is incorrect");
             } else if (e.getMessage().contains("verify_phone_united_kingdom()")) {
                 result.setMessage("The format for the phone in United Kingdom is incorrect");
@@ -107,7 +108,7 @@ public class GuestService implements IGuestService {
         try {
             result = this.daoHelper.update(this.guestDao, attrMap, keyMap);
             result.setMessage("Successful guest update");
-        }catch (Exception e){
+        } catch (Exception e) {
             if (e.getMessage().contains("verify_documentation_spain()")) {
                 if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
                     result.setMessage("The spanish DNI must have 9 characters");
@@ -130,7 +131,7 @@ public class GuestService implements IGuestService {
                 if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
                     result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
                 else result.setMessage("The format for the phone in United States is incorrect");
-            } else if(e.getMessage().contains("verify_documentation_united_kingdom()")){
+            } else if (e.getMessage().contains("verify_documentation_united_kingdom()")) {
                 result.setMessage("The format for the passport in United Kingdom is incorrect");
             } else if (e.getMessage().contains("verify_phone_united_kingdom()")) {
                 result.setMessage("The format for the phone in United Kingdom is incorrect");

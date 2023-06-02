@@ -83,8 +83,8 @@ public class BookingService implements IBookingService {
         EntityResult roomQuery = roomService.roomQuery(keyMapRoom, attrListRoom);
 
         if(roomQuery.toString().contains("price")){
-            if(!attrMap.containsKey("totalprice")){
-                Double price = Double.parseDouble(((ArrayList<BigDecimal>) roomQuery.get("price")).get(0).toString());
+            if (!attrMap.containsKey("totalprice")) {
+                Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
                 attrMap.put("totalprice", calculateTotalPrice(attrMap.get("checkindate").toString(), attrMap.get("checkoutdate").toString(), price));
             }
         }

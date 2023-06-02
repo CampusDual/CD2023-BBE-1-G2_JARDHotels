@@ -458,7 +458,7 @@ $$ LANGUAGE plpgsql;
 
 -- Creación del disparador para calcular el precio total antes de insertar o actualizar en la tabla "booking"
 CREATE TRIGGER calculate_total_price_trigger
-    BEFORE INSERT ON booking
+    BEFORE INSERT OR UPDATE ON booking
     FOR EACH ROW
     
     EXECUTE FUNCTION calculate_total_price();

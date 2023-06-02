@@ -29,6 +29,7 @@ public class RoomService implements IRoomService {
     @Override
     public EntityResult roomQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.roomDao, keyMap, attrList);
+
         if (result.toString().contains("id") || result.toString().contains("ID"))
             result.setMessage("The room has been found");
         else {
@@ -73,7 +74,6 @@ public class RoomService implements IRoomService {
             result = this.daoHelper.update(this.roomDao, attrMap, keyMap);
             result.setMessage("Successful room update");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             if (e.getMessage().contains("Change the hotel of a room is not allowed"))
                 result.setMessage("Change the hotel of a room is not allowed");
             else if (e.getMessage().contains("Number must be over zero"))

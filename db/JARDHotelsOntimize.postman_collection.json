@@ -567,7 +567,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 1,\r\n    \"checkindate\": \"2025-05-01\",\r\n    \"checkoutdate\": \"2025-05-05\",\r\n    \"totalprice\": 0\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 99,\r\n    \"checkindate\": \"2028-05-01\",\r\n    \"checkoutdate\": \"2028-05-03\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

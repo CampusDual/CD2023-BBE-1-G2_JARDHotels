@@ -19,5 +19,6 @@
 			<groupId>com.ontimize.boot</groupId>
 			<artifactId>ontimize-boot-starter-rest</artifactId>
 		</dependency>
+
 	</dependencies>
 </project>

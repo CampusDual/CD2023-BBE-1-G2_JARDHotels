@@ -234,7 +234,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"number\": 401,\r\n    \"capacity\": 2,\r\n    \"description\": \"cama de matrimonio\",\r\n    \"hotel\": 4,\r\n    \"price\":0\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"number\": 401,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 1,\r\n        \"price\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -596,7 +596,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 99,\r\n    \"checkindate\": \"2028-05-01\",\r\n    \"checkoutdate\": \"2028-05-03\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\": 11,\r\n    \"guest\": 1,\r\n    \"checkindate\": \"2023-06-05\",\r\n    \"checkoutdate\": \"2028-05-03\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -746,7 +746,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 17\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -40,7 +40,7 @@ public class HotelRestController extends ORestController<IHotelService> {
         try {
             List<String> columns = (List<String>) req.get("columns");
             Map<String, Object> filter = (Map<String, Object>) req.get("filter");
-            Map<String, Object> key = new HashMap<String, Object>();
+            Map<String, Object> key = new HashMap<>();
 
             key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
                     concatenateExpressions(filter));
@@ -93,18 +93,18 @@ public class HotelRestController extends ORestController<IHotelService> {
             throw new RuntimeException("Min stars must be lower or equal than max");
         }
 
-        BasicExpression bexp = searchBetweenStars(HotelDao.ATTR_STARS, stars_min, stars_max);
+        BasicExpression bexp = searchBetweenStars(stars_min, stars_max);
 
         // filtro nombre
         if (filter.get("name") != null) {
             bexp = new BasicExpression(bexp, BasicOperator.AND_OP,
-                    searchLikeName(HotelDao.ATTR_NAME, (String) filter.get("name")));
+                    searchLikeName((String) filter.get("name")));
         }
 
         // filtro direccion
         if (filter.get("address") != null) {
             bexp = new BasicExpression(bexp, BasicOperator.AND_OP,
-                    searchLikeAddress(HotelDao.ATTR_ADDRESS, (String) filter.get("address")));
+                    searchLikeAddress((String) filter.get("address")));
         }
 
         // filtro pais
@@ -128,35 +128,35 @@ public class HotelRestController extends ORestController<IHotelService> {
             }
 
             bexp = new BasicExpression(bexp, BasicOperator.AND_OP,
-                    searchByCountry(HotelDao.ATTR_COUNTRY, (int) filter.get("country")));
+                    searchByCountry((int) filter.get("country")));
         }
 
         return bexp;
     }
 
-    private BasicExpression searchBetweenStars(String param, int stars_min, int stars_max) {
+    private BasicExpression searchBetweenStars(int stars_min, int stars_max) {
 
-        BasicField field = new BasicField(param);
+        BasicField field = new BasicField(HotelDao.ATTR_STARS);
         BasicExpression bexp1 = new BasicExpression(field, BasicOperator.MORE_EQUAL_OP, stars_min);
         BasicExpression bexp2 = new BasicExpression(field, BasicOperator.LESS_EQUAL_OP, stars_max);
         return new BasicExpression(bexp1, BasicOperator.AND_OP, bexp2);
     }
 
-    private BasicExpression searchLikeName(String param, String name) {
+    private BasicExpression searchLikeName(String name) {
 
-        BasicField field = new BasicField(param);
+        BasicField field = new BasicField(HotelDao.ATTR_NAME);
         return new BasicExpression(field, BasicOperator.LIKE_OP, "%" + name + "%");
     }
 
-    private BasicExpression searchLikeAddress(String param, String address) {
+    private BasicExpression searchLikeAddress(String address) {
 
-        BasicField field = new BasicField(param);
+        BasicField field = new BasicField(HotelDao.ATTR_ADDRESS);
         return new BasicExpression(field, BasicOperator.LIKE_OP, "%" + address + "%");
     }
 
-    private BasicExpression searchByCountry(String param, int country) {
+    private BasicExpression searchByCountry(int country) {
 
-        BasicField field = new BasicField(param);
+        BasicField field = new BasicField(HotelDao.ATTR_COUNTRY);
         return new BasicExpression(field, BasicOperator.EQUAL_OP, country);
     }
 }

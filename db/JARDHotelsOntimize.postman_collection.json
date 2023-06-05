@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9edacaf7-8562-4d7c-bded-a32507fbad08",
+		"_postman_id": "39079c27-6927-4ade-9ee6-6014444e025f",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -67,6 +67,35 @@
 							"path": [
 								"hotels",
 								"hotel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"country\": 1,\r\n        \"name\": \"super\"\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"filter"
 							]
 						}
 					},
@@ -764,6 +793,85 @@
 								"bookings",
 								"booking",
 								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Country",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n    \"columns\": [\"id\",\"country\",\"coin\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/countries/country/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"countries",
+								"country",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/countries/country?columns=id,country,coin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"countries",
+								"country"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,country,coin"
+								}
 							]
 						}
 					},

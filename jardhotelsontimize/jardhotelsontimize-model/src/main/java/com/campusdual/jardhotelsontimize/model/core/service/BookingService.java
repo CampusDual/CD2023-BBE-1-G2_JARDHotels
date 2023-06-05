@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -136,16 +139,38 @@ public class BookingService implements IBookingService {
     public EntityResult bookingDelete(Map<String, Object> keyMap) {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
+        attrList.add("totalprice");
+        attrList.add("checkindate");
 
         EntityResult query = this.daoHelper.query(this.bookingDao, keyMap, attrList);
 
         EntityResult result = this.daoHelper.delete(this.bookingDao, keyMap);
 
-        if (query.toString().contains("id"))
+        if (query.toString().contains("id")) {
             result.setMessage("Successful booking delete");
-        else
+            Double price = Double.parseDouble(((List<BigDecimal>) query.get("totalprice")).get(0).toString());
+            result.put("refund", calculateRefund(price, query.get("checkindate").toString()));
+        } else {
             result.setMessage("Booking not found");
+        }
 
         return result;
+    }
+
+    private double calculateRefund(double totalprice, String checkInDate) {
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'['yyyy-MM-dd']'");
+        LocalDate parsedCheckInDate = LocalDate.parse(checkInDate, formatter);
+
+        long daysUntilCheckIn = ChronoUnit.DAYS.between(currentDate, parsedCheckInDate);
+
+        if (daysUntilCheckIn > 7) {
+            return totalprice;
+        } else if (daysUntilCheckIn > 1) {
+            return totalprice / 2;
+        } else {
+            return 0;
+        }
     }
 }

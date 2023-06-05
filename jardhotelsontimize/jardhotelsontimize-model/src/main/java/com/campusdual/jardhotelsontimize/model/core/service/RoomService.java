@@ -33,7 +33,7 @@ public class RoomService implements IRoomService {
         if (result.toString().contains("id") || result.toString().contains("ID"))
             result.setMessage("The room has been found");
         else {
-            result.setMessage("The room doesn't exists");
+            result.setMessage("The room doesn't exist");
             result.setColumnSQLTypes(new HashMap());
         }
         return result;
@@ -69,7 +69,7 @@ public class RoomService implements IRoomService {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult result = roomQuery(keyMap, attrList);
-        if (result.getMessage().contains("The room doesn't exists"))
+        if (result.getMessage().contains("The room doesn't exist"))
             return result;
         try {
             result = this.daoHelper.update(this.roomDao, attrMap, keyMap);

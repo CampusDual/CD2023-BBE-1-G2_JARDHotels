@@ -60,7 +60,7 @@ public class HotelServiceTest {
             when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = hotelService.hotelQuery(hotelToQuery, new ArrayList<>());
             assertEquals(0, result.getCode());
-            assertEquals("The hotel doesn't exists", result.getMessage());
+            assertEquals("The hotel doesn't exist", result.getMessage());
             verify(daoHelper, times(1)).query(any(HotelDao.class), anyMap(), anyList());
         }
     }
@@ -97,7 +97,7 @@ public class HotelServiceTest {
             EntityResult result = hotelService.hotelInsert(hotelToInsert);
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).insert(any(HotelDao.class), anyMap());
-            assertEquals("The country doesn't exists", result.getMessage());
+            assertEquals("The country doesn't exist", result.getMessage());
         }
     }
 
@@ -153,7 +153,7 @@ public class HotelServiceTest {
             when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenThrow(new RuntimeException());
             EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
             assertEquals(0, result.getCode());
-            assertEquals("The country doesn't exists", result.getMessage());
+            assertEquals("The country doesn't exist", result.getMessage());
         }
     }
 

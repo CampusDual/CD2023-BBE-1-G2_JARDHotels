@@ -67,7 +67,7 @@ public class BookingServiceTest {
             when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = bookingService.bookingQuery(bookingToQuery, new ArrayList<>());
             assertEquals(0, result.getCode());
-            assertEquals("The booking doesn't exists", result.getMessage());
+            assertEquals("The booking doesn't exist", result.getMessage());
             verify(daoHelper, times(1)).query(any(BookingDao.class), anyMap(), anyList());
         }
     }

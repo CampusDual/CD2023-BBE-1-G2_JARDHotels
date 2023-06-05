@@ -28,7 +28,7 @@ public class GuestService implements IGuestService {
         EntityResult result = this.daoHelper.query(this.guestDao, keyMap, attrList);
         if (result.toString().contains("id")) result.setMessage("The guest has been found");
         else {
-            result.setMessage("The guest doesn't exists");
+            result.setMessage("The guest doesn't exist");
             result.setColumnSQLTypes(new HashMap());
         }
         return result;
@@ -91,7 +91,7 @@ public class GuestService implements IGuestService {
                 result.setMessage("Repeated documentation in another guest");
                 result.setColumnSQLTypes(new HashMap());
             } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
-                result.setMessage("The country doesn't exists");
+                result.setMessage("The country doesn't exist");
             } else if (e.getMessage().contains("Invalid email format"))
                 result.setMessage("Invalid email format");
         }
@@ -103,7 +103,7 @@ public class GuestService implements IGuestService {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult result = guestQuery(keyMap, attrList);
-        if (result.getMessage().contains("The guest doesn't exists"))
+        if (result.getMessage().contains("The guest doesn't exist"))
             return result;
         try {
             result = this.daoHelper.update(this.guestDao, attrMap, keyMap);
@@ -155,7 +155,7 @@ public class GuestService implements IGuestService {
                 result.setMessage("Repeated documentation in another guest");
                 result.setColumnSQLTypes(new HashMap());
             } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
-                result.setMessage("The country doesn't exists");
+                result.setMessage("The country doesn't exist");
             } else if (e.getMessage().contains("Invalid email format"))
                 result.setMessage("Invalid email format");
         }

@@ -1,5 +1,6 @@
 package com.campusdual.jardhotelsontimize.ws.core.rest;
 
+import com.campusdual.jardhotelsontimize.api.core.service.ICountryService;
 import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,9 @@ public class HotelRestController extends ORestController<IHotelService> {
 
     @Autowired
     private IHotelService iHotelService;
+
+    @Autowired
+    private ICountryService iCountryService;
 
     @Override
     public IHotelService getService() {
@@ -58,13 +63,15 @@ public class HotelRestController extends ORestController<IHotelService> {
             // excepciones pais
             if (e.getMessage().contains("Country must be a whole number")) {
                 res.setMessage("Country must be a whole number");
+            } else if (e.getMessage().contains("Country must exist")) {
+                res.setMessage("Country must exist");
             }
 
             return res;
         }
     }
 
-    private BasicExpression concatenateExpressions(Map<String, Object> filter) throws Exception {
+    private BasicExpression concatenateExpressions(Map<String, Object> filter) {
 
         // filtro estrellas
         int stars_min = 1, stars_max = 5;
@@ -103,14 +110,25 @@ public class HotelRestController extends ORestController<IHotelService> {
         // filtro pais
         if (filter.get("country") != null) {
 
-            // TODO añadir query country
-            
             try {
-                bexp = new BasicExpression(bexp, BasicOperator.AND_OP,
-                        searchByCountry(HotelDao.ATTR_COUNTRY, (int) filter.get("country")));
+                int country = (int) filter.get("country");
             } catch (Exception e) {
                 throw new RuntimeException("Country must be a whole number");
             }
+
+            Map<String, Object> keyMap = new HashMap<>();
+            keyMap.put("id", filter.get("country"));
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+
+            EntityResult entityResult = iCountryService.countryQuery(keyMap, attrList);
+
+            if (entityResult.getMessage().contains("The country doesn't exist")) {
+                throw new RuntimeException("Country must exist");
+            }
+
+            bexp = new BasicExpression(bexp, BasicOperator.AND_OP,
+                    searchByCountry(HotelDao.ATTR_COUNTRY, (int) filter.get("country")));
         }
 
         return bexp;

@@ -31,7 +31,7 @@ public class HotelService implements IHotelService {
         if(result.toString().contains("id"))
             result.setMessage("The hotel has been found");
         else {
-            result.setMessage("The hotel doesn't exists");
+            result.setMessage("The hotel doesn't exist");
             result.setColumnSQLTypes(new HashMap());
         }
 
@@ -48,7 +48,7 @@ public class HotelService implements IHotelService {
             result.setMessage("Successful hotel insertion");
         }catch (Exception e){
             result.setCode(0);
-            result.setMessage("The country doesn't exists");
+            result.setMessage("The country doesn't exist");
 
         }
 
@@ -67,7 +67,7 @@ public class HotelService implements IHotelService {
             if (result.getCode() == 2)
                 result.setMessage("Hotel not found");
         }catch (Exception e){
-            result.setMessage("The country doesn't exists");
+            result.setMessage("The country doesn't exist");
             result.setCode(0);
         }
 

@@ -32,7 +32,7 @@ public class BookingService implements IBookingService {
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
         if (result.toString().contains("id")) result.setMessage("The booking has been found");
         else {
-            result.setMessage("The booking doesn't exists");
+            result.setMessage("The booking doesn't exist");
             result.setColumnSQLTypes(new HashMap());
         }
         return result;

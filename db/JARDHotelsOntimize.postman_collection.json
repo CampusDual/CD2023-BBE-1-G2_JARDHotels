@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "39079c27-6927-4ade-9ee6-6014444e025f",
+		"_postman_id": "7e650c66-6e5d-4f46-b9f8-e6f086e1f9c8",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -73,35 +73,6 @@
 					"response": []
 				},
 				{
-					"name": "Query",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"country\": 1,\r\n        \"name\": \"super\"\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:65431/hotels/filter",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "65431",
-							"path": [
-								"hotels",
-								"filter"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get",
 					"request": {
 						"auth": {
@@ -129,6 +100,35 @@
 								"hotels",
 								"hotel",
 								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"country\": 1,\r\n        \"name\": \"super\"\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"filter"
 							]
 						}
 					},
@@ -316,6 +316,35 @@
 								"rooms",
 								"room",
 								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"capacity_min\": 1,\r\n        \"hotel\": 1,\r\n        \"description\": \" \",\r\n        \"price_min\": 25.5\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"filter"
 							]
 						}
 					},

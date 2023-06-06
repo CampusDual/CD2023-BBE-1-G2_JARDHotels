@@ -139,6 +139,8 @@ public class BookingServiceTest {
             er.setCode(0);
             er.setMessage("");
             er.put("id", 1);
+            er.put("totalprice", List.of(new BigDecimal(650.5)));
+            er.put("checkindate", List.of("2025-06-06"));
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);
             when(daoHelper.delete(any(BookingDao.class), anyMap())).thenReturn(er);

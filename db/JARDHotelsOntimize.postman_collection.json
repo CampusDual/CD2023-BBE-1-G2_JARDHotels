@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7e650c66-6e5d-4f46-b9f8-e6f086e1f9c8",
+		"_postman_id": "d197b674-4a08-4f56-978f-bd9b324f74a4",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -450,7 +450,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"土豆\",\r\n    \"surname\": \"油炸\",\r\n    \"phone\": \"+861012345678\",\r\n    \"email\": \"chenchin@chen.chin\",\r\n    \"documentation\": \"123456199001010123\",\r\n    \"country\": 7\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"11111113C\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -482,7 +482,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 5\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+16666666663\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"87654321B\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+346666666663\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -514,7 +514,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -558,7 +558,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,email,documentation,country",
+							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,email,documentation,country,phonecountry",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -571,7 +571,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,surname,phone,email,documentation,country"
+									"value": "id,name,surname,phone,email,documentation,country,phonecountry"
 								}
 							]
 						}
@@ -588,7 +588,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 12\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -625,7 +625,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\": 11,\r\n    \"guest\": 1,\r\n    \"checkindate\": \"2023-06-05\",\r\n    \"checkoutdate\": \"2028-05-03\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\": 11,\r\n    \"guest\": 1,\r\n    \"arrivaldate\": \"2023-06-05\",\r\n    \"departuredate\": \"2028-05-03\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

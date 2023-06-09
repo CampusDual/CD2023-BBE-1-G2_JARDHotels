@@ -40,19 +40,19 @@ INSERT INTO room (number, capacity, description, hotel, price) VALUES
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5, 200);
    
 
-INSERT INTO guest (name, surname, phone, email, documentation, country) VALUES
-    ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1),
-    ('María', 'Rodríguez', '+4916012345', 'mariarodriguez@example.com', 'XY9876543', 5),
-    ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2),
-    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8),
-    ('Manuel', 'Martínez', '+861987654321', 'manuelmartinez@example.com', '987654198512311234', 7),
-    ('Laura', 'Fernández', '+330987654321', 'laurafernandez@example.com', '9305078912345678', 4),
-    ('Pedro', 'Navarro', '+351289876543', 'pedronavarro@example.com', '987654321', 6),
-    ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1),
-    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8),
-    ('Ana', 'Jiménez', '+447876543210', 'anajimenez@example.com', 'G12345678', 3);
+INSERT INTO guest (name, surname, phone, email, documentation, country, phonecountry) VALUES
+    ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1,1),
+    ('María', 'Rodríguez', '+4916012345', 'mariarodriguez@example.com', 'XY9876543', 5,5),
+    ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2,2),
+    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8,8),
+    ('Manuel', 'Martínez', '+861987654321', 'manuelmartinez@example.com', '987654198512311234', 7,7),
+    ('Laura', 'Fernández', '+330987654321', 'laurafernandez@example.com', '9305078912345678', 4,4),
+    ('Pedro', 'Navarro', '+351289876543', 'pedronavarro@example.com', '987654321', 6,6),
+    ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1,1),
+    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8,8),
+    ('Ana', 'Jiménez', '+447876543210', 'anajimenez@example.com', 'G12345678', 3,3);
 
-INSERT INTO booking (room, guest, checkindate, checkoutdate)
+INSERT INTO booking (room, guest, arrivaldate, departuredate)
 VALUES
     (1, 2, '2024-05-01', '2024-05-05'),
     (3, 5, '2024-06-10', '2024-06-15'),

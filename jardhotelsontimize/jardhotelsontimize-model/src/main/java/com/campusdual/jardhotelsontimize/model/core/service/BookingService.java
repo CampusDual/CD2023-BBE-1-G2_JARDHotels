@@ -52,10 +52,10 @@ public class BookingService implements IBookingService {
         } catch (Exception e) {
 
             result.setCode(0);
-            if (e.getMessage().contains("Check-in date must be greater than or equal to current date")) {
-                result.setMessage("Check-in date must be greater than or equal to current date");
-            } else if (e.getMessage().contains("Check-out date must be greater than check-in date")) {
-                result.setMessage("Check-out date must be greater than check-in date");
+            if (e.getMessage().contains("Arrival date must be greater than or equal to current date")) {
+                result.setMessage("Arrival date must be greater than or equal to current date");
+            } else if (e.getMessage().contains("Departure date must be greater than Arrival date")) {
+                result.setMessage("Departure date must be greater than Arrival date");
             } else if (e.getMessage().contains("The date range overlaps with the dates of an existing booking")) {
                 result.setMessage("The date range overlaps with the dates of an existing booking");
             } else if (e.getMessage().contains("The total price can't be lower than 0")) {
@@ -88,7 +88,7 @@ public class BookingService implements IBookingService {
         if(roomQuery.toString().contains("price")){
             if (!attrMap.containsKey("totalprice")) {
                 Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
-                attrMap.put("totalprice", calculateTotalPrice(attrMap.get("checkindate").toString(), attrMap.get("checkoutdate").toString(), price));
+                attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
             }
         }
 

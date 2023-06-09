@@ -109,6 +109,7 @@ public class GuestService implements IGuestService {
             result = this.daoHelper.update(this.guestDao, attrMap, keyMap);
             result.setMessage("Successful guest update");
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             if (e.getMessage().contains("verify_documentation_spain()")) {
                 if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
                     result.setMessage("The spanish DNI must have 9 characters");

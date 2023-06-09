@@ -93,8 +93,13 @@ CREATE TABLE IF NOT EXISTS guest (
 	email VARCHAR(100) NOT NULL,
 	documentation VARCHAR(80) NOT NULL,
 	country INTEGER NOT NULL,
+	phonecountry INTEGER NOT NULL,
 	
 	FOREIGN KEY(country) REFERENCES country(id)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
+		
+	FOREIGN KEY(phonecountry) REFERENCES country(id)
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE,
 	
@@ -142,7 +147,7 @@ $$ LANGUAGE plpgsql;
 
 --funcion telefono españa
 --empieza por +34 seguido de 9 numeros
-CREATE OR REPLACE FUNCTION verifify_phone_spain() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION verify_phone_spain() RETURNS TRIGGER AS $$
 BEGIN
   IF NEW.phone !~ '^\+34\d{9}$' THEN
     RAISE EXCEPTION 'The format for the spanish phone is incorrect. It must be +34 and 9 numbers';
@@ -155,8 +160,8 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_spain
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 1) --Id de España debe ser 1
-EXECUTE FUNCTION verifify_phone_spain();
+WHEN (NEW.phonecountry = 1) --Id de España debe ser 1
+EXECUTE FUNCTION verify_phone_spain();
 
 CREATE TRIGGER trigger_verify_documentation_spain
 BEFORE INSERT OR UPDATE ON guest
@@ -193,7 +198,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_united_states
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 2) --Id de EEUU debe ser 2
+WHEN (NEW.phonecountry = 2) --Id de EEUU debe ser 2
 EXECUTE FUNCTION verify_phone_united_states();
 
 CREATE TRIGGER trigger_verify_documentation_united_states
@@ -232,7 +237,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_united_kingdom
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 3) --Id de UK debe ser 3
+WHEN (NEW.phonecountry = 3) --Id de UK debe ser 3
 EXECUTE FUNCTION verify_phone_united_kingdom();
 
 CREATE TRIGGER trigger_verify_documentation_united_kingdom
@@ -269,7 +274,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_france
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 4) --Id de Francia debe ser 4
+WHEN (NEW.phonecountry = 4) --Id de Francia debe ser 4
 EXECUTE FUNCTION verify_phone_france();
 
 CREATE TRIGGER trigger_verify_documentation_france
@@ -307,7 +312,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_germany
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 5) --Id de Alemania debe ser 5
+WHEN (NEW.phonecountry = 5) --Id de Alemania debe ser 5
 EXECUTE FUNCTION verify_phone_germany();
 
 CREATE TRIGGER trigger_verify_documentation_germany
@@ -344,7 +349,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_portugal
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 6) --Id de Portugal debe ser 6
+WHEN (NEW.phonecountry = 6) --Id de Portugal debe ser 6
 EXECUTE FUNCTION verify_phone_portugal();
 
 CREATE TRIGGER trigger_verify_documentation_portugal
@@ -384,7 +389,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_verify_phone_china
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
-WHEN (NEW.country = 7) --Id de China debe ser 7
+WHEN (NEW.phonecountry = 7) --Id de China debe ser 7
 EXECUTE FUNCTION verify_phone_china();
 
 CREATE TRIGGER trigger_verify_documentation_china
@@ -399,8 +404,8 @@ CREATE TABLE IF NOT EXISTS booking (
 	id SERIAL PRIMARY KEY,
 	room INTEGER NOT NULL,
 	guest INTEGER NOT NULL,
-	checkindate DATE NOT NULL,
-	checkoutdate DATE NOT NULL,
+	arrivaldate DATE NOT NULL,
+	departuredate DATE NOT NULL,
 	totalprice 	DECIMAL NOT NULL,
 	FOREIGN KEY(room) REFERENCES room(id) 
 		ON DELETE CASCADE 
@@ -410,11 +415,11 @@ CREATE TABLE IF NOT EXISTS booking (
 		ON DELETE CASCADE 
 		ON UPDATE CASCADE,
 				
-	CONSTRAINT "Check-out date must be greater than check-in date" 
-		CHECK (checkindate < checkoutdate),
+	CONSTRAINT "Departure date must be greater than Arrival date" 
+		CHECK (arrivaldate < departuredate),
 		
-	CONSTRAINT "Check-in date must be greater than or equal to current date"
-		CHECK (checkindate >= current_date),
+	CONSTRAINT "Arrival date must be greater than or equal to current date"
+		CHECK (arrivaldate >= current_date),
 		
 	CONSTRAINT "The total price can't be lower than 0"
 		CHECK (totalprice >= 0)
@@ -426,9 +431,9 @@ BEGIN
     IF EXISTS (
 		SELECT 1 FROM booking 
 			WHERE room = NEW.room
-			AND ((checkindate <= NEW.checkindate AND checkoutdate > NEW.checkindate)
-			OR (checkindate < NEW.checkoutdate AND checkoutdate >= NEW.checkoutdate)
-			OR (checkindate >= NEW.checkindate AND checkoutdate <= NEW.checkoutdate))
+			AND ((arrivaldate <= NEW.arrivaldate AND departuredate > NEW.arrivaldate)
+			OR (arrivaldate < NEW.departuredate AND departuredate >= NEW.departuredate)
+			OR (arrivaldate >= NEW.arrivaldate AND departuredate <= NEW.departuredate))
 			AND (id IS NULL OR id <> NEW.id)
     ) THEN
         RAISE EXCEPTION 'The date range overlaps with the dates of an existing booking';
@@ -448,7 +453,7 @@ CREATE TRIGGER check_booking_overlap_trigger
 CREATE OR REPLACE FUNCTION calculate_total_price() RETURNS TRIGGER AS $$
 BEGIN
 	IF NEW.totalprice IS NULL THEN
-		NEW.totalprice := (NEW.checkoutdate - NEW.checkindate) * (SELECT price FROM room WHERE id = NEW.room);
+		NEW.totalprice := (NEW.departuredate - NEW.arrivaldate) * (SELECT price FROM room WHERE id = NEW.room);
 	END IF;
 	RETURN NEW;
 END;

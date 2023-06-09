@@ -48,7 +48,7 @@ public class HotelRestControllerTest {
 
         EntityResult entityResult = new EntityResultMapImpl();
         entityResult.setCode(0);
-        entityResult.setMessage("The hotel has been found");
+        entityResult.setMessage("");
         when(hotelService.hotelQuery(anyMap(), anyList())).thenReturn(entityResult);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/hotels/filter")

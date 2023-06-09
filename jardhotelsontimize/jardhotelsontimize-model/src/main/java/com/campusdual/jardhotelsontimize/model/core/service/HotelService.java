@@ -28,10 +28,12 @@ public class HotelService implements IHotelService {
     public EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         EntityResult result = this.daoHelper.query(this.hotelDao,keyMap,attrList);
-        if(result.toString().contains("id"))
-            result.setMessage("The hotel has been found");
-        else {
+        if(result.toString().contains("id")) {
+            result.setMessage("");
+
+        } else {
             result.setMessage("The hotel doesn't exist");
+            result.setCode(EntityResult.OPERATION_WRONG);
             result.setColumnSQLTypes(new HashMap());
         }
 
@@ -47,9 +49,16 @@ public class HotelService implements IHotelService {
             result = this.daoHelper.insert(this.hotelDao,attrMap);
             result.setMessage("Successful hotel insertion");
         }catch (Exception e){
-            result.setCode(0);
-            result.setMessage("The country doesn't exist");
-
+            if (e.getMessage().contains("null value")) {
+                result.setMessage("All attributes must be filled");
+            } else if (e.getMessage().contains("Stars must be between one and five")) {
+                result.setMessage("Stars must be between one and five");
+            } else if (e.getMessage().contains("\"hotel\" violates foreign key constraint \"hotel_country_fkey\"")) {
+                result.setMessage("The country doesn't exist");
+            } else {
+                result.setMessage(e.getMessage());
+            }
+            result.setCode(EntityResult.OPERATION_WRONG);
         }
 
         return result;
@@ -64,11 +73,19 @@ public class HotelService implements IHotelService {
             result = this.daoHelper.update(this.hotelDao,attrMap,keyMap);
             if (result.getCode() == 0)
                 result.setMessage("Successful hotel update");
-            if (result.getCode() == 2)
+            if (result.getCode() == 2) {
                 result.setMessage("Hotel not found");
+                result.setCode(EntityResult.OPERATION_WRONG);
+            }
         }catch (Exception e){
-            result.setMessage("The country doesn't exist");
-            result.setCode(0);
+            if (e.getMessage().contains("Stars must be between one and five")) {
+                result.setMessage("Stars must be between one and five");
+            } else if (e.getMessage().contains("\"hotel\" violates foreign key constraint \"hotel_country_fkey\"")) {
+                result.setMessage("The country doesn't exist");
+            } else {
+                result.setMessage(e.getMessage());
+            }
+            result.setCode(EntityResult.OPERATION_WRONG);
         }
 
         return result;
@@ -86,8 +103,10 @@ public class HotelService implements IHotelService {
 
         if (query.toString().contains("id"))
             result.setMessage("Successful hotel delete");
-        else
+        else {
             result.setMessage("Hotel not found");
+            result.setCode(EntityResult.OPERATION_WRONG);
+        }
         return result;
     }
 }

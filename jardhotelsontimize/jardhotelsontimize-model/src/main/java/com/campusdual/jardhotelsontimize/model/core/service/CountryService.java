@@ -2,7 +2,6 @@ package com.campusdual.jardhotelsontimize.model.core.service;
 
 import com.campusdual.jardhotelsontimize.api.core.service.ICountryService;
 import com.campusdual.jardhotelsontimize.model.core.dao.CountryDao;
-import com.campusdual.jardhotelsontimize.model.core.dao.RoomDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,11 @@ public class CountryService implements ICountryService {
         EntityResult result = this.daoHelper.query(this.countryDao, keyMap, attrList);
 
         if (result.toString().contains("id") || result.toString().contains("ID"))
-            result.setMessage("The country has been found");
+            result.setMessage("");
         else {
             result.setMessage("The country doesn't exist");
-            result.setColumnSQLTypes(new HashMap());
+            result.setCode(EntityResult.OPERATION_WRONG);
+            result.setColumnSQLTypes(new HashMap<>());
         }
         return result;
     }

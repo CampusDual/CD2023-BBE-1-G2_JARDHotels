@@ -33,10 +33,11 @@ public class BookingService implements IBookingService {
     @Override
     public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
-        if (result.toString().contains("id")) result.setMessage("The booking has been found");
+        if (result.toString().contains("id")) result.setMessage("");
         else {
             result.setMessage("The booking doesn't exist");
-            result.setColumnSQLTypes(new HashMap());
+            result.setCode(EntityResult.OPERATION_WRONG);
+            result.setColumnSQLTypes(new HashMap<>());
         }
         return result;
     }
@@ -46,16 +47,33 @@ public class BookingService implements IBookingService {
 
         EntityResult result = new EntityResultMapImpl();
 
+        Map<String, Object>keyMapRoom = new HashMap<>();
+        keyMapRoom.put("id", Integer.parseInt(attrMap.get("room").toString()));
+
+        List<String>attrListRoom = new ArrayList<>();
+        attrListRoom.add("price");
+
+        EntityResult roomQuery = roomService.roomQuery(keyMapRoom, attrListRoom);
+
+        if(roomQuery.toString().contains("price")){
+            if (!attrMap.containsKey("totalprice") && attrMap.containsKey("arrivaldate") && attrMap.containsKey("departuredate")) {
+                Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
+            }
+        }
+
         try {
             result = this.daoHelper.insert(this.bookingDao, attrMap);
             result.setMessage("Successful booking insertion");
         } catch (Exception e) {
 
-            result.setCode(0);
-            if (e.getMessage().contains("Arrival date must be greater than or equal to current date")) {
+            result.setCode(EntityResult.OPERATION_WRONG);
+            if (e.getMessage().contains("null value")) {
+                result.setMessage("All attributes must be filled");
+            } else if (e.getMessage().contains("Arrival date must be greater than or equal to current date")) {
                 result.setMessage("Arrival date must be greater than or equal to current date");
-            } else if (e.getMessage().contains("Departure date must be greater than Arrival date")) {
-                result.setMessage("Departure date must be greater than Arrival date");
+            } else if (e.getMessage().contains("Departure date must be greater than arrival date")) {
+                result.setMessage("Departure date must be greater than arrival date");
             } else if (e.getMessage().contains("The date range overlaps with the dates of an existing booking")) {
                 result.setMessage("The date range overlaps with the dates of an existing booking");
             } else if (e.getMessage().contains("The total price can't be lower than 0")) {
@@ -64,7 +82,11 @@ public class BookingService implements IBookingService {
                 result.setMessage("Room not found");
             } else if (e.getMessage().contains("booking_guest_fkey")) {
                 result.setMessage("Guest not found");
-            } else result.setMessage(e.getMessage());
+            } else if(!roomQuery.contains("price")) {
+                result.setMessage("Room not found");
+            } else {
+                result.setMessage(e.getMessage());
+            }
 
         }
         return result;
@@ -94,12 +116,19 @@ public class BookingService implements IBookingService {
 
         try{
             result = this.daoHelper.update(this.bookingDao, attrMap, keyMap);
-            result.setMessage("Successful booking update");
+
+            if (result.getCode() == 2) {
+                result.setMessage("Booking not found");
+                result.setCode(EntityResult.OPERATION_WRONG);
+            } else {
+                result.setMessage("Successful booking update");
+            }
         }catch (Exception e){
-            if (e.getMessage().contains("Check-in date must be greater than or equal to current date")) {
-                result.setMessage("Check-in date must be greater than or equal to current date");
-            } else if (e.getMessage().contains("Check-out date must be greater than check-in date")) {
-                result.setMessage("Check-out date must be greater than check-in date");
+            result.setCode(EntityResult.OPERATION_WRONG);
+            if (e.getMessage().contains("Arrival date must be greater than or equal to current date")) {
+                result.setMessage("Arrival date must be greater than or equal to current date");
+            } else if (e.getMessage().contains("Departure date must be greater than arrival date")) {
+                result.setMessage("Departure date must be greater than arrival date");
             } else if (e.getMessage().contains("The date range overlaps with the dates of an existing booking")) {
                 result.setMessage("The date range overlaps with the dates of an existing booking");
             } else if (e.getMessage().contains("The total price can't be lower than 0")) {
@@ -110,21 +139,23 @@ public class BookingService implements IBookingService {
                 result.setMessage("Changing the room to a different hotel is not allowed");
             } else if (e.getMessage().contains("booking_room_fkey")) {
                 result.setMessage("Room not found");
-            } else result.setMessage(e.getMessage());
+            } else {
+                result.setMessage(e.getMessage());
+            }
         }
 
         return result;
     }
 
-    private static double calculateTotalPrice(String checkinDate, String checkoutDate, double price) {
+    private static double calculateTotalPrice(String arrivalDate, String departureDate, double price) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         double totalPrice = 0;
 
         try {
-            Date checkin = format.parse(checkinDate.substring(0, 10));
-            Date checkout = format.parse(checkoutDate.substring(0, 10));
+            Date arrival = format.parse(arrivalDate.substring(0, 10));
+            Date departure = format.parse(departureDate.substring(0, 10));
 
-            long diffInMillies = Math.abs(checkout.getTime() - checkin.getTime());
+            long diffInMillies = Math.abs(departure.getTime() - arrival.getTime());
             long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
             totalPrice = diffInDays * price;
@@ -140,7 +171,7 @@ public class BookingService implements IBookingService {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         attrList.add("totalprice");
-        attrList.add("checkindate");
+        attrList.add("arrivaldate");
 
         EntityResult query = this.daoHelper.query(this.bookingDao, keyMap, attrList);
 
@@ -149,25 +180,26 @@ public class BookingService implements IBookingService {
         if (query.toString().contains("id")) {
             result.setMessage("Successful booking delete");
             Double price = Double.parseDouble(((List<BigDecimal>) query.get("totalprice")).get(0).toString());
-            result.put("refund", calculateRefund(price, query.get("checkindate").toString()));
+            result.put("refund", calculateRefund(price, query.get("arrivaldate").toString()));
         } else {
             result.setMessage("Booking not found");
+            result.setCode(EntityResult.OPERATION_WRONG);
         }
 
         return result;
     }
 
-    private double calculateRefund(double totalprice, String checkInDate) {
+    private double calculateRefund(double totalprice, String arrivalDate) {
 
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'['yyyy-MM-dd']'");
-        LocalDate parsedCheckInDate = LocalDate.parse(checkInDate, formatter);
+        LocalDate parsedArrivalDate = LocalDate.parse(arrivalDate, formatter);
 
-        long daysUntilCheckIn = ChronoUnit.DAYS.between(currentDate, parsedCheckInDate);
+        long daysUntilArrival = ChronoUnit.DAYS.between(currentDate, parsedArrivalDate);
 
-        if (daysUntilCheckIn > 7) {
+        if (daysUntilArrival > 7) {
             return totalprice;
-        } else if (daysUntilCheckIn > 1) {
+        } else if (daysUntilArrival > 1) {
             return totalprice / 2;
         } else {
             return 0;

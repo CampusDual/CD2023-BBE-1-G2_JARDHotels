@@ -415,7 +415,7 @@ CREATE TABLE IF NOT EXISTS booking (
 		ON DELETE CASCADE 
 		ON UPDATE CASCADE,
 				
-	CONSTRAINT "Departure date must be greater than Arrival date" 
+	CONSTRAINT "Departure date must be greater than arrival date" 
 		CHECK (arrivaldate < departuredate),
 		
 	CONSTRAINT "Arrival date must be greater than or equal to current date"
@@ -465,7 +465,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER calculate_total_price_trigger
     BEFORE INSERT OR UPDATE ON booking
     FOR EACH ROW
-    
     EXECUTE FUNCTION calculate_total_price();
    
    

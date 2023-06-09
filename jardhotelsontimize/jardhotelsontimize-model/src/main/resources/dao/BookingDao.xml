@@ -18,8 +18,8 @@
                 <Column>id</Column>
                 <Column>room</Column>
                 <Column>guest</Column>
-                <Column>checkindate</Column>
-                <Column>checkoutdate</Column>
+                <Column>arrivaldate</Column>
+                <Column>departuredate</Column>
                 <Column>totalprice</Column>
             </ValidColumns>
             <Sentence>
@@ -29,7 +29,7 @@
                     FROM
                         ${mainschema}.booking
                     #WHERE#
-                    ORDER BY checkindate DESC
+                    ORDER BY arrivaldate DESC
                 ]]>
             </Sentence>
         </Query>

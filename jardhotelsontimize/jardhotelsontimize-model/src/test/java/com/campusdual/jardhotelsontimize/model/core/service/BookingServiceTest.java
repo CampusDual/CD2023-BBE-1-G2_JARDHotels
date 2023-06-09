@@ -54,7 +54,7 @@ public class BookingServiceTest {
             when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = bookingService.bookingQuery(bookingToQuery, new ArrayList<>());
             assertEquals(0, result.getCode());
-            assertEquals("The booking has been found", result.getMessage());
+            assertEquals("", result.getMessage());
             verify(daoHelper, times(1)).query(any(BookingDao.class), anyMap(), anyList());
         }
 
@@ -117,8 +117,8 @@ public class BookingServiceTest {
             er2.put("price", List.of(BigDecimal.valueOf(650)));
             Map<String, Object> bookingToUpdate = new HashMap<>();
             bookingToUpdate.put("room", 1);
-            bookingToUpdate.put("checkindate", "2023-06-03");
-            bookingToUpdate.put("checkoutdate", "2023-06-06");
+            bookingToUpdate.put("arrivaldate", "2023-06-03");
+            bookingToUpdate.put("departuredate", "2023-06-06");
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);
             when(daoHelper.update(any(BookingDao.class), anyMap(), anyMap())).thenReturn(er);
@@ -140,7 +140,7 @@ public class BookingServiceTest {
             er.setMessage("");
             er.put("id", 1);
             er.put("totalprice", List.of(new BigDecimal(650.5)));
-            er.put("checkindate", List.of("2025-06-06"));
+            er.put("arrivaldate", List.of("2025-06-06"));
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);
             when(daoHelper.delete(any(BookingDao.class), anyMap())).thenReturn(er);

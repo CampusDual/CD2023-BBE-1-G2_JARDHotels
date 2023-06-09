@@ -48,7 +48,7 @@ public class RoomRestControllerTest {
 
         EntityResult entityResult = new EntityResultMapImpl();
         entityResult.setCode(0);
-        entityResult.setMessage("The room has been found");
+        entityResult.setMessage("");
         when(roomService.roomQuery(anyMap(), anyList())).thenReturn(entityResult);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/rooms/filter").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(requestBody))).andReturn();

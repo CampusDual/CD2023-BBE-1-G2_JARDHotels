@@ -26,9 +26,10 @@ public class GuestService implements IGuestService {
     @Override
     public EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.guestDao, keyMap, attrList);
-        if (result.toString().contains("id")) result.setMessage("The guest has been found");
+        if (result.toString().contains("id")) result.setMessage("");
         else {
             result.setMessage("The guest doesn't exist");
+            result.setCode(EntityResult.OPERATION_WRONG);
             result.setColumnSQLTypes(new HashMap());
         }
         return result;
@@ -44,8 +45,10 @@ public class GuestService implements IGuestService {
             result = this.daoHelper.insert(this.guestDao, attrMap);
             result.setMessage("Successful guest insertion");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            if (e.getMessage().contains("verify_documentation_spain()")) {
+            result.setCode(EntityResult.OPERATION_WRONG);
+            if (e.getMessage().contains("null value")) {
+                result.setMessage("All attributes must be filled");
+            } else if (e.getMessage().contains("verify_documentation_spain()")) {
                 if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
                     result.setMessage("The spanish DNI must have 9 characters");
                 else if (e.getMessage().contains(("The 8 first characters of a spanish DNI must be numbers")))
@@ -92,8 +95,13 @@ public class GuestService implements IGuestService {
                 result.setColumnSQLTypes(new HashMap());
             } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
                 result.setMessage("The country doesn't exist");
-            } else if (e.getMessage().contains("Invalid email format"))
+            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_phonecountry_fkey\"")) {
+                    result.setMessage("The phone country doesn't exist");
+            } else if (e.getMessage().contains("Invalid email format")) {
                 result.setMessage("Invalid email format");
+            } else {
+                result.setMessage(e.getMessage());
+            }
         }
         return result;
     }
@@ -109,7 +117,7 @@ public class GuestService implements IGuestService {
             result = this.daoHelper.update(this.guestDao, attrMap, keyMap);
             result.setMessage("Successful guest update");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            result.setCode(EntityResult.OPERATION_WRONG);
             if (e.getMessage().contains("verify_documentation_spain()")) {
                 if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
                     result.setMessage("The spanish DNI must have 9 characters");
@@ -157,8 +165,13 @@ public class GuestService implements IGuestService {
                 result.setColumnSQLTypes(new HashMap());
             } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
                 result.setMessage("The country doesn't exist");
-            } else if (e.getMessage().contains("Invalid email format"))
+            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_phonecountry_fkey\"")) {
+                result.setMessage("The phone country doesn't exist");
+            } else if (e.getMessage().contains("Invalid email format")) {
                 result.setMessage("Invalid email format");
+            } else {
+                result.setMessage(e.getMessage());
+            }
         }
         return result;
 
@@ -175,7 +188,8 @@ public class GuestService implements IGuestService {
         if (query.toString().contains("id")) result.setMessage("Successful guest delete");
         else {
             result.setMessage("Guest not found");
-            result.setColumnSQLTypes(new HashMap());
+            result.setCode(EntityResult.OPERATION_WRONG);
+            result.setColumnSQLTypes(new HashMap<>());
         }
 
         return result;

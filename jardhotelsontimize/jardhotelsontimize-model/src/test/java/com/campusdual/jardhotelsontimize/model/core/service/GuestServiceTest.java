@@ -47,7 +47,7 @@ public class GuestServiceTest {
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = guestService.guestQuery(guestToQuery, new ArrayList<>());
             assertEquals(0, result.getCode());
-            assertEquals("The guest has been found", result.getMessage());
+            assertEquals("", result.getMessage());
             verify(daoHelper, times(1)).query(any(GuestDao.class), anyMap(), anyList());
         }
 

@@ -46,7 +46,7 @@ public class RoomServiceTest {
             when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomQuery(roomToQuery, new ArrayList<>());
             assertEquals(0, result.getCode());
-            assertEquals("The room has been found", result.getMessage());
+            assertEquals("", result.getMessage());
             verify(daoHelper, times(1)).query(any(RoomDao.class), anyMap(), anyList());
         }
 

@@ -1,15 +1,14 @@
 package com.campusdual.jardhotelsontimize.model.core.service;
 
-import com.campusdual.jardhotelsontimize.api.core.exceptions.HotelNotFound;
 import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
 import com.campusdual.jardhotelsontimize.model.core.dao.RoomDao;
 import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.Keymap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +30,10 @@ public class RoomService implements IRoomService {
         EntityResult result = this.daoHelper.query(this.roomDao, keyMap, attrList);
 
         if (result.toString().contains("id") || result.toString().contains("ID"))
-            result.setMessage("The room has been found");
+            result.setMessage("");
         else {
             result.setMessage("The room doesn't exist");
+            result.setCode(EntityResult.OPERATION_WRONG);
             result.setColumnSQLTypes(new HashMap());
         }
         return result;
@@ -48,7 +48,12 @@ public class RoomService implements IRoomService {
             result = this.daoHelper.insert(this.roomDao, attrMap);
             result.setMessage("Successful room insertion");
         } catch (Exception e) {
-            if (e.getMessage().contains("room_hotel_fkey"))
+            result = new EntityResultMapImpl();
+            result.setCode(EntityResult.OPERATION_WRONG);
+
+            if (e.getMessage().contains("null value")) {
+                result.setMessage("All attributes must be filled");
+            } else if (e.getMessage().contains("room_hotel_fkey"))
                 result.setMessage("Hotel not found");
             else if (e.getMessage().contains("Repeated number in hotel"))
                 result.setMessage("Repeated number in hotel");
@@ -69,19 +74,26 @@ public class RoomService implements IRoomService {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult result = roomQuery(keyMap, attrList);
-        if (result.getMessage().contains("The room doesn't exist"))
+        if (result.getMessage().contains("The room doesn't exist")) {
+            result.setCode(EntityResult.OPERATION_WRONG);
             return result;
+        }
         try {
             result = this.daoHelper.update(this.roomDao, attrMap, keyMap);
             result.setMessage("Successful room update");
         } catch (Exception e) {
+            result.setCode(EntityResult.OPERATION_WRONG);
             if (e.getMessage().contains("Change the hotel of a room is not allowed"))
                 result.setMessage("Change the hotel of a room is not allowed");
             else if (e.getMessage().contains("Number must be over zero"))
                 result.setMessage("Number must be over zero");
             else if (e.getMessage().contains("Repeated number in hotel"))
                 result.setMessage("Repeated number in hotel");
-            else result.setMessage("Capacity must be over zero");
+            else if (e.getMessage().contains("Capacity must be over zero"))
+                result.setMessage("Capacity must be over zero");
+            else if (e.getMessage().contains("The price must be greater than 0"))
+                result.setMessage("The price must be greater than 0");
+            else result.setMessage(e.getMessage());
 
             result.setColumnSQLTypes(new HashMap());
         }
@@ -101,8 +113,10 @@ public class RoomService implements IRoomService {
 
         if (query.toString().contains("id"))
             result.setMessage("Successful room delete");
-        else
+        else {
             result.setMessage("Room not found");
+            result.setCode(EntityResult.OPERATION_WRONG);
+        }
 
         return result;
     }

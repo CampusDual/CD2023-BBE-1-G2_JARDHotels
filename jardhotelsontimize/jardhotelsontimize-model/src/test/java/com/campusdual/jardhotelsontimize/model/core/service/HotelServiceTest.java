@@ -47,7 +47,7 @@ public class HotelServiceTest {
             when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = hotelService.hotelQuery(hotelToQuery, new ArrayList<>());
             assertEquals(0, result.getCode());
-            assertEquals("The hotel has been found", result.getMessage());
+            assertEquals("", result.getMessage());
             verify(daoHelper, times(1)).query(any(HotelDao.class), anyMap(), anyList());
         }
 

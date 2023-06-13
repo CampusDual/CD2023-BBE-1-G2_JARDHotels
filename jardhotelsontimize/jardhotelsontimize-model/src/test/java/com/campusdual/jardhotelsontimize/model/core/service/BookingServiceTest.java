@@ -1,7 +1,6 @@
 package com.campusdual.jardhotelsontimize.model.core.service;
 
 import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
-import com.campusdual.jardhotelsontimize.model.core.dao.RoomDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
@@ -21,8 +20,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.*;
 
 
@@ -43,9 +40,9 @@ public class BookingServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class BookingServiceQuery {
+    class BookingServiceQuery {
         @Test
-        public void bookingQueryTest() {
+        void bookingQueryTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
@@ -59,14 +56,14 @@ public class BookingServiceTest {
         }
 
         @Test
-        public void bookingQueryTestNotFound() {
+        void bookingQueryTestNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             Map<String, Object> bookingToQuery = new HashMap<>();
             bookingToQuery.put("id", 1);
             when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = bookingService.bookingQuery(bookingToQuery, new ArrayList<>());
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             assertEquals("The booking doesn't exist", result.getMessage());
             verify(daoHelper, times(1)).query(any(BookingDao.class), anyMap(), anyList());
         }
@@ -74,14 +71,18 @@ public class BookingServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class BookingServiceInsert {
+    class BookingServiceInsert {
         @Test
-        public void bookingInsertTest() {
+        void bookingInsertTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
             Map<String, Object> bookingToInsert = new HashMap<>();
             bookingToInsert.put("id", 1);
+            bookingToInsert.put("room", 1);
+            EntityResult res = new EntityResultMapImpl();
+            res.put("price", 100);
+            when(roomService.roomQuery(any(), anyList())).thenReturn(res);
             when(daoHelper.insert(any(BookingDao.class), anyMap())).thenReturn(er);
             EntityResult result = bookingService.bookingInsert(bookingToInsert);
             assertEquals(0, result.getCode());
@@ -90,15 +91,19 @@ public class BookingServiceTest {
         }
 
         @Test
-        public void bookingInsertTestFail() {
+        void bookingInsertTestFail() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.put("id", 1);
             Map<String, Object> bookingToInsert = new HashMap<>();
             bookingToInsert.put("id", 1);
+            bookingToInsert.put("room", 1);
+            EntityResult res = new EntityResultMapImpl();
+            res.put("price", 100);
+            when(roomService.roomQuery(any(), anyList())).thenReturn(res);
             when(daoHelper.insert(any(BookingDao.class), anyMap())).thenThrow(new RuntimeException(""));
             EntityResult result = bookingService.bookingInsert(bookingToInsert);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).insert(any(BookingDao.class), anyMap());
             assertNotEquals("Successful booking insertion", result.getMessage());
         }
@@ -106,9 +111,9 @@ public class BookingServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class BookingServiceUpdate {
+    class BookingServiceUpdate {
         @Test
-        public void bookingUpdateTest() {
+        void bookingUpdateTest() {
             EntityResult er = new EntityResultMapImpl();
             EntityResult er2 = new EntityResultMapImpl();
             er.setCode(0);
@@ -132,14 +137,14 @@ public class BookingServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class BookingServiceDelete {
+    class BookingServiceDelete {
         @Test
-        public void bookingDeleteTest() {
+        void bookingDeleteTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
             er.put("id", 1);
-            er.put("totalprice", List.of(new BigDecimal(650.5)));
+            er.put("totalprice", List.of(new BigDecimal("650.5")));
             er.put("arrivaldate", List.of("2025-06-06"));
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);
@@ -152,16 +157,16 @@ public class BookingServiceTest {
         }
 
         @Test
-        public void bookingDeleteTestBookingNotFound() {
+        void bookingDeleteTestBookingNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.setMessage("");
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);
             when(daoHelper.delete(any(BookingDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = bookingService.bookingDelete(bookingKey);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).delete(any(BookingDao.class), anyMap());
             assertEquals("Booking not found", result.getMessage());
         }

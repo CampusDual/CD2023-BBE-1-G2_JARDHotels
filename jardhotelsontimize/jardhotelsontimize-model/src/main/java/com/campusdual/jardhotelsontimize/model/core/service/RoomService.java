@@ -34,7 +34,7 @@ public class RoomService implements IRoomService {
         else {
             result.setMessage("The room doesn't exist");
             result.setCode(EntityResult.OPERATION_WRONG);
-            result.setColumnSQLTypes(new HashMap());
+            result.setColumnSQLTypes(new HashMap<>());
         }
         return result;
     }
@@ -95,7 +95,7 @@ public class RoomService implements IRoomService {
                 result.setMessage("The price must be greater than 0");
             else result.setMessage(e.getMessage());
 
-            result.setColumnSQLTypes(new HashMap());
+            result.setColumnSQLTypes(new HashMap<>());
         }
 
         return result;

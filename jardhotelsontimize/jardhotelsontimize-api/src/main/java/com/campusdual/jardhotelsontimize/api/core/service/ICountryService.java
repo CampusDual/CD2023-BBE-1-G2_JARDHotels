@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface ICountryService {
 
-    public EntityResult countryQuery(Map<String, Object> keyMap, List<String> attrList);
+    EntityResult countryQuery(Map<String, Object> keyMap, List<String> attrList);
 }

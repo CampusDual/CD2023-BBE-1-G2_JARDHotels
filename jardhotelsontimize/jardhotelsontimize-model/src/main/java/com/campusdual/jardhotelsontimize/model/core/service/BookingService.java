@@ -57,7 +57,7 @@ public class BookingService implements IBookingService {
 
         if(roomQuery.toString().contains("price")){
             if (!attrMap.containsKey("totalprice") && attrMap.containsKey("arrivaldate") && attrMap.containsKey("departuredate")) {
-                Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
                 attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
             }
         }
@@ -80,8 +80,8 @@ public class BookingService implements IBookingService {
                 result.setMessage("The total price can't be lower than 0");
             } else if (e.getMessage().contains("booking_room_fkey")) {
                 result.setMessage("Room not found");
-            } else if (e.getMessage().contains("booking_guest_fkey")) {
-                result.setMessage("Guest not found");
+            } else if (e.getMessage().contains("booking_person_fkey")) {
+                result.setMessage("Person not found");
             } else if(!roomQuery.contains("price")) {
                 result.setMessage("Room not found");
             } else {
@@ -109,7 +109,7 @@ public class BookingService implements IBookingService {
 
         if(roomQuery.toString().contains("price")){
             if (!attrMap.containsKey("totalprice")) {
-                Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
                 attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
             }
         }
@@ -133,8 +133,8 @@ public class BookingService implements IBookingService {
                 result.setMessage("The date range overlaps with the dates of an existing booking");
             } else if (e.getMessage().contains("The total price can't be lower than 0")) {
                 result.setMessage("The total price can't be lower than 0");
-            } else if (e.getMessage().contains("Changing the guest is not allowed")){
-                result.setMessage("Changing the guest is not allowed");
+            } else if (e.getMessage().contains("Changing the person is not allowed")){
+                result.setMessage("Changing the person is not allowed");
             } else if(e.getMessage().contains("Changing the room to a different hotel is not allowed")){
                 result.setMessage("Changing the room to a different hotel is not allowed");
             } else if (e.getMessage().contains("booking_room_fkey")) {
@@ -179,7 +179,7 @@ public class BookingService implements IBookingService {
 
         if (query.toString().contains("id")) {
             result.setMessage("Successful booking delete");
-            Double price = Double.parseDouble(((List<BigDecimal>) query.get("totalprice")).get(0).toString());
+            double price = Double.parseDouble(((List<BigDecimal>) query.get("totalprice")).get(0).toString());
             result.put("refund", calculateRefund(price, query.get("arrivaldate").toString()));
         } else {
             result.setMessage("Booking not found");

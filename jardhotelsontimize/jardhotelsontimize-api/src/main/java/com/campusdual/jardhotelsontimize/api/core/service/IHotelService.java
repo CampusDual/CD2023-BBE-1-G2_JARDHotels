@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface IHotelService {
 
-    public EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList);
-    public EntityResult hotelInsert(Map<String, Object> attrMap);
-    public EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap);
-    public EntityResult hotelDelete(Map<String, Object> keyMap);
+    EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList);
+    EntityResult hotelInsert(Map<String, Object> attrMap);
+    EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap);
+    EntityResult hotelDelete(Map<String, Object> keyMap);
 }

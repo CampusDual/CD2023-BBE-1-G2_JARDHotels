@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface IRoomService {
 
-    public EntityResult roomQuery(Map<String, Object> keyMap, List<String> attrList);
-    public EntityResult roomInsert(Map<String, Object> attrMap);
-    public EntityResult roomUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap);
-    public EntityResult roomDelete(Map<String, Object> keyMap);
+    EntityResult roomQuery(Map<String, Object> keyMap, List<String> attrList);
+    EntityResult roomInsert(Map<String, Object> attrMap);
+    EntityResult roomUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap);
+    EntityResult roomDelete(Map<String, Object> keyMap);
 }

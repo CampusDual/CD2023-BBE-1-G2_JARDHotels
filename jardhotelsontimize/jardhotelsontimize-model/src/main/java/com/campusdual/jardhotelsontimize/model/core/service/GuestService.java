@@ -32,30 +32,25 @@ public class GuestService implements IGuestService {
 
         List<String> attrList2 = new ArrayList<>();
         attrList2.add("id");
-        EntityResult resultGuest = this.daoHelper.query(this.guestDao, keyMap, attrList2);
-        if (!resultGuest.toString().contains("id")) {
-            resultGuest.setCode(EntityResult.OPERATION_WRONG);
-            resultGuest.setMessage("The guest doesn't exist");
-            return resultGuest;
+        EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList2);
+        if (!erGuest.toString().contains("id")) {
+            erGuest.setCode(EntityResult.OPERATION_WRONG);
+            erGuest.setMessage("The guest doesn't exist");
+            return erGuest;
         }
 
-        List<Integer> ids = (List<Integer>) resultGuest.get("id");
-        List<List<Object>> listList = new ArrayList<>();
-        for (String s : attrList) {
-            listList.add(new ArrayList<>());
-        }
-        for (int id : ids) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            EntityResult res = this.personService.personQuery(map, attrList);
-            for (int i = 0; i < attrList.size(); i++) {
-                List<Object> l = (List<Object>) res.get(attrList.get(i));
-                listList.get(i).add(l.get(0));
-            }
-        }
+        EntityResult erPerson = this.personService.personQuery(keyMap, attrList);
         EntityResult er = new EntityResultMapImpl();
-        for (int i = 0; i < attrList.size(); i++) {
-            er.put(attrList.get(i), listList.get(i));
+
+        for (int i = 0; i < ((List<Integer>) erPerson.get("id")).size(); i++) {
+            if (((List<Integer>) erGuest.get("id")).contains(((List<Integer>) erPerson.get("id")).get(i))) {
+
+                Map<String, Object> m = new HashMap<>();
+                for (String s : attrList) {
+                    m.put(s, ((List<Object>) erPerson.get(s)).get(i));
+                }
+                er.addRecord(m);
+            }
         }
 
         return er;

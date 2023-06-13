@@ -79,11 +79,21 @@ public class GuestService implements IGuestService {
     @Override
     public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) { // TODO
 
-        EntityResult result = personService.personUpdate(attrMap, keyMap);
-        if (result.getCode() == 0) {
-            result.setMessage("Successful guest update");
+        List<String> attrList = new ArrayList<>();
+        attrList.add("id");
+        EntityResult erGuest = guestQuery(keyMap, attrList);
+        if (erGuest.toString().contains("id")) {
+            EntityResult erPerson = personService.personUpdate(attrMap, keyMap);
+            if (erPerson.getCode() == 0) {
+                erPerson.setMessage("Successful guest update");
+            }
+            return erPerson;
         }
-        return result;
+
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+        error.setMessage("Guest not found");
+        return error;
     }
 
     @Override

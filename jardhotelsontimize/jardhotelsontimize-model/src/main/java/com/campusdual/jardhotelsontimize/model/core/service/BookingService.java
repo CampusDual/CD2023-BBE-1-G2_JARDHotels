@@ -80,8 +80,8 @@ public class BookingService implements IBookingService {
                 result.setMessage("The total price can't be lower than 0");
             } else if (e.getMessage().contains("booking_room_fkey")) {
                 result.setMessage("Room not found");
-            } else if (e.getMessage().contains("booking_person_fkey")) {
-                result.setMessage("Person not found");
+            } else if (e.getMessage().contains("booking_guest_fkey")) {
+                result.setMessage("Guest not found");
             } else if(!roomQuery.contains("price")) {
                 result.setMessage("Room not found");
             } else {
@@ -133,8 +133,8 @@ public class BookingService implements IBookingService {
                 result.setMessage("The date range overlaps with the dates of an existing booking");
             } else if (e.getMessage().contains("The total price can't be lower than 0")) {
                 result.setMessage("The total price can't be lower than 0");
-            } else if (e.getMessage().contains("Changing the person is not allowed")){
-                result.setMessage("Changing the person is not allowed");
+            } else if (e.getMessage().contains("Changing the guest is not allowed")){
+                result.setMessage("Changing the guest is not allowed");
             } else if(e.getMessage().contains("Changing the room to a different hotel is not allowed")){
                 result.setMessage("Changing the room to a different hotel is not allowed");
             } else if (e.getMessage().contains("booking_room_fkey")) {

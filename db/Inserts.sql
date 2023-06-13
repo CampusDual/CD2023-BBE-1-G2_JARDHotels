@@ -40,7 +40,7 @@ INSERT INTO room (number, capacity, description, hotel, price) VALUES
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5, 200);
    
 
-INSERT INTO guest (name, surname, phone, email, documentation, country, phonecountry) VALUES
+INSERT INTO person (name, surname, phone, email, documentation, country, phonecountry) VALUES
     ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1,1),
     ('María', 'Rodríguez', '+4916012345', 'mariarodriguez@example.com', 'XY9876543', 5,5),
     ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2,2),
@@ -51,17 +51,29 @@ INSERT INTO guest (name, surname, phone, email, documentation, country, phonecou
     ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1,1),
     ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8,8),
     ('Ana', 'Jiménez', '+447876543210', 'anajimenez@example.com', 'G12345678', 3,3);
+   
+INSERT INTO guest (id) VALUES
+   (2),
+   (3),
+   (4),
+   (5),
+   (6),
+   (7),
+   (8),
+   (9),
+   (10);
 
 INSERT INTO booking (room, guest, arrivaldate, departuredate)
 VALUES
-    (1, 2, '2024-05-01', '2024-05-05'),
     (3, 5, '2024-06-10', '2024-06-15'),
     (2, 6, '2024-07-20', '2024-07-25'),
-    (4, 1, '2024-09-03', '2024-09-06'),
     (5, 4, '2024-10-15', '2024-10-20'),
     (7, 10, '2024-11-25', '2024-11-30'),
     (8, 9, '2025-02-05', '2025-02-10'),
     (6, 3, '2025-03-15', '2025-03-20'),
     (10, 7, '2025-05-01', '2025-05-05'),
     (9, 8, '2025-06-10', '2025-06-15');
+   
+   --(1, 2, '2024-05-01', '2024-05-05'),
+   --(4, 1, '2024-09-03', '2024-09-06'),
 

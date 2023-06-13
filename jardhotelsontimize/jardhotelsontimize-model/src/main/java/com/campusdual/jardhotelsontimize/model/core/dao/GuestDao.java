@@ -9,13 +9,6 @@ import org.springframework.stereotype.Repository;
 @Lazy
 @ConfigurationFile(configurationFile = "dao/GuestDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
 public class GuestDao extends OntimizeJdbcDaoSupport {
-    public static final String ATTR_ID = "id";
-    public static final String ATTR_NAME = "name";
-    public static final String ATTR_SURNAME = "surname";
-    public static final String ATTR_PHONE = "phone";
-    public static final String ATTR_EMAIL = "email";
-    public static final String ATTR_DOCUMENTATION = "documentation";
-    public static final String ATTR_COUNTRY = "country";
-    public static final String ATTR_PHONECOUNTRY = "phonecountry";
 
+    public static final String ATTR_ID = "id";
 }

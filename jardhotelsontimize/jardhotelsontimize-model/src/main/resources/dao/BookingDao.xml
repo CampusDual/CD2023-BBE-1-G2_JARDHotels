@@ -17,7 +17,7 @@
             <ValidColumns>
                 <Column>id</Column>
                 <Column>room</Column>
-                <Column>person</Column>
+                <Column>guest</Column>
                 <Column>arrivaldate</Column>
                 <Column>departuredate</Column>
                 <Column>totalprice</Column>

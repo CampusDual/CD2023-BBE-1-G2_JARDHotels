@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS booking;
 DROP TABLE IF EXISTS guest;
+DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS hotel;
 DROP TABLE IF EXISTS country;
@@ -83,9 +84,8 @@ EXECUTE FUNCTION check_hotel_from_room();
 
 
  /*************************************************/
-/******************Tabla huésped******************/
-
-CREATE TABLE IF NOT EXISTS guest (
+/******************Tabla persona******************/
+CREATE TABLE IF NOT EXISTS person (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	surname VARCHAR(250) NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS guest (
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE,
 	
-	CONSTRAINT "Repeated documentation in another guest" 
+	CONSTRAINT "Repeated documentation in another person" 
 		UNIQUE (documentation),
 	
 	CONSTRAINT "Invalid email format" 
@@ -158,13 +158,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_verify_phone_spain
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 1) --Id de España debe ser 1
 EXECUTE FUNCTION verify_phone_spain();
 
 CREATE TRIGGER trigger_verify_documentation_spain
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 1) --Id de España debe ser 1
 EXECUTE FUNCTION verify_documentation_spain();
@@ -196,13 +196,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_verify_phone_united_states
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 2) --Id de EEUU debe ser 2
 EXECUTE FUNCTION verify_phone_united_states();
 
 CREATE TRIGGER trigger_verify_documentation_united_states
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 2) --Id de EEUU debe ser 2
 EXECUTE FUNCTION verify_documentation_united_states();
@@ -235,13 +235,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_verify_phone_united_kingdom
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 3) --Id de UK debe ser 3
 EXECUTE FUNCTION verify_phone_united_kingdom();
 
 CREATE TRIGGER trigger_verify_documentation_united_kingdom
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 3) --Id de UK debe ser 3
 EXECUTE FUNCTION verify_documentation_united_kingdom();
@@ -272,13 +272,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_verify_phone_france
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 4) --Id de Francia debe ser 4
 EXECUTE FUNCTION verify_phone_france();
 
 CREATE TRIGGER trigger_verify_documentation_france
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 4) --Id de Francia debe ser 4
 EXECUTE FUNCTION verify_documentation_france();
@@ -310,13 +310,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_verify_phone_germany
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 5) --Id de Alemania debe ser 5
 EXECUTE FUNCTION verify_phone_germany();
 
 CREATE TRIGGER trigger_verify_documentation_germany
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 5) --Id de Alemania debe ser 5
 EXECUTE FUNCTION verify_documentation_germany();
@@ -347,13 +347,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_verify_phone_portugal
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 6) --Id de Portugal debe ser 6
 EXECUTE FUNCTION verify_phone_portugal();
 
 CREATE TRIGGER trigger_verify_documentation_portugal
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 6) --Id de Portugal debe ser 6
 EXECUTE FUNCTION verify_documentation_portugal();
@@ -387,16 +387,26 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER trigger_verify_phone_china
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.phonecountry = 7) --Id de China debe ser 7
 EXECUTE FUNCTION verify_phone_china();
 
 CREATE TRIGGER trigger_verify_documentation_china
-BEFORE INSERT OR UPDATE ON guest
+BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 7) --Id de China debe ser 7
 EXECUTE FUNCTION verify_documentation_china();
+
+ /*************************************************/
+/******************Tabla huesped******************/
+
+CREATE TABLE IF NOT EXISTS guest (
+	id INTEGER PRIMARY KEY,
+	FOREIGN KEY(id) REFERENCES person(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
 
  /*************************************************/
 /******************Tabla reserva******************/

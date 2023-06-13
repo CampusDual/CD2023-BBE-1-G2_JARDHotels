@@ -77,7 +77,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) { // TODO
+    public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();
         attrList.add("id");

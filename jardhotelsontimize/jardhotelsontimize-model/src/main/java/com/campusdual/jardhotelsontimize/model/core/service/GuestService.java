@@ -77,7 +77,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
+    public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) { // TODO
 
         EntityResult result = personService.personUpdate(attrMap, keyMap);
         if (result.getCode() == 0) {
@@ -89,10 +89,20 @@ public class GuestService implements IGuestService {
     @Override
     public EntityResult guestDelete(Map<String, Object> keyMap) {
 
-        EntityResult result = personService.personDelete(keyMap);
-        if (result.getCode() == 0) {
-            result.setMessage("Successful guest delete");
+        List<String> attrList = new ArrayList<>();
+        attrList.add("id");
+        EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList);
+        if (erGuest.toString().contains("id")) {
+                EntityResult erPerson = personService.personDelete(keyMap);
+            if (erPerson.getCode() == 0) {
+                erPerson.setMessage("Successful guest delete");
+            }
+            return erPerson;
         }
-        return result;
+
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+        error.setMessage("Guest not found");
+        return error;
     }
 }

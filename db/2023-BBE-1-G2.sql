@@ -1,5 +1,8 @@
 DROP TABLE IF EXISTS booking;
 DROP TABLE IF EXISTS guest;
+DROP TABLE IF EXISTS staff;
+DROP TABLE IF EXISTS job;
+DROP TABLE IF EXISTS bankaccountformat; 
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS hotel;
@@ -406,6 +409,41 @@ CREATE TABLE IF NOT EXISTS guest (
 	FOREIGN KEY(id) REFERENCES person(id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
+);
+/*****************************************************************/
+/******************Tabla formato cuenta bancaria******************/
+CREATE TABLE IF NOT EXISTS bankaccountformat(
+	id SERIAL PRIMARY KEY,
+	format VARCHAR(20) NOT NULL
+);
+/*************************************************/
+/******************Tabla puestos******************/
+
+CREATE TABLE IF NOT exists job(
+	id SERIAL PRIMARY KEY,
+	job VARCHAR(40) NOT NULL
+);
+
+
+/**************************************************/
+/******************Tabla personal******************/
+
+CREATE TABLE IF NOT EXISTS staff (
+	id INTEGER PRIMARY KEY,
+	bankaccount VARCHAR(50) NOT NULL,
+	bankaccountformat INTEGER NOT NULL,
+	salary DECIMAL(8,2) NOT NULL,
+	job INTEGER NOT NULL,
+	FOREIGN KEY(id) REFERENCES person(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY(bankaccountformat) REFERENCES bankaccountformat(id)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
+	FOREIGN KEY(job) REFERENCES job(id)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE
+	
 );
 
  /*************************************************/

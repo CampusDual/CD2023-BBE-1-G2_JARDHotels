@@ -55,25 +55,47 @@ INSERT INTO person (name, surname, phone, email, documentation, country, phoneco
 INSERT INTO guest (id) VALUES
    (2),
    (3),
-   (4),
    (5),
    (6),
-   (7),
    (8),
-   (9),
    (10);
 
+INSERT INTO job (job) VALUES 
+ ('cleaning service'),
+ ('bellhop'),
+ ('recepcionist'),
+ ('cooker'),
+ ('waiter'),
+ ('lifeguard'),
+ ('masseuse'),
+ ('room service'),
+ ('maintenance'),
+ ('hotel manager');
+ 
+INSERT INTO bankaccountformat (format) VALUES 
+('IBAN'),
+('CCC'),
+('Sort Code'),
+('ABA'),
+('Other');
+
+INSERT INTO staff (id, bankaccount, bankaccountformat, salary, job)
+VALUES (1, '12345678901234567890', 1, 2500.00, 1),
+       (4, '45678901234567890123', 1, 3200.00, 4),
+       (6, '67890123456789012345', 2, 2600.00, 6),
+       (7, '78901234567890123456', 3, 2900.00, 7),
+       (8, '89012345678901234567', 5, 3100.00, 8),
+       (9, '90123456789012345678', 4, 2700.00, 9),
+       (10, '01234567890123456789', 1, 3500.00, 10);
+ 
 INSERT INTO booking (room, guest, arrivaldate, departuredate)
 VALUES
     (3, 5, '2024-06-10', '2024-06-15'),
     (2, 6, '2024-07-20', '2024-07-25'),
-    (5, 4, '2024-10-15', '2024-10-20'),
     (7, 10, '2024-11-25', '2024-11-30'),
-    (8, 9, '2025-02-05', '2025-02-10'),
     (6, 3, '2025-03-15', '2025-03-20'),
-    (10, 7, '2025-05-01', '2025-05-05'),
     (9, 8, '2025-06-10', '2025-06-15');
-   
+  
    --(1, 2, '2024-05-01', '2024-05-05'),
    --(4, 1, '2024-09-03', '2024-09-06'),
 

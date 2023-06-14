@@ -59,6 +59,32 @@ public class GuestService implements IGuestService {
     @Override
     public EntityResult guestInsert(Map<String, Object> attrMap) {
 
+        if(attrMap.get("id") != null){
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", attrMap.get("id"));
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+            EntityResult resultId = personService.personQuery(map, attrList);
+            if (resultId.getCode()==0){
+                EntityResult queryGuest = guestQuery(map,attrList);
+                if (queryGuest.getCode()==1){
+                    EntityResult result = this.daoHelper.insert(this.guestDao, map);
+                    result.setMessage("Successful guest insert");
+                    return result;
+                }else {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("Repeated Guest");
+                    return error;
+                }
+
+            }else {
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("Person not found");
+                return error;
+            }
+        }
         EntityResult result = personService.personInsert(attrMap);
         if (result.getCode() == 0) {
             Map<String, Object> map = new HashMap<>();

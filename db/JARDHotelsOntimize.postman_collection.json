@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "90e6c65a-076a-4dd0-8738-6c07e26ccc06",
+		"_postman_id": "0ba7c0aa-25dc-4d80-946b-19c96c6c615b",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -636,6 +636,38 @@
 					"response": []
 				},
 				{
+					"name": "Add2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n    \"id\":2\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/guests/guest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"guests",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Update",
 					"request": {
 						"auth": {
@@ -981,6 +1013,141 @@
 			]
 		},
 		{
+			"name": "Staff",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"1231345456\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2695.12,\r\n    \"job\":4\r\n\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/staffs/staff",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"staffs",
+								"staff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\"data\": {\r\n    \"id\":2,\r\n    \"bankaccount\": \"1321546442134654\",\r\n    \"bankaccountformat\": 1,\r\n    \"salary\":2500.00,\r\n    \"job\":1\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/staffs/staff",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"staffs",
+								"staff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\",\"bankaccount\",\"bankaccountformat\",\"salary\",\"job\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/staffs/staff/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"staffs",
+								"staff",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/staffs/staff?columns=id,name,surname,phone,email,documentation,country,phonecountry,bankaccount,bankaccountformat,salary,job",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"staffs",
+								"staff"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,name,surname,phone,email,documentation,country,phonecountry,bankaccount,bankaccountformat,salary,job"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Country",
 			"item": [
 				{
@@ -1051,6 +1218,128 @@
 								{
 									"key": "columns",
 									"value": "id,country,coin"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Job",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 65\r\n    },\r\n     \"columns\": [\"id\",\"job\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/jobs/job/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"jobs",
+								"job",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/jobs/job?columns=id,job",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"jobs",
+								"job"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,job"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BankAccount",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"format\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/bankaccounts/bankaccount/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bankaccounts",
+								"bankaccount",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:65431/bankaccounts/bankaccount?columns=id,format",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"bankaccounts",
+								"bankaccount"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "id,format"
 								}
 							]
 						}

@@ -36,6 +36,7 @@ public class GuestService implements IGuestService {
         List<String> attrList2 = new ArrayList<>();
         attrList2.add("id");
         EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList2);
+
         if (!erGuest.toString().contains("id")) {
             erGuest.setCode(EntityResult.OPERATION_WRONG);
             erGuest.setMessage("The guest doesn't exist");

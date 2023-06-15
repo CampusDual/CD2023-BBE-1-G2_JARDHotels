@@ -25,6 +25,9 @@ public class GuestService implements IGuestService {
     private GuestDao guestDao;
 
     @Autowired
+    private StaffService staffService;
+
+    @Autowired
     private PersonService personService;
 
     @Override
@@ -59,26 +62,26 @@ public class GuestService implements IGuestService {
     @Override
     public EntityResult guestInsert(Map<String, Object> attrMap) {
 
-        if(attrMap.get("id") != null){
+        if (attrMap.get("id") != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", attrMap.get("id"));
             List<String> attrList = new ArrayList<>();
             attrList.add("id");
             EntityResult resultId = personService.personQuery(map, attrList);
-            if (resultId.getCode()==0){
-                EntityResult queryGuest = guestQuery(map,attrList);
-                if (queryGuest.getCode()==1){
+            if (resultId.getCode() == 0) {
+                EntityResult queryGuest = guestQuery(map, attrList);
+                if (queryGuest.getCode() == 1) {
                     EntityResult result = this.daoHelper.insert(this.guestDao, map);
                     result.setMessage("Successful guest insert");
                     return result;
-                }else {
+                } else {
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
                     error.setMessage("Repeated Guest");
                     return error;
                 }
 
-            }else {
+            } else {
                 EntityResult error = new EntityResultMapImpl();
                 error.setCode(EntityResult.OPERATION_WRONG);
                 error.setMessage("Person not found");
@@ -129,7 +132,13 @@ public class GuestService implements IGuestService {
         attrList.add("id");
         EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList);
         if (erGuest.toString().contains("id")) {
-                EntityResult erPerson = personService.personDelete(keyMap);
+            EntityResult erStaff = staffService.staffQuery(keyMap, attrList);
+            if (erStaff.toString().contains("id")) {
+                EntityResult deleteGuest = this.daoHelper.delete(this.guestDao, keyMap);
+                deleteGuest.setMessage("Successful guest delete");
+                return deleteGuest;
+            }
+            EntityResult erPerson = personService.personDelete(keyMap);
             if (erPerson.getCode() == 0) {
                 erPerson.setMessage("Successful guest delete");
             }

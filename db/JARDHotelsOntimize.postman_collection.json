@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0ba7c0aa-25dc-4d80-946b-19c96c6c615b",
+		"_postman_id": "6fcdb426-b29e-4ef6-b987-8ea1cafc44ee",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1077,7 +1077,28 @@
 					"name": "Update",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 4\r\n    },\r\n    \"data\": {\r\n        \"country\": 100,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"45678901234567890123\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 4,\r\n        \"email\": \"carmengarcia@example.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/staffs/staff",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"staffs",
+								"staff"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1088,7 +1109,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\",\"bankaccount\",\"bankaccountformat\",\"salary\",\"job\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\",\"bankaccount\",\"bankaccountformat\",\"salary\",\"job\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1141,7 +1162,10 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				}

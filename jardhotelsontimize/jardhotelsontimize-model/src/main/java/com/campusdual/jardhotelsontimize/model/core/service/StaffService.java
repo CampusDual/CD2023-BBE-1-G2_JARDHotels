@@ -1,8 +1,6 @@
 package com.campusdual.jardhotelsontimize.model.core.service;
 
-import com.campusdual.jardhotelsontimize.api.core.service.IGuestService;
 import com.campusdual.jardhotelsontimize.api.core.service.IStaffService;
-import com.campusdual.jardhotelsontimize.model.core.dao.GuestDao;
 import com.campusdual.jardhotelsontimize.model.core.dao.StaffDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
@@ -29,6 +27,12 @@ public class StaffService implements IStaffService {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private JobService jobService;
+
+    @Autowired
+    private BankAccountService bankAccountService;
+
     @Override
     public EntityResult staffQuery(Map<String, Object> keyMap, List<String> attrList) {
 
@@ -52,9 +56,11 @@ public class StaffService implements IStaffService {
         }
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList2);
         if (!erStaff.toString().contains("id")) {
-            erStaff.setCode(EntityResult.OPERATION_WRONG);
-            erStaff.setMessage("The staff member doesn't exist");
-            return erStaff;
+            EntityResult error = new EntityResultMapImpl();
+            error.setCode(EntityResult.OPERATION_WRONG);
+            error.setMessage("The staff member doesn't exist");
+
+            return error;
         }
 
         EntityResult erPerson = this.personService.personQuery(keyMap, attrList);
@@ -115,13 +121,14 @@ public class StaffService implements IStaffService {
                         map.put("bankaccountformat", attrMap.get("bankaccountformat"));
                         map.put("salary", attrMap.get("salary"));
                         map.put("job", attrMap.get("job"));
+                        checkAttributesStaff(map);
                         EntityResult result = this.daoHelper.insert(this.staffDao, map);
                         result.setMessage("Successful staff insert");
                         return result;
                     }catch (Exception e){
                         EntityResult error = new EntityResultMapImpl();
                         error.setCode(EntityResult.OPERATION_WRONG);
-                        error.setMessage("Staff insert fail");
+                        error.setMessage(e.getMessage());
                         return error;
                     }
 
@@ -165,19 +172,104 @@ public class StaffService implements IStaffService {
 
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
-        EntityResult erGuest = staffQuery(keyMap, attrList);
-        if (erGuest.toString().contains("id")) {
+        EntityResult erStaff = staffQuery(keyMap, attrList);
+
+        if (erStaff.getCode() != EntityResult.OPERATION_WRONG) {
+            Map<String,Object>attrMap2 = new HashMap<>();
+            if(attrMap.containsKey("bankaccount")){
+                attrMap2.put("bankaccount", attrMap.get("bankaccount"));
+                attrMap.remove("bankaccount");
+            }
+            if(attrMap.containsKey("bankaccountformat")){
+                attrMap2.put("bankaccountformat", attrMap.get("bankaccountformat"));
+                attrMap.remove("bankaccountformat");
+            }
+            if(attrMap.containsKey("salary")){
+                attrMap2.put("salary", attrMap.get("salary"));
+                attrMap.remove("salary");
+            }
+            if(attrMap.containsKey("job")){
+                attrMap2.put("job", attrMap.get("job"));
+                attrMap.remove("job");
+            }
+
+            try{
+                checkAttributesStaff(attrMap2);
+                //checkAttributesStaff(attrMap2, keyMap);
+            }catch (Exception e){
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage(e.getMessage());
+                return error;
+            }
+
             EntityResult erPerson = personService.personUpdate(attrMap, keyMap);
             if (erPerson.getCode() == 0) {
-                erPerson.setMessage("Successful guest update");
+                try {
+                    this.daoHelper.update(this.staffDao, attrMap2, keyMap);
+                }catch (Exception e){
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setMessage(e.getMessage());
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    return error;
+                }
+                erPerson.setMessage("Successful staff update");
+            }else {
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage(erPerson.getMessage());
+                return error;
             }
             return erPerson;
         }
 
         EntityResult error = new EntityResultMapImpl();
         error.setCode(EntityResult.OPERATION_WRONG);
-        error.setMessage("Guest not found");
+        error.setMessage("Staff member not found");
         return error;
+    }
+
+    private void checkAttributesStaff(Map<String, Object> attrMap, Map<String, Object>keyMap) {
+        //TODO
+        checkAttributesStaff(attrMap);
+    }
+
+    private void checkAttributesStaff(Map<String, Object> attrMap) {
+
+        if(attrMap.containsKey("bankaccountformat")){
+            List<String>attrList = new ArrayList<>();
+            attrList.add("id");
+            Map<String, Object> key = new HashMap<>();
+            key.put("id", attrMap.get("bankaccountformat"));
+
+            EntityResult bankQuery = bankAccountService.bankaccountQuery(key, attrList);
+            if(bankQuery.getCode() == EntityResult.OPERATION_WRONG){
+                throw new RuntimeException("Bank Account Format Not Found");
+            }
+        }
+
+        if(attrMap.containsKey("bankaccount")){
+            //comprobaciones de banco TODO
+        }
+
+        if(attrMap.containsKey("salary")){
+            Double salary = Double.parseDouble(attrMap.get("salary").toString());
+            if(salary <= 0){
+                throw new RuntimeException("Salary must be greater than 0");
+            }
+        }
+        if(attrMap.containsKey("job")){
+            List<String>attrList = new ArrayList<>();
+            attrList.add("id");
+            Map<String, Object> key = new HashMap<>();
+            key.put("id", attrMap.get("job"));
+
+            EntityResult jobQuery = jobService.jobQuery(key, attrList);
+            if(jobQuery.getCode() == EntityResult.OPERATION_WRONG){
+                throw new RuntimeException("Job not found");
+            }
+        }
+
     }
 
     @Override

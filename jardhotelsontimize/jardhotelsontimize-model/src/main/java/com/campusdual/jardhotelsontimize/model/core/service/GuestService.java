@@ -3,6 +3,7 @@ package com.campusdual.jardhotelsontimize.model.core.service;
 import com.campusdual.jardhotelsontimize.api.core.service.IGuestService;
 import com.campusdual.jardhotelsontimize.model.core.dao.GuestDao;
 import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,175 +24,131 @@ public class GuestService implements IGuestService {
     @Autowired
     private GuestDao guestDao;
 
+    @Autowired
+    private StaffService staffService;
+
+    @Autowired
+    private PersonService personService;
+
     @Override
     public EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList) {
-        EntityResult result = this.daoHelper.query(this.guestDao, keyMap, attrList);
-        if (result.toString().contains("id")) result.setMessage("");
-        else {
-            result.setMessage("The guest doesn't exist");
-            result.setCode(EntityResult.OPERATION_WRONG);
-            result.setColumnSQLTypes(new HashMap());
+
+        List<String> attrList2 = new ArrayList<>();
+        attrList2.add("id");
+        EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList2);
+
+        if (!erGuest.toString().contains("id")) {
+            erGuest.setCode(EntityResult.OPERATION_WRONG);
+            erGuest.setMessage("The guest doesn't exist");
+            return erGuest;
         }
-        return result;
+
+        EntityResult erPerson = this.personService.personQuery(keyMap, attrList);
+        EntityResult er = new EntityResultMapImpl();
+
+        for (int i = 0; i < ((List<Integer>) erPerson.get("id")).size(); i++) {
+            if (((List<Integer>) erGuest.get("id")).contains(((List<Integer>) erPerson.get("id")).get(i))) {
+
+                Map<String, Object> m = new HashMap<>();
+                for (String s : attrList) {
+                    m.put(s, ((List<Object>) erPerson.get(s)).get(i));
+                }
+                er.addRecord(m);
+            }
+        }
+
+        return er;
     }
 
     @Override
     public EntityResult guestInsert(Map<String, Object> attrMap) {
 
-        List<String> attrList = new ArrayList<>();
-        attrList.add("id");
-        EntityResult result = guestQuery(attrMap, attrList);
-        try {
-            result = this.daoHelper.insert(this.guestDao, attrMap);
-            result.setMessage("Successful guest insertion");
-        } catch (Exception e) {
-            result.setCode(EntityResult.OPERATION_WRONG);
-            if (e.getMessage().contains("null value")) {
-                result.setMessage("All attributes must be filled");
-            } else if (e.getMessage().contains("verify_documentation_spain()")) {
-                if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
-                    result.setMessage("The spanish DNI must have 9 characters");
-                else if (e.getMessage().contains(("The 8 first characters of a spanish DNI must be numbers")))
-                    result.setMessage("The 8 first characters of a spanish DNI must be numbers");
-                else if (e.getMessage().contains(("The last character of a spanish DNI must be a letter")))
-                    result.setMessage("The last character of a spanish DNI must be a letter");
-                else if (e.getMessage().contains(("The letter of the spanish DNI is incorrect")))
-                    result.setMessage("The letter of the spanish DNI is incorrect");
-                else result.setMessage("The format of the spanish DNI is incorrect");
-            } else if (e.getMessage().contains("verify_phone_spain()")) {
-                if (e.getMessage().contains(("The format for the spanish phone is incorrect. It must be +34 and 9 numbers")))
-                    result.setMessage("The format for the spanish phone is incorrect. It must be +34 and 9 numbers");
-                else result.setMessage("The format for the spanish phone is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_united_states()")) {
-                if (e.getMessage().contains(("El format for the passport in United States is incorrect")))
-                    result.setMessage("El format for the passport in United States is incorrect. It must be 9 characters");
-                else result.setMessage("The format for the passport in United States is incorrect");
-            } else if (e.getMessage().contains("verify_phone_united_states()")) {
-                if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
-                    result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
-                else result.setMessage("The format for the phone in United States is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_united_kingdom()")) {
-                result.setMessage("The format for the passport in United Kingdom is incorrect");
-            } else if (e.getMessage().contains("verify_phone_united_kingdom()")) {
-                result.setMessage("The format for the phone in United Kingdom is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_france()")) {
-                result.setMessage("The format for the card in France is incorrect");
-            } else if (e.getMessage().contains("verify_phone_france()")) {
-                result.setMessage("The format for the phone in France is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_germany()")) {
-                result.setMessage("The format for the documentation in Germany is incorrect");
-            } else if (e.getMessage().contains("verify_phone_germany()")) {
-                result.setMessage("The format for the phone in Germany is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_portugal()")) {
-                result.setMessage("The format for the documentation in Portugal is incorrect");
-            } else if (e.getMessage().contains("verify_phone_portugal()")) {
-                result.setMessage("The format for the phone in Portugal is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_china()")) {
-                result.setMessage("The format for the documentation in China is incorrect");
-            } else if (e.getMessage().contains("verify_phone_china()")) {
-                result.setMessage("The format for the phone in China is incorrect");
-            } else if (e.getMessage().contains("Repeated documentation in another guest")) {
-                result.setMessage("Repeated documentation in another guest");
-                result.setColumnSQLTypes(new HashMap());
-            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
-                result.setMessage("The country doesn't exist");
-            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_phonecountry_fkey\"")) {
-                    result.setMessage("The phone country doesn't exist");
-            } else if (e.getMessage().contains("Invalid email format")) {
-                result.setMessage("Invalid email format");
+        if (attrMap.get("id") != null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", attrMap.get("id"));
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+            EntityResult resultId = personService.personQuery(map, attrList);
+            if (resultId.getCode() == 0) {
+                EntityResult queryGuest = guestQuery(map, attrList);
+                if (queryGuest.getCode() == 1) {
+                    EntityResult result = this.daoHelper.insert(this.guestDao, map);
+                    result.setMessage("Successful guest insert");
+                    return result;
+                } else {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("Repeated Guest");
+                    return error;
+                }
+
             } else {
-                result.setMessage(e.getMessage());
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("Person not found");
+                return error;
             }
+        }
+        EntityResult result = personService.personInsert(attrMap);
+        if (result.getCode() == 0) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("documentation", attrMap.get("documentation"));
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+            EntityResult resultId = personService.personQuery(map, attrList);
+            List<Integer> ids = (List<Integer>) resultId.get("id");
+            int id = ids.get(0);
+            map = new HashMap<>();
+            map.put("id", id);
+            this.daoHelper.insert(this.guestDao, map);
+            result.setMessage("Successful guest insertion");
         }
         return result;
     }
 
     @Override
     public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
+
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
-        EntityResult result = guestQuery(keyMap, attrList);
-        if (result.getMessage().contains("The guest doesn't exist"))
-            return result;
-        try {
-            result = this.daoHelper.update(this.guestDao, attrMap, keyMap);
-            result.setMessage("Successful guest update");
-        } catch (Exception e) {
-            result.setCode(EntityResult.OPERATION_WRONG);
-            if (e.getMessage().contains("verify_documentation_spain()")) {
-                if (e.getMessage().contains(("The spanish DNI must have 9 characters")))
-                    result.setMessage("The spanish DNI must have 9 characters");
-                else if (e.getMessage().contains(("The 8 first characters of a spanish DNI must be numbers")))
-                    result.setMessage("The 8 first characters of a spanish DNI must be numbers");
-                else if (e.getMessage().contains(("The last character of a spanish DNI must be a letter")))
-                    result.setMessage("The last character of a spanish DNI must be a letter");
-                else if (e.getMessage().contains(("The letter of the spanish DNI is incorrect")))
-                    result.setMessage("The letter of the spanish DNI is incorrect");
-                else result.setMessage("The format of the spanish DNI is incorrect");
-            } else if (e.getMessage().contains("verify_phone_spain()")) {
-                if (e.getMessage().contains(("The format for the spanish phone is incorrect. It must be +34 and 9 numbers")))
-                    result.setMessage("The format for the spanish phone is incorrect. It must be +34 and 9 numbers");
-                else result.setMessage("The format for the spanish phone is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_united_states()")) {
-                if (e.getMessage().contains(("El format for the passport in United States is incorrect")))
-                    result.setMessage("El format for the passport in United States is incorrect. It must be 9 characters");
-                else result.setMessage("The format for the passport in United States is incorrect");
-            } else if (e.getMessage().contains("verify_phone_united_states()")) {
-                if (e.getMessage().contains(("The format for the phone in United States is incorrect")))
-                    result.setMessage("The format for the phone in United States is incorrect. It must be +1 and 10 numbers");
-                else result.setMessage("The format for the phone in United States is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_united_kingdom()")) {
-                result.setMessage("The format for the passport in United Kingdom is incorrect");
-            } else if (e.getMessage().contains("verify_phone_united_kingdom()")) {
-                result.setMessage("The format for the phone in United Kingdom is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_france()")) {
-                result.setMessage("The format for the card in France is incorrect");
-            } else if (e.getMessage().contains("verify_phone_france()")) {
-                result.setMessage("The format for the phone in France is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_germany()")) {
-                result.setMessage("The format for the documentation in Germany is incorrect");
-            } else if (e.getMessage().contains("verify_phone_germany()")) {
-                result.setMessage("The format for the phone in Germany is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_portugal()")) {
-                result.setMessage("The format for the documentation in Portugal is incorrect");
-            } else if (e.getMessage().contains("verify_phone_portugal()")) {
-                result.setMessage("The format for the phone in Portugal is incorrect");
-            } else if (e.getMessage().contains("verify_documentation_china()")) {
-                result.setMessage("The format for the documentation in China is incorrect");
-            } else if (e.getMessage().contains("verify_phone_china()")) {
-                result.setMessage("The format for the phone in China is incorrect");
-            } else if (e.getMessage().contains("Repeated documentation in another guest")) {
-                result.setMessage("Repeated documentation in another guest");
-                result.setColumnSQLTypes(new HashMap());
-            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_country_fkey\"")) {
-                result.setMessage("The country doesn't exist");
-            } else if (e.getMessage().contains("insert or update on table \"guest\" violates foreign key constraint \"guest_phonecountry_fkey\"")) {
-                result.setMessage("The phone country doesn't exist");
-            } else if (e.getMessage().contains("Invalid email format")) {
-                result.setMessage("Invalid email format");
-            } else {
-                result.setMessage(e.getMessage());
+        EntityResult erGuest = guestQuery(keyMap, attrList);
+        if (erGuest.toString().contains("id")) {
+            EntityResult erPerson = personService.personUpdate(attrMap, keyMap);
+            if (erPerson.getCode() == 0) {
+                erPerson.setMessage("Successful guest update");
             }
+            return erPerson;
         }
-        return result;
 
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+        error.setMessage("Guest not found");
+        return error;
     }
 
     @Override
     public EntityResult guestDelete(Map<String, Object> keyMap) {
+
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
-        attrList.add("name");
-        EntityResult query = this.daoHelper.query(this.guestDao, keyMap, attrList);
-        EntityResult result = this.daoHelper.delete(this.guestDao, keyMap);
-
-        if (query.toString().contains("id")) result.setMessage("Successful guest delete");
-        else {
-            result.setMessage("Guest not found");
-            result.setCode(EntityResult.OPERATION_WRONG);
-            result.setColumnSQLTypes(new HashMap<>());
+        EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList);
+        if (erGuest.toString().contains("id")) {
+            EntityResult erStaff = staffService.staffQuery(keyMap, attrList);
+            if (erStaff.toString().contains("id")) {
+                EntityResult deleteGuest = this.daoHelper.delete(this.guestDao, keyMap);
+                deleteGuest.setMessage("Successful guest delete");
+                return deleteGuest;
+            }
+            EntityResult erPerson = personService.personDelete(keyMap);
+            if (erPerson.getCode() == 0) {
+                erPerson.setMessage("Successful guest delete");
+            }
+            return erPerson;
         }
 
-        return result;
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+        error.setMessage("Guest not found");
+        return error;
     }
 }

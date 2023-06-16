@@ -14,12 +14,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.*;
 
 
@@ -32,34 +31,47 @@ public class GuestServiceTest {
     GuestService guestService;
 
     @Mock
+    PersonService personService;
+
+    @Mock
+    StaffService staffService;
+
+    @Mock
     GuestDao guestDao;
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class GuestServiceQuery {
+    class GuestServiceQuery {
         @Test
-        public void guestQueryTest() {
+        void guestQueryTest() {
             EntityResult er = new EntityResultMapImpl();
+            EntityResult er2 = new EntityResultMapImpl();
+            List<Integer> l2 = new ArrayList<>();
+            l2.add(1);
             er.setCode(0);
-            er.put("id", 1);
+            er.put("id", l2);
+            er2.put("id", l2);
             Map<String, Object> guestToQuery = new HashMap<>();
             guestToQuery.put("id", 1);
+            List<String> l = new ArrayList();
+            l.add("id");
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
-            EntityResult result = guestService.guestQuery(guestToQuery, new ArrayList<>());
+            when(personService.personQuery(anyMap(), anyList())).thenReturn(er2);
+            EntityResult result = guestService.guestQuery(guestToQuery, l);
             assertEquals(0, result.getCode());
             assertEquals("", result.getMessage());
             verify(daoHelper, times(1)).query(any(GuestDao.class), anyMap(), anyList());
         }
 
         @Test
-        public void guestQueryTestNotFound() {
+        void guestQueryTestNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             Map<String, Object> guestToQuery = new HashMap<>();
             guestToQuery.put("id", 1);
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = guestService.guestQuery(guestToQuery, new ArrayList<>());
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             assertEquals("The guest doesn't exist", result.getMessage());
             verify(daoHelper, times(1)).query(any(GuestDao.class), anyMap(), anyList());
         }
@@ -67,94 +79,178 @@ public class GuestServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class GuestServiceInsert {
+    class GuestServiceInsert {
         @Test
-        public void guestInsertTest() {
+        void guestInsertTest() {
             EntityResult er = new EntityResultMapImpl();
+            EntityResult er2 = new EntityResultMapImpl();
+            EntityResult er3 = new EntityResultMapImpl();
+
+            List<Integer> l2 = new ArrayList<>();
+            l2.add(1);
+
             er.setCode(0);
+            er2.setCode(0);
+            er3.setCode(1);
             er.setMessage("");
             er.put("id", 1);
+            er2.put("id", l2);
+
             Map<String, Object> guestToInsert = new HashMap<>();
             guestToInsert.put("id", 1);
+
             when(daoHelper.insert(any(GuestDao.class), anyMap())).thenReturn(er);
-            when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+            when(personService.personQuery(anyMap(), anyList())).thenReturn(er2);
+            when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er3);
+
             EntityResult result = guestService.guestInsert(guestToInsert);
+            assertEquals("Successful guest insert", result.getMessage());
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).insert(any(GuestDao.class), anyMap());
-            assertEquals("Successful guest insertion", result.getMessage());
+
         }
 
         @Test
-        public void guestInsertTestFail() {
+        void guestInsertTestPersonNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.put("id", 1);
+
             Map<String, Object> guestToInsert = new HashMap<>();
             guestToInsert.put("id", 1);
-            when(daoHelper.insert(any(GuestDao.class), anyMap())).thenThrow(new RuntimeException(""));
-            when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+
+            when(personService.personQuery(anyMap(), anyList())).thenReturn(er);
+
             EntityResult result = guestService.guestInsert(guestToInsert);
-            assertEquals(0, result.getCode());
-            verify(daoHelper, times(1)).insert(any(GuestDao.class), anyMap());
-            assertNotEquals("Successful guest insertion", result.getMessage());
+
+            assertEquals("Person not found", result.getMessage());
+            assertEquals(1, result.getCode());
+        }
+
+        @Test
+        void guestInsertTestPersonRepeatedGuest() {
+            EntityResult er = new EntityResultMapImpl();
+            er.setCode(0);
+
+            List<Integer> l2 = new ArrayList<>();
+            l2.add(1);
+            Map<String, Object> guestToInsert = new HashMap<>();
+            guestToInsert.put("id", 1);
+            er.put("id", l2);
+
+            when(personService.personQuery(anyMap(), anyList())).thenReturn(er);
+            when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+
+            EntityResult result = guestService.guestInsert(guestToInsert);
+
+            assertEquals("Repeated Guest", result.getMessage());
+            assertEquals(1, result.getCode());
         }
     }
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class GuestServiceUpdate {
+    class GuestServiceUpdate {
         @Test
-        public void guestUpdateTest() {
+        void guestUpdateTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
-            er.put("id", 1);
+            List<Integer> l2 = new ArrayList<>();
+            l2.add(1);
+            er.put("id", l2);
+
             Map<String, Object> guestToUpdate = new HashMap<>();
             guestToUpdate.put("id", 1);
+
             Map<String, Object> guestKey = new HashMap<>();
             guestKey.put("id", 1);
-            when(daoHelper.update(any(GuestDao.class), anyMap(), anyMap())).thenReturn(er);
+
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+            when(personService.personUpdate(anyMap(), any())).thenReturn(er);
+            when(personService.personQuery(anyMap(), anyList())).thenReturn(er);
+
             EntityResult result = guestService.guestUpdate(guestToUpdate, guestKey);
             assertEquals(0, result.getCode());
-            verify(daoHelper, times(1)).update(any(GuestDao.class), anyMap(), anyMap());
             assertEquals("Successful guest update", result.getMessage());
+        }
+
+        @Test
+        void guestUpdateTestGuestNotFound() {
+            EntityResult er = new EntityResultMapImpl();
+            er.setCode(1);
+
+            Map<String, Object> guestToUpdate = new HashMap<>();
+            guestToUpdate.put("id", 1);
+
+            Map<String, Object> guestKey = new HashMap<>();
+            guestKey.put("id", 1);
+
+            when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+
+            EntityResult result = guestService.guestUpdate(guestToUpdate, guestKey);
+            assertEquals(1, result.getCode());
+            assertEquals("Guest not found", result.getMessage());
         }
     }
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class GuestServiceDelete {
+    class GuestServiceDelete {
         @Test
-        public void guestDeleteTest() {
+        void guestDeleteTestExistingInStaff() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
-            er.setMessage("");
             er.put("id", 1);
+
             Map<String, Object> guestKey = new HashMap<>();
             guestKey.put("id", 1);
-            when(daoHelper.delete(any(GuestDao.class), anyMap())).thenReturn(er);
+
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+            when(staffService.staffQuery(anyMap(), anyList())).thenReturn(er);
+            when(daoHelper.delete(any(GuestDao.class), anyMap())).thenReturn(er);
+
             EntityResult result = guestService.guestDelete(guestKey);
+
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).delete(any(GuestDao.class), anyMap());
             assertEquals("Successful guest delete", result.getMessage());
         }
 
         @Test
-        public void guestDeleteTestGuestNotFound() {
+        void guestDeleteTestNotExistingInStaff() {
             EntityResult er = new EntityResultMapImpl();
+            EntityResult er2 = new EntityResultMapImpl();
+            er2.setCode(1);
             er.setCode(0);
-            er.setMessage("");
+            er.put("id", 1);
+
             Map<String, Object> guestKey = new HashMap<>();
             guestKey.put("id", 1);
-            when(daoHelper.delete(any(GuestDao.class), anyMap())).thenReturn(er);
+
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+            when(staffService.staffQuery(anyMap(), anyList())).thenReturn(er2);
+            when(personService.personDelete(anyMap())).thenReturn(er);
+
             EntityResult result = guestService.guestDelete(guestKey);
+
             assertEquals(0, result.getCode());
-            verify(daoHelper, times(1)).delete(any(GuestDao.class), anyMap());
+            assertEquals("Successful guest delete", result.getMessage());
+        }
+
+        @Test
+        void guestDeleteTestGuestNotFound() {
+            EntityResult er = new EntityResultMapImpl();
+            er.setCode(1);
+
+            Map<String, Object> guestKey = new HashMap<>();
+            guestKey.put("id", 1);
+
+            when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
+
+            EntityResult result = guestService.guestDelete(guestKey);
+
+            assertEquals(1, result.getCode());
             assertEquals("Guest not found", result.getMessage());
         }
     }
-
-
 }

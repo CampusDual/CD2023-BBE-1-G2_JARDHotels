@@ -34,7 +34,7 @@ public class HotelService implements IHotelService {
         } else {
             result.setMessage("The hotel doesn't exist");
             result.setCode(EntityResult.OPERATION_WRONG);
-            result.setColumnSQLTypes(new HashMap());
+            result.setColumnSQLTypes(new HashMap<>());
         }
 
         return result;

@@ -5,7 +5,8 @@ import com.ontimize.jee.common.dto.EntityResult;
 import java.util.List;
 import java.util.Map;
 
-public interface ICountryService {
+public interface IJobService {
 
-    EntityResult countryQuery(Map<String, Object> keyMap, List<String> attrList);
+    EntityResult jobQuery(Map<String, Object> keyMap, List<String> attrList);
+
 }

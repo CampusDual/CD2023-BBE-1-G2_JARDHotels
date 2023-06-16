@@ -17,10 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class RoomServiceTest {
@@ -35,9 +32,9 @@ public class RoomServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class RoomServiceQuery {
+    class RoomServiceQuery {
         @Test
-        public void roomQueryTest() {
+        void roomQueryTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
@@ -51,14 +48,14 @@ public class RoomServiceTest {
         }
 
         @Test
-        public void roomQueryTestNotFound() {
+        void roomQueryTestNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             Map<String, Object> roomToQuery = new HashMap<>();
             roomToQuery.put("id", 1);
             when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomQuery(roomToQuery, new ArrayList<>());
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             assertEquals("The room doesn't exist", result.getMessage());
             verify(daoHelper, times(1)).query(any(RoomDao.class), anyMap(), anyList());
         }
@@ -66,9 +63,9 @@ public class RoomServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class RoomServiceInsert {
+    class RoomServiceInsert {
         @Test
-        public void roomInsertTest() {
+        void roomInsertTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
@@ -84,9 +81,9 @@ public class RoomServiceTest {
         }
 
         @Test
-        public void roomInsertTestFail() {
+        void roomInsertTestFail() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.setMessage("");
             er.put("id", 1);
             Map<String, Object> roomToInsert = new HashMap<>();
@@ -94,7 +91,7 @@ public class RoomServiceTest {
             when(daoHelper.insert(any(RoomDao.class), anyMap())).thenThrow(new RuntimeException("Error"));
             when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomInsert(roomToInsert);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).insert(any(RoomDao.class), anyMap());
             assertNotEquals("Successful room insertion", result.getMessage());
         }
@@ -102,9 +99,9 @@ public class RoomServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class RoomServiceUpdate {
+    class RoomServiceUpdate {
         @Test
-        public void roomUpdateTest() {
+        void roomUpdateTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
@@ -120,9 +117,9 @@ public class RoomServiceTest {
         }
 
         @Test
-        public void roomUpdateTestFail() {
+        void roomUpdateTestFail() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.setMessage("");
             er.put("id", 1);
             Map<String, Object> roomToUpdate = new HashMap<>();
@@ -130,7 +127,7 @@ public class RoomServiceTest {
             when(daoHelper.update(any(RoomDao.class), anyMap(), anyMap())).thenThrow(new RuntimeException("Error"));
             when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomUpdate(roomToUpdate, roomToUpdate);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).update(any(RoomDao.class), anyMap(), anyMap());
             assertNotEquals("Successful room update", result.getMessage());
         }
@@ -139,9 +136,9 @@ public class RoomServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class RoomServiceDelete {
+    class RoomServiceDelete {
         @Test
-        public void roomDeleteTest() {
+        void roomDeleteTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
@@ -157,16 +154,16 @@ public class RoomServiceTest {
         }
 
         @Test
-        public void roomDeleteTestRoomNotFound() {
+        void roomDeleteTestRoomNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.setMessage("");
             Map<String, Object> roomKey = new HashMap<>();
             roomKey.put("id", 1);
             when(daoHelper.delete(any(RoomDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomDelete(roomKey);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).delete(any(RoomDao.class), anyMap());
             assertEquals("Room not found", result.getMessage());
         }

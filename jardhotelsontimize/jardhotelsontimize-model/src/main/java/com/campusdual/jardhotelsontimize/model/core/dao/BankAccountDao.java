@@ -5,10 +5,11 @@ import com.ontimize.jee.server.dao.jdbc.OntimizeJdbcDaoSupport;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
-@Repository(value = "GuestDao")
+@Repository(value = "BankAccountDao")
 @Lazy
-@ConfigurationFile(configurationFile = "dao/GuestDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
-public class GuestDao extends OntimizeJdbcDaoSupport {
+@ConfigurationFile(configurationFile = "dao/BankAccountDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
+public class BankAccountDao extends OntimizeJdbcDaoSupport {
 
     public static final String ATTR_ID = "id";
+    public static final String ATTR_FORMAT = "format";
 }

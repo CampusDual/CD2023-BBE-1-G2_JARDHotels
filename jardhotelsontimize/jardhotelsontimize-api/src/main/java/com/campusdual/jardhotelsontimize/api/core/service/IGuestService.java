@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface IGuestService {
 
-    public EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList);
-    public EntityResult guestInsert(Map<String, Object> attrMap);
-    public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap);
-    public EntityResult guestDelete(Map<String, Object> keyMap);
+    EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList);
+    EntityResult guestInsert(Map<String, Object> attrMap);
+    EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap);
+    EntityResult guestDelete(Map<String, Object> keyMap);
 }

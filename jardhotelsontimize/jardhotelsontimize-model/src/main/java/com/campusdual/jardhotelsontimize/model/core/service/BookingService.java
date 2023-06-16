@@ -57,7 +57,7 @@ public class BookingService implements IBookingService {
 
         if(roomQuery.toString().contains("price")){
             if (!attrMap.containsKey("totalprice") && attrMap.containsKey("arrivaldate") && attrMap.containsKey("departuredate")) {
-                Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
                 attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
             }
         }
@@ -109,7 +109,7 @@ public class BookingService implements IBookingService {
 
         if(roomQuery.toString().contains("price")){
             if (!attrMap.containsKey("totalprice")) {
-                Double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
                 attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
             }
         }
@@ -179,7 +179,7 @@ public class BookingService implements IBookingService {
 
         if (query.toString().contains("id")) {
             result.setMessage("Successful booking delete");
-            Double price = Double.parseDouble(((List<BigDecimal>) query.get("totalprice")).get(0).toString());
+            double price = Double.parseDouble(((List<BigDecimal>) query.get("totalprice")).get(0).toString());
             result.put("refund", calculateRefund(price, query.get("arrivaldate").toString()));
         } else {
             result.setMessage("Booking not found");

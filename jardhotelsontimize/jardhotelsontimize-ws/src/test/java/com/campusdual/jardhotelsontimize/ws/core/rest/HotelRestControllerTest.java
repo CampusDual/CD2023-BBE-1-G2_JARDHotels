@@ -21,10 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class HotelRestControllerTest {
+class HotelRestControllerTest {
 
     private MockMvc mockMvc;
 
@@ -41,7 +40,7 @@ public class HotelRestControllerTest {
     }
 
     @Test
-    public void testFilter() throws Exception {
+    void testFilter() throws Exception {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("columns", Arrays.asList("id", "name"));
         requestBody.put("filter", new HashMap<>());

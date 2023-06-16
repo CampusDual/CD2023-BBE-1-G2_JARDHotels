@@ -18,8 +18,6 @@ import java.util.Map;
 
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.*;
 
 
@@ -36,9 +34,9 @@ public class HotelServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class HotelServiceQuery {
+    class HotelServiceQuery {
         @Test
-        public void hotelQueryTest() {
+        void hotelQueryTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
@@ -52,14 +50,14 @@ public class HotelServiceTest {
         }
 
         @Test
-        public void hotelQueryTestNotFound() {
+        void hotelQueryTestNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             Map<String, Object> hotelToQuery = new HashMap<>();
             hotelToQuery.put("id", 1);
             when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = hotelService.hotelQuery(hotelToQuery, new ArrayList<>());
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             assertEquals("The hotel doesn't exist", result.getMessage());
             verify(daoHelper, times(1)).query(any(HotelDao.class), anyMap(), anyList());
         }
@@ -67,9 +65,9 @@ public class HotelServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class HotelServiceInsert {
+    class HotelServiceInsert {
         @Test
-        public void hotelInsertTest() {
+        void hotelInsertTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             Map<String, Object> hotelToInsert = new HashMap<>();
@@ -85,17 +83,17 @@ public class HotelServiceTest {
         }
 
         @Test
-        public void hotelInsertTestException() {
+        void hotelInsertTestException() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             Map<String, Object> hotelToInsert = new HashMap<>();
             hotelToInsert.put("name", "Hotel 1");
             hotelToInsert.put("address", "Address 1");
             hotelToInsert.put("stars", 1);
             hotelToInsert.put("country", 1);
-            when(daoHelper.insert(any(HotelDao.class), anyMap())).thenThrow(new RuntimeException());
+            when(daoHelper.insert(any(HotelDao.class), anyMap())).thenThrow(new RuntimeException("The country doesn't exist"));
             EntityResult result = hotelService.hotelInsert(hotelToInsert);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).insert(any(HotelDao.class), anyMap());
             assertEquals("The country doesn't exist", result.getMessage());
         }
@@ -103,9 +101,9 @@ public class HotelServiceTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class HotelServiceUpdate {
+    class HotelServiceUpdate {
         @Test
-        public void hotelUpdateTest() {
+        void hotelUpdateTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             Map<String, Object> hotelToUpdate = new HashMap<>();
@@ -123,7 +121,7 @@ public class HotelServiceTest {
         }
 
         @Test
-        public void hotelUpdateTestHotelNotFound() {
+        void hotelUpdateTestHotelNotFound() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(2);
             Map<String, Object> hotelToUpdate = new HashMap<>();
@@ -135,14 +133,14 @@ public class HotelServiceTest {
             hotelKey.put("id", 1);
             when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenReturn(er);
             EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
-            assertEquals(2, result.getCode());
+            assertEquals(1, result.getCode());
             assertEquals("Hotel not found", result.getMessage());
         }
 
         @Test
-        public void hotelUpdateTestCountryNotFound() {
+        void hotelUpdateTestCountryNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             Map<String, Object> hotelToUpdate = new HashMap<>();
             hotelToUpdate.put("name", "Hotel 1");
             hotelToUpdate.put("address", "Address 1");
@@ -150,18 +148,18 @@ public class HotelServiceTest {
             hotelToUpdate.put("country", 1);
             Map<String, Object> hotelKey = new HashMap<>();
             hotelKey.put("id", 1);
-            when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenThrow(new RuntimeException());
+            when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenThrow(new RuntimeException("The country doesn't exist"));
             EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             assertEquals("The country doesn't exist", result.getMessage());
         }
     }
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    public class HotelServiceDelete {
+    class HotelServiceDelete {
         @Test
-        public void hotelDeleteTest() {
+        void hotelDeleteTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
@@ -177,16 +175,16 @@ public class HotelServiceTest {
         }
 
         @Test
-        public void hotelDeleteTestHotelNotFound() {
+        void hotelDeleteTestHotelNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(0);
+            er.setCode(1);
             er.setMessage("");
             Map<String, Object> hotelKey = new HashMap<>();
             hotelKey.put("id", 1);
             when(daoHelper.delete(any(HotelDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = hotelService.hotelDelete(hotelKey);
-            assertEquals(0, result.getCode());
+            assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).delete(any(HotelDao.class), anyMap());
             assertEquals("Hotel not found", result.getMessage());
         }

@@ -200,6 +200,7 @@ public class StaffService implements IStaffService {
             try {
                 checkAttributesStaff(attrMap2, keyMap);
             } catch (Exception e) {
+                e.printStackTrace();
                 EntityResult error = new EntityResultMapImpl();
                 error.setCode(EntityResult.OPERATION_WRONG);
                 error.setMessage(e.getMessage());
@@ -211,6 +212,7 @@ public class StaffService implements IStaffService {
                 try {
                     this.daoHelper.update(this.staffDao, attrMap2, keyMap);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     EntityResult error = new EntityResultMapImpl();
                     error.setMessage(e.getMessage());
                     error.setCode(EntityResult.OPERATION_WRONG);

@@ -253,6 +253,4 @@ public class GuestServiceTest {
             assertEquals("Guest not found", result.getMessage());
         }
     }
-
-
 }

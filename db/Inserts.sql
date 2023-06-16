@@ -15,17 +15,18 @@ INSERT INTO country (country, coin) VALUES
 	('Other', 3);
 
 
-INSERT INTO hotel (name, stars, address,country) VALUES
-    ('Hotel Grand Hyatt', 5, '123 Main Street, Cityville',3),
-    ('Hotel Hilton', 4, '456 Elm Avenue, Townsville',7),
-    ('Hotel Marriott', 4, '789 Oak Lane, Villageland',4),
-    ('Hotel Radisson', 3, '321 Pine Road, Countryside',1),
-    ('Hotel Sheraton', 4, '987 Cedar Drive, Mountainview',5),
-    ('Hotel Holiday Inn', 3, '654 Maple Court, Lakeside',6),
-    ('Hotel Four Seasons', 5, '876 Birch Street, Beachtown',4),
-    ('Hotel Ritz-Carlton', 5, '543 Walnut Circle, Seaside',2),
-    ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside',3),
-    ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside',8);
+INSERT INTO hotel (name, stars, address, country, latitude, longitude) VALUES
+    ('Hotel Grand Hyatt', 5, '123 Main Street, Cityville', 3, 40.7128, -74.0060),
+    ('Hotel Hilton', 4, '456 Elm Avenue, Townsville', 7, 51.5074, -0.1278),
+    ('Hotel Marriott', 4, '789 Oak Lane, Villageland', 4, 39.9526, -75.1652),
+    ('Hotel Radisson', 3, '321 Pine Road, Countryside', 1, 41.8781, -87.6298),
+    ('Hotel Sheraton', 4, '987 Cedar Drive, Mountainview', 5, 37.3861, -122.0839),
+    ('Hotel Holiday Inn', 3, '654 Maple Court, Lakeside', 6, 45.4215, -75.6906),
+    ('Hotel Four Seasons', 5, '876 Birch Street, Beachtown', 4, 40.7128, -74.0060),
+    ('Hotel Ritz-Carlton', 5, '543 Walnut Circle, Seaside', 2, 25.7617, -80.1918),
+    ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside', 3, 40.7128, -74.0060),
+    ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside', 8, 34.0522, -118.2437);
+
 
 INSERT INTO room (number, capacity, description, hotel, price) VALUES
     (101, 2, 'Standard Room with a queen bed', 1, 50),

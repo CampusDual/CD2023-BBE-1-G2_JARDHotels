@@ -14,4 +14,6 @@ public class HotelDao extends OntimizeJdbcDaoSupport {
     public static final String ATTR_STARS = "stars";
     public static final String ATTR_ADDRESS = "address";
     public static final String ATTR_COUNTRY = "country";
+    public static final String ATTR_LATITUDE = "latitude";
+    public static final String ATTR_LONGITUDE = "longitude";
 }

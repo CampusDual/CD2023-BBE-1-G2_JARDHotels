@@ -45,6 +45,26 @@ public class HotelService implements IHotelService {
 
         EntityResult result = new EntityResultMapImpl();
 
+        if(attrMap.containsKey("latitude")){
+            Double l = Double.parseDouble(attrMap.get("latitude").toString());
+
+            if(l > 90 || l < -90){
+                result.setMessage("Latitude range must be between -90 and +90");
+                result.setCode(EntityResult.OPERATION_WRONG);
+                return result;
+            }
+        }
+
+        if(attrMap.containsKey("longitude")){
+            Double l = Double.parseDouble(attrMap.get("longitude").toString());
+
+            if(l > 180 || l < -180){
+                result.setMessage("Longitude range must be between -180 and +180");
+                result.setCode(EntityResult.OPERATION_WRONG);
+                return result;
+            }
+        }
+
         try{
             result = this.daoHelper.insert(this.hotelDao,attrMap);
             result.setMessage("Successful hotel insertion");
@@ -67,7 +87,38 @@ public class HotelService implements IHotelService {
     @Override
     public EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
+        List<String>attrList = new ArrayList<>();
+        attrList.add("id");
+        EntityResult hotelQuery = hotelQuery(keyMap, attrList);
+
+        if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+            hotelQuery.setMessage("Hotel not found");
+            return hotelQuery;
+        }
+
         EntityResult result = new EntityResultMapImpl();
+
+        if(attrMap.containsKey("latitude")){
+            List<Double>latitudeList = (List<Double>) attrMap.get("latitude");
+            for(Double l : latitudeList){
+                if(l > 90 || l < -90){
+                    result.setMessage("Latitude range must be between -90 and +90");
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    return result;
+                }
+            }
+        }
+
+        if(attrMap.containsKey("longitude")){
+            List<Double>longitudeList = (List<Double>) attrMap.get("longitude");
+            for(Double l : longitudeList){
+                if(l > 180 || l < -180){
+                    result.setMessage("Longitude range must be between -180 and +180");
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    return result;
+                }
+            }
+        }
 
         try {
             result = this.daoHelper.update(this.hotelDao,attrMap,keyMap);

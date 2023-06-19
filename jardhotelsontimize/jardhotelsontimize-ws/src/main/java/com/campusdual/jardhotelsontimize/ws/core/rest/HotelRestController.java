@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,9 @@ public class HotelRestController extends ORestController<IHotelService> {
     @RequestMapping(value = "/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult filter(@RequestBody Map<String, Object> req) {
         try {
+            boolean deleteLatitude = false;
+            boolean deleteLongitude = false;
+
             List<String> columns = (List<String>) req.get("columns");
             Map<String, Object> filter = (Map<String, Object>) req.get("filter");
             Map<String, Object> key = new HashMap<>();
@@ -45,32 +49,129 @@ public class HotelRestController extends ORestController<IHotelService> {
             key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
                     concatenateExpressions(filter));
 
-            return iHotelService.hotelQuery(key, columns);
+            if(!columns.contains("latitude")){
+                columns.add("latitude");
+                deleteLatitude = true;
+            }
+            if(!columns.contains("longitude")){
+                columns.add("longitude");
+                deleteLongitude = true;
+            }
 
+            EntityResult hotelQuery = iHotelService.hotelQuery(key, columns);
+
+            if(filter.get("latitude") != null && filter.get("longitude") != null){
+                hotelQuery = calculateDistance(hotelQuery, (double)filter.get("latitude"), (double)filter.get("longitude"));
+                hotelQuery = orderQueryByDistance(hotelQuery, columns);
+            }else if (filter.get("latitude") != null && filter.get("longitude") == null){
+                throw new RuntimeException("You cannot apply the distance filter without the longitude. Please add it or remove latitude");
+            }else if (filter.get("latitude") == null && filter.get("longitude") != null){
+                throw new RuntimeException("You cannot apply the distance filter without the latitude. Please add it or remove longitude");
+            }
+
+            if(deleteLatitude){
+                hotelQuery.remove("latitude");
+            }
+            if(deleteLongitude){
+                hotelQuery.remove("longitude");
+            }
+
+            return hotelQuery;
         } catch (Exception e) {
+            e.printStackTrace();
             EntityResult res = new EntityResultMapImpl();
             res.setCode(EntityResult.OPERATION_WRONG);
-
-            // excepciones estrellas
-            if (e.getMessage().contains("Stars must be between 1 and 5")) {
-                res.setMessage("Stars must be between 1 and 5");
-            } else if (e.getMessage().contains("Min stars must be lower or equal than max")) {
-                res.setMessage("Min stars must be lower or equal than max");
-            } else if (e.getMessage().contains("Stars must be a whole number")) {
-                res.setMessage("Stars must be a whole number");
-            }
-
-            // excepciones pais
-            if (e.getMessage().contains("Country must be a whole number")) {
-                res.setMessage("Country must be a whole number");
-            } else if (e.getMessage().contains("Country must exist")) {
-                res.setMessage("Country must exist");
-            }
+            res.setMessage(e.getMessage());
 
             return res;
         }
     }
 
+    /**Métodos de cálculo de distancias**/
+    private EntityResult calculateDistance(EntityResult query, double latitude, double longitude) {
+        List<BigDecimal>latitudeList = (List<BigDecimal>) query.get("latitude");
+        List<BigDecimal>longitudeList = (List<BigDecimal>) query.get("longitude");
+        List<Double> distances = calculateDistance(latitudeList, longitudeList, latitude, longitude);
+        query.put("distance(km)", distances);
+        return query;
+    }
+
+    public static List<Double> calculateDistance(List<BigDecimal> latitudeList, List<BigDecimal> longitudeList, double latitude, double longitude) {
+        List<Double> distances = new ArrayList<>();
+
+        for (int i = 0; i < latitudeList.size(); i++) {
+            double latHotel = Double.parseDouble(latitudeList.get(i).toString());
+            double lonHotel = Double.parseDouble(longitudeList.get(i).toString());
+            double distance = calculateDistance(latHotel, lonHotel, latitude, longitude);
+            distances.add(distance);
+        }
+
+        return distances;
+    }
+
+    public static double calculateDistance(double latHotel, double lonHotel, double latitude, double longitude) {
+        double earthRadius = 6371; //Radio de la Tierra en kilómetros
+
+        double lat1Rad = Math.toRadians(latHotel);
+        double lon1Rad = Math.toRadians(lonHotel);
+        double lat2Rad = Math.toRadians(latitude);
+        double lon2Rad = Math.toRadians(longitude);
+
+        double latDiff = lat2Rad - lat1Rad;
+        double lonDiff = lon2Rad - lon1Rad;
+
+        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+                        Math.sin(lonDiff / 2) * Math.sin(lonDiff / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        double distance = earthRadius * c;
+
+        return distance;
+    }
+
+    private EntityResult orderQueryByDistance(EntityResult hotelQuery, List<String> columns) {
+        List<Double> distances = (List<Double>) hotelQuery.get("distance(km)");
+        List<List<Object>> listAttrlist = new ArrayList<>();
+
+        for(String column : columns){
+            if(!column.equals("distance(km)")){
+                List<Object>listAttr = (List<Object>) hotelQuery.get(column);
+                listAttrlist.add(listAttr);
+            }
+        }
+
+        for (int i = 0; i < distances.size() - 1; i++) {
+            for (int j = 0; j < distances.size() - i - 1; j++) {
+                Double now = distances.get(j);
+                Double next = distances.get(j + 1);
+
+                if (now.compareTo(next) > 0) {
+                    for(List<Object>list : listAttrlist){
+                        Object oNow = new ArrayList<>(list).get(j);
+                        Object oNext = new ArrayList<>(list).get(j + 1);
+                        list.set(j, oNext);
+                        list.set(j + 1, oNow);
+                    }
+                    distances.set(j, next);
+                    distances.set(j + 1, now);
+                }
+            }
+        }
+
+        EntityResult toret = new EntityResultMapImpl();
+        toret.put("distance(km)", distances);
+        for(int i = 0; i < columns.size(); i++){
+            if(!columns.get(i).equals("distance(km)")){
+                toret.put(columns.get(i), listAttrlist.get(i));
+            }
+        }
+
+        return toret;
+    }
+
+    /**Método de concatenación y filtros**/
     private BasicExpression concatenateExpressions(Map<String, Object> filter) {
 
         // filtro estrellas
@@ -129,6 +230,30 @@ public class HotelRestController extends ORestController<IHotelService> {
 
             bexp = new BasicExpression(bexp, BasicOperator.AND_OP,
                     searchByCountry((int) filter.get("country")));
+        }
+
+        //filtro latitud
+        if(filter.get("latitude") != null){
+            try{
+                double latitude = (double)filter.get("latitude");
+                if(latitude < -90 || latitude > 90){
+                    throw new RuntimeException("Latitude must be a range between -90 and +90");
+                }
+            }catch (Exception e){
+                throw new RuntimeException("Latitude must be a decimal number");
+            }
+        }
+
+        //filtro longitud
+        if(filter.get("longitude") != null){
+            try{
+                double longitude = (double)filter.get("longitude");
+                if(longitude < -180 || longitude > 180){
+                    throw new RuntimeException("Longitude must be a range between -180 and +180");
+                }
+            }catch (Exception e){
+                throw new RuntimeException("Longitude must be a decimal number");
+            }
         }
 
         return bexp;

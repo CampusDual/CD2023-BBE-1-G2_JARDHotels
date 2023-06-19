@@ -106,6 +106,7 @@ public class HotelServiceTest {
         void hotelUpdateTest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
+            er.put("id", 1);
             Map<String, Object> hotelToUpdate = new HashMap<>();
             hotelToUpdate.put("name", "Hotel 1");
             hotelToUpdate.put("address", "Address 1");
@@ -114,6 +115,7 @@ public class HotelServiceTest {
             Map<String, Object> hotelKey = new HashMap<>();
             hotelKey.put("id", 1);
             when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenReturn(er);
+            when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).update(any(HotelDao.class), anyMap(), anyMap());
@@ -123,23 +125,6 @@ public class HotelServiceTest {
         @Test
         void hotelUpdateTestHotelNotFound() {
             EntityResult er = new EntityResultMapImpl();
-            er.setCode(2);
-            Map<String, Object> hotelToUpdate = new HashMap<>();
-            hotelToUpdate.put("name", "Hotel 1");
-            hotelToUpdate.put("address", "Address 1");
-            hotelToUpdate.put("stars", 1);
-            hotelToUpdate.put("country", 1);
-            Map<String, Object> hotelKey = new HashMap<>();
-            hotelKey.put("id", 1);
-            when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenReturn(er);
-            EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
-            assertEquals(1, result.getCode());
-            assertEquals("Hotel not found", result.getMessage());
-        }
-
-        @Test
-        void hotelUpdateTestCountryNotFound() {
-            EntityResult er = new EntityResultMapImpl();
             er.setCode(1);
             Map<String, Object> hotelToUpdate = new HashMap<>();
             hotelToUpdate.put("name", "Hotel 1");
@@ -148,7 +133,26 @@ public class HotelServiceTest {
             hotelToUpdate.put("country", 1);
             Map<String, Object> hotelKey = new HashMap<>();
             hotelKey.put("id", 1);
+            when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
+            EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
+            assertEquals(1, result.getCode());
+            assertEquals("Hotel not found", result.getMessage());
+        }
+
+        @Test
+        void hotelUpdateTestCountryNotFound() {
+            EntityResult er = new EntityResultMapImpl();
+            er.setCode(0);
+            er.put("id", 1);
+            Map<String, Object> hotelToUpdate = new HashMap<>();
+            hotelToUpdate.put("name", "Hotel 1");
+            hotelToUpdate.put("address", "Address 1");
+            hotelToUpdate.put("stars", 1);
+            hotelToUpdate.put("country", 1);
+            Map<String, Object> hotelKey = new HashMap<>();
+            hotelKey.put("id", 1);
             when(daoHelper.update(any(HotelDao.class), anyMap(), anyMap())).thenThrow(new RuntimeException("The country doesn't exist"));
+            when(daoHelper.query(any(HotelDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = hotelService.hotelUpdate(hotelToUpdate, hotelKey);
             assertEquals(1, result.getCode());
             assertEquals("The country doesn't exist", result.getMessage());

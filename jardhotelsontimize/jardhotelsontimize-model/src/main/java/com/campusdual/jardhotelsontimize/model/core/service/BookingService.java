@@ -4,9 +4,11 @@ import com.campusdual.jardhotelsontimize.api.core.service.IBookingService;
 import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,6 +33,7 @@ public class BookingService implements IBookingService {
     private RoomService roomService;
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
         if (result.toString().contains("id")) result.setMessage("");
@@ -43,6 +46,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingInsert(Map<String, Object> attrMap) {
 
         EntityResult result = new EntityResultMapImpl();
@@ -93,6 +97,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         EntityResult result = new EntityResultMapImpl();
@@ -167,6 +172,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingDelete(Map<String, Object> keyMap) {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");

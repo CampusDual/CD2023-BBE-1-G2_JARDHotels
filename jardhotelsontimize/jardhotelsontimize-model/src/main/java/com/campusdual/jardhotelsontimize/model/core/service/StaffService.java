@@ -4,9 +4,11 @@ import com.campusdual.jardhotelsontimize.api.core.service.IStaffService;
 import com.campusdual.jardhotelsontimize.model.core.dao.StaffDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class StaffService implements IStaffService {
     private BankAccountService bankAccountService;
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult staffQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         List<String> attrList2 = new ArrayList<>();
@@ -99,6 +102,7 @@ public class StaffService implements IStaffService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult staffInsert(Map<String, Object> attrMap) {
         if (attrMap.get("bankaccount") == null || attrMap.get("bankaccountformat") == null || attrMap.get("salary") == null || attrMap.get("job") == null) {
             EntityResult error = new EntityResultMapImpl();
@@ -121,6 +125,8 @@ public class StaffService implements IStaffService {
                 EntityResult queryStaff = staffQuery(map, attrList);
                 if (queryStaff.getCode() == 1) {
                     try {
+                        //TODO si ya existe la persona se busca su user_ a partir del id y se le da permisos de
+                        // comprobar el trabajo
                         map.put("bankaccount", attrMap.get("bankaccount"));
                         map.put("bankaccountformat", attrMap.get("bankaccountformat"));
                         map.put("salary", attrMap.get("salary"));
@@ -150,6 +156,8 @@ public class StaffService implements IStaffService {
                 return error;
             }
         }
+        //TODO si la persona no existe comprobar que tiene todos los datos necesarios para la inserción en user y verificar
+        //después de insertar en persona añadir user y dar permisos a partir de su trabajo
         EntityResult result = personService.personInsert(copy);
         if (result.getCode() == 0) {
             Map<String, Object> map = new HashMap<>();
@@ -172,6 +180,7 @@ public class StaffService implements IStaffService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult staffUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();
@@ -209,6 +218,8 @@ public class StaffService implements IStaffService {
             EntityResult erPerson = personService.personUpdate(attrMap, keyMap);
             if (erPerson.getCode() == 0) {
                 try {
+                    //TODO comprobar si cambia de oficio
+                    // si cambia de oficio hay que darle los permisos del nuevo y quitarle el del antiguo
                     this.daoHelper.update(this.staffDao, attrMap2, keyMap);
                 } catch (Exception e) {
                     EntityResult error = new EntityResultMapImpl();
@@ -321,6 +332,7 @@ public class StaffService implements IStaffService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult staffDelete(Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();

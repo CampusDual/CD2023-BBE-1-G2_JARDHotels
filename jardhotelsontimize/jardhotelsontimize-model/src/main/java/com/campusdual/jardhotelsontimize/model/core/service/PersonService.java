@@ -3,9 +3,11 @@ package com.campusdual.jardhotelsontimize.model.core.service;
 import com.campusdual.jardhotelsontimize.api.core.service.IPersonService;
 import com.campusdual.jardhotelsontimize.model.core.dao.PersonDao;
 import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class PersonService implements IPersonService {
     private PersonDao personDao;
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.personDao, keyMap, attrList);
         if (result.toString().contains("id")) result.setMessage("");
@@ -36,6 +39,7 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personInsert(Map<String, Object> attrMap) {
 
         List<String> attrList = new ArrayList<>();
@@ -97,8 +101,6 @@ public class PersonService implements IPersonService {
                 result.setMessage("The country doesn't exist");
             } else if (e.getMessage().contains("insert or update on table \"person\" violates foreign key constraint \"person_phonecountry_fkey\"")) {
                     result.setMessage("The phone country doesn't exist");
-            } else if (e.getMessage().contains("Invalid email format")) {
-                result.setMessage("Invalid email format");
             } else {
                 result.setMessage(e.getMessage());
             }
@@ -107,6 +109,7 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
@@ -167,8 +170,6 @@ public class PersonService implements IPersonService {
                 result.setMessage("The country doesn't exist");
             } else if (e.getMessage().contains("insert or update on table \"person\" violates foreign key constraint \"person_phonecountry_fkey\"")) {
                 result.setMessage("The phone country doesn't exist");
-            } else if (e.getMessage().contains("Invalid email format")) {
-                result.setMessage("Invalid email format");
             } else {
                 result.setMessage(e.getMessage());
             }
@@ -178,6 +179,7 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personDelete(Map<String, Object> keyMap) {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");

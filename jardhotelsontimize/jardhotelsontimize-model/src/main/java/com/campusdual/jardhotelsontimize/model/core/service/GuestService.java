@@ -4,9 +4,11 @@ import com.campusdual.jardhotelsontimize.api.core.service.IGuestService;
 import com.campusdual.jardhotelsontimize.model.core.dao.GuestDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class GuestService implements IGuestService {
     private PersonService personService;
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         List<String> attrList2 = new ArrayList<>();
@@ -61,6 +64,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestInsert(Map<String, Object> attrMap) {
 
         if (attrMap.get("id") != null) {
@@ -72,6 +76,8 @@ public class GuestService implements IGuestService {
             if (resultId.getCode() == 0) {
                 EntityResult queryGuest = guestQuery(map, attrList);
                 if (queryGuest.getCode() == 1) {
+                    //TODO si ya existe la persona solo hay que darle permisos. hay que obtener el user_ a partir del id de la persona
+
                     EntityResult result = this.daoHelper.insert(this.guestDao, map);
                     result.setMessage("Successful guest insert");
                     return result;
@@ -89,6 +95,9 @@ public class GuestService implements IGuestService {
                 return error;
             }
         }
+        //TODO si no existe hay que comprobar que le llegan los atributos de user y que estan bien.
+        // si lo estan despues de insertar la persona se inserta el usuario y se le da rol
+
         EntityResult result = personService.personInsert(attrMap);
         if (result.getCode() == 0) {
             Map<String, Object> map = new HashMap<>();
@@ -107,6 +116,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();
@@ -127,6 +137,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestDelete(Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();

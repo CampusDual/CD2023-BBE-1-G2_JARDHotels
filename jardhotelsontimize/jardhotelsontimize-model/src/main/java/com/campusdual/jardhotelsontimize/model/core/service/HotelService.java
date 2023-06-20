@@ -4,9 +4,11 @@ import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class HotelService implements IHotelService {
     private HotelDao hotelDao;
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         EntityResult result = this.daoHelper.query(this.hotelDao,keyMap,attrList);
@@ -41,6 +44,7 @@ public class HotelService implements IHotelService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelInsert(Map<String, Object> attrMap) {
 
         EntityResult result = new EntityResultMapImpl();
@@ -85,6 +89,7 @@ public class HotelService implements IHotelService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         List<String>attrList = new ArrayList<>();
@@ -143,6 +148,7 @@ public class HotelService implements IHotelService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelDelete(Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();

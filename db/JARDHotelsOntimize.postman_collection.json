@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6fcdb426-b29e-4ef6-b987-8ea1cafc44ee",
+		"_postman_id": "f6a8a4ef-0c79-41b3-a05d-e795e6ae8312",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -450,7 +450,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -482,7 +482,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -514,7 +514,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 12\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 12\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -546,7 +546,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:65431/persons/person?columns=id,name,surname,phone,email,documentation,country,phonecountry",
+							"raw": "http://localhost:65431/persons/person?columns=id,name,surname,phone,documentation,country,phonecountry",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -559,7 +559,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,surname,phone,email,documentation,country,phonecountry"
+									"value": "id,name,surname,phone,documentation,country,phonecountry"
 								}
 							]
 						}
@@ -613,7 +613,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"64654645N\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"64654645N\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -677,7 +677,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -709,7 +709,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -741,7 +741,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,email,documentation,country,phonecountry",
+							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,documentation,country,phonecountry",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -754,7 +754,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,surname,phone,email,documentation,country,phonecountry"
+									"value": "id,name,surname,phone,documentation,country,phonecountry"
 								}
 							]
 						}

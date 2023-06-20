@@ -1,4 +1,9 @@
 DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS trole_server_permission;
+DROP TABLE IF EXISTS tserver_permission;
+DROP TABLE IF EXISTS tuser_role;
+DROP TABLE IF EXISTS trole;
+DROP TABLE IF EXISTS tuser;
 DROP TABLE IF EXISTS guest;
 DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS job;
@@ -96,7 +101,6 @@ CREATE TABLE IF NOT EXISTS person (
 	name VARCHAR(100) NOT NULL,
 	surname VARCHAR(250) NOT NULL,
 	phone VARCHAR(30) NOT NULL,
-	email VARCHAR(100) NOT NULL,
 	documentation VARCHAR(80) NOT NULL,
 	country INTEGER NOT NULL,
 	phonecountry INTEGER NOT NULL,
@@ -110,10 +114,8 @@ CREATE TABLE IF NOT EXISTS person (
 		ON UPDATE CASCADE,
 	
 	CONSTRAINT "Repeated documentation in another person" 
-		UNIQUE (documentation),
+		UNIQUE (documentation)
 	
-	CONSTRAINT "Invalid email format" 
-		CHECK (email ~* '^[A-ZA-Z0-9._%+-]+@[A-ZA-Z0-9.-]+\.[A-ZA-Z]{2,}$')
 );
 --COMPROBAR DOCUMENTACIONES Y TELEFONOS
 
@@ -404,6 +406,74 @@ FOR EACH ROW
 WHEN (NEW.country = 7) --Id de China debe ser 7
 EXECUTE FUNCTION verify_documentation_china();
 
+
+--------------------------SECURIZACIÓN-------------------------------
+ /*************************************************/
+/******************Tabla usuario******************/
+
+CREATE TABLE IF NOT EXISTS tuser(
+	user_ VARCHAR(50) NOT NULL PRIMARY KEY,
+	password VARCHAR(255) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	lastpasswordupdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	firstlogin BOOLEAN DEFAULT TRUE,
+	userbloqued BOOLEAN DEFAULT FALSE,
+	idperson INTEGER NOT NULL,
+	
+	FOREIGN KEY(idperson) REFERENCES person (id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	
+	CONSTRAINT "Invalid email format" 
+		CHECK (email ~* '^[A-ZA-Z0-9._%+-]+@[A-ZA-Z0-9.-]+\.[A-ZA-Z]{2,}$')
+);
+
+ /*************************************************/
+/******************Tabla rol**********************/
+CREATE TABLE IF NOT EXISTS trole(
+	id SERIAL PRIMARY KEY,
+	rolename VARCHAR(255) NOT NULL,
+	xmlclientpermission VARCHAR(10485760) NOT NULL
+);
+
+ /*********************************************************/
+/******************Tabla usuario rol**********************/
+CREATE TABLE IF NOT EXISTS tuser_role(
+	id SERIAL PRIMARY KEY,
+	id_role INTEGER NOT NULL,
+	user_name VARCHAR(50) NOT NULL,
+	
+	CONSTRAINT "unique role in user" 
+		UNIQUE (id_role, user_name),
+	
+	FOREIGN KEY(id_role) REFERENCES trole(id)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
+		
+	FOREIGN KEY(user_name) references tuser(user_)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+); 
+
+ /******************************************************/
+/******************Tabla permisos**********************/
+CREATE TABLE tserver_permission(
+	id SERIAL PRIMARY KEY,
+	permission_name VARCHAR(10485760)
+);
+
+CREATE TABLE trole_server_permission(
+	id SERIAL PRIMARY KEY,
+	id_rolename INTEGER NOT NULL,
+	id_server_permission INTEGER NOT NULL,
+	
+	FOREIGN KEY(id_rolename) REFERENCES trole(id),
+	FOREIGN KEY(id_server_permission) REFERENCES tserver_permission(id)
+);
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
  /*************************************************/
 /******************Tabla huesped******************/
 
@@ -413,7 +483,7 @@ CREATE TABLE IF NOT EXISTS guest (
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 );
-/*****************************************************************/
+ /*****************************************************************/
 /******************Tabla formato cuenta bancaria******************/
 CREATE TABLE IF NOT EXISTS bankaccountformat(
 	id SERIAL PRIMARY KEY,

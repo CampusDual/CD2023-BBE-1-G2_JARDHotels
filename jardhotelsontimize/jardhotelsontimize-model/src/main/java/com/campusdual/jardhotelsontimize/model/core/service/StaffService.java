@@ -38,8 +38,11 @@ public class StaffService implements IStaffService {
     @Autowired
     private BankAccountService bankAccountService;
 
+    @Autowired
+    private HotelService hotelService;
+
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult staffQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         List<String> attrList2 = new ArrayList<>();
@@ -59,6 +62,10 @@ public class StaffService implements IStaffService {
         if (attrList.contains("job")) {
             attrList2.add("job");
             attrList.remove("job");
+        }
+        if (attrList.contains("idhotel")) {
+            attrList2.add("idhotel");
+            attrList.remove("idhotel");
         }
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList2);
         if (!erStaff.toString().contains("id")) {
@@ -102,19 +109,21 @@ public class StaffService implements IStaffService {
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult staffInsert(Map<String, Object> attrMap) {
-        if (attrMap.get("bankaccount") == null || attrMap.get("bankaccountformat") == null || attrMap.get("salary") == null || attrMap.get("job") == null) {
+        if (attrMap.get("bankaccount") == null || attrMap.get("bankaccountformat") == null || attrMap.get("salary") == null || attrMap.get("job") == null || attrMap.get("idhotel") == null) {
             EntityResult error = new EntityResultMapImpl();
             error.setCode(EntityResult.OPERATION_WRONG);
             error.setMessage("All attributes must be filled");
             return error;
         }
+
         Map<String, Object> copy = new HashMap<>(attrMap);
         copy.remove("bankaccount");
         copy.remove("bankaccountformat");
         copy.remove("salary");
         copy.remove("job");
+        copy.remove("idhotel");
         if (attrMap.get("id") != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", attrMap.get("id"));
@@ -131,6 +140,7 @@ public class StaffService implements IStaffService {
                         map.put("bankaccountformat", attrMap.get("bankaccountformat"));
                         map.put("salary", attrMap.get("salary"));
                         map.put("job", attrMap.get("job"));
+                        map.put("idhotel", attrMap.get("idhotel"));
                         checkAttributesStaff(map);
                         EntityResult result = this.daoHelper.insert(this.staffDao, map);
                         result.setMessage("Successful staff insert");
@@ -173,6 +183,7 @@ public class StaffService implements IStaffService {
             map.put("bankaccountformat", attrMap.get("bankaccountformat"));
             map.put("salary", attrMap.get("salary"));
             map.put("job", attrMap.get("job"));
+            map.put("idhotel", attrMap.get("idhotel"));
             this.daoHelper.insert(this.staffDao, map);
             result.setMessage("Successful staff member insertion");
         }
@@ -180,7 +191,7 @@ public class StaffService implements IStaffService {
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult staffUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();
@@ -308,7 +319,6 @@ public class StaffService implements IStaffService {
                     }
                     break;
             }
-
         }
 
         if (attrMap.containsKey("salary")) {
@@ -329,10 +339,22 @@ public class StaffService implements IStaffService {
             }
         }
 
+        if (attrMap.containsKey("idhotel")) {
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+            Map<String, Object> key = new HashMap<>();
+            key.put("id", attrMap.get("idhotel"));
+
+            EntityResult hotelQuery = hotelService.hotelQuery(key, attrList);
+            if (hotelQuery.getCode() == EntityResult.OPERATION_WRONG) {
+                throw new RuntimeException("Hotel Not Found");
+            }
+        }
+
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult staffDelete(Map<String, Object> keyMap) {
 
         List<String> attrList = new ArrayList<>();

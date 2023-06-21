@@ -35,8 +35,8 @@
 						#COLUMNS#
 					from
 						${mainschema}.tuser tu
-						JOIN ${mainschema}.tuser_role tur ON tu.user_ = tur.user_
-						JOIN ${mainschema}.trole tr ON tur.id_rolename = tr.id
+						JOIN ${mainschema}.tuser_role tur ON tu.user_ = tur.user_name
+						JOIN ${mainschema}.trole tr ON tur.id_role = tr.id
 					#WHERE#
 					#ORDER#
 					]]>

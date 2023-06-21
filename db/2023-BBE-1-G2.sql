@@ -507,7 +507,11 @@ CREATE TABLE IF NOT EXISTS staff (
 	bankaccountformat INTEGER NOT NULL,
 	salary DECIMAL(8,2) NOT NULL,
 	job INTEGER NOT NULL,
+	idhotel INTEGER NOT NULL,
 	FOREIGN KEY(id) REFERENCES person(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY(idhotel) REFERENCES hotel(id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
 	FOREIGN KEY(bankaccountformat) REFERENCES bankaccountformat(id)
@@ -516,7 +520,6 @@ CREATE TABLE IF NOT EXISTS staff (
 	FOREIGN KEY(job) REFERENCES job(id)
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE
-	
 );
 
  /*************************************************/

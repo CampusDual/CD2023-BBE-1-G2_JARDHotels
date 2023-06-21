@@ -15,4 +15,5 @@ public class StaffDao extends OntimizeJdbcDaoSupport {
     public static final String ATTR_BANKACCOUNTFORMAT = "bankaccountformat";
     public static final String ATTR_SALARY = "salary";
     public static final String ATTR_JOB = "job";
+    public static final String ATTR_IDHOTEL = "idhotel";
 }

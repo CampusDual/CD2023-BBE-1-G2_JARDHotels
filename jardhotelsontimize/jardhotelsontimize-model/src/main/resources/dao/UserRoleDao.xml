@@ -25,8 +25,9 @@
 		</Query>
 		<Query id="userRole">
 			<AmbiguousColumns>
-				<AmbiguousColumn name="USER_" prefix="tu" />
-				<AmbiguousColumn name="ID_ROLENAME" prefix="tr" />
+				<AmbiguousColumn name="user_" prefix="tu" />
+				<AmbiguousColumn name="id" prefix="tr" />
+				<AmbiguousColumn name="id" prefix="tur" />
 			</AmbiguousColumns>
 			<Sentence>
 					<![CDATA[
@@ -35,7 +36,7 @@
 					from
 						${mainschema}.tuser tu
 						JOIN ${mainschema}.tuser_role tur ON tu.user_ = tur.user_
-						JOIN ${mainschema}.trole tr ON tur.id_rolename = tr.id_rolename
+						JOIN ${mainschema}.trole tr ON tur.id_rolename = tr.id
 					#WHERE#
 					#ORDER#
 					]]>
@@ -43,8 +44,9 @@
 		</Query>
 		<Query id="serverPermissions">
 			<AmbiguousColumns>
-				<AmbiguousColumn name="id_role" prefix="tr" />
-				<AmbiguousColumn name="id_server_permission" prefix="tsp" />
+				<AmbiguousColumn name="id" prefix="tr" />
+				<AmbiguousColumn name="id" prefix="tsp" />
+				<AmbiguousColumn name="id" prefix="trsp" />
 			</AmbiguousColumns>
 			<Sentence>
 					<![CDATA[
@@ -52,8 +54,8 @@
 						#COLUMNS#
 					from
 						${mainschema}.trole trl
-						JOIN ${mainschema}.trole_server_permission trsp ON trl.id_rolename = trsp.id_rolename
-						JOIN ${mainschema}.tserver_permission tsp ON trsp.id_server_permission = tsp.id_server_permission
+						JOIN ${mainschema}.trole_server_permission trsp ON trl.id = trsp.id_rolename
+						JOIN ${mainschema}.tserver_permission tsp ON trsp.id_server_permission = tsp.id
 					#WHERE#
 					#ORDER#
 					]]>

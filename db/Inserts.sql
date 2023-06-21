@@ -5,7 +5,7 @@ INSERT INTO coin (coin) VALUES
 
 
 INSERT INTO country (country, coin) VALUES 
-	('Spain' ,1),
+	('Spain', 1),
 	('United States', 2),
 	('United Kingdom', 3),
 	('France', 1),

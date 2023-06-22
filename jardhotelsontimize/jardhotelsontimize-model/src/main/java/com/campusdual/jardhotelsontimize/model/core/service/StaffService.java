@@ -166,6 +166,14 @@ public class StaffService implements IStaffService {
                 return error;
             }
         }
+        try{
+            checkAttributesStaff(attrMap);
+        }catch (Exception e){
+            EntityResult error = new EntityResultMapImpl();
+            error.setCode(EntityResult.OPERATION_WRONG);
+            error.setMessage(e.getMessage());
+            return error;
+        }
         //TODO si la persona no existe comprobar que tiene todos los datos necesarios para la inserción en user y verificar
         //después de insertar en persona añadir user y dar permisos a partir de su trabajo
         EntityResult result = personService.personInsert(copy);

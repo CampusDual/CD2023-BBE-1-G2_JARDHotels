@@ -40,6 +40,8 @@ public class StaffServiceTest {
 
     @Mock
     JobService jobService;
+    @Mock
+    HotelService hotelService;
 
     @Mock
     StaffDao staffDao;
@@ -107,12 +109,14 @@ public class StaffServiceTest {
             staffToInsert.put("bankaccountformat", 5);
             staffToInsert.put("salary", 1);
             staffToInsert.put("job", 1);
+            staffToInsert.put("idhotel",1);
 
             when(daoHelper.insert(any(StaffDao.class), anyMap())).thenReturn(er);
             when(personService.personQuery(anyMap(), anyList())).thenReturn(er2);
             when(daoHelper.query(any(StaffDao.class), anyMap(), anyList())).thenReturn(er3);
             when(bankAccountService.bankaccountQuery(anyMap(), anyList())).thenReturn(er2);
             when(jobService.jobQuery(anyMap(), anyList())).thenReturn(er2);
+            when(hotelService.hotelQuery(anyMap(), anyList())).thenReturn(er2);
 
             EntityResult result = staffService.staffInsert(staffToInsert);
             assertEquals("Successful staff insert", result.getMessage());
@@ -132,6 +136,7 @@ public class StaffServiceTest {
             staffToInsert.put("bankaccountformat", 5);
             staffToInsert.put("salary", 1);
             staffToInsert.put("job", 1);
+            staffToInsert.put("idhotel", 1);
 
             when(personService.personQuery(anyMap(), anyList())).thenReturn(er2);
 
@@ -155,6 +160,7 @@ public class StaffServiceTest {
             staffToInsert.put("bankaccountformat", 5);
             staffToInsert.put("salary", 1);
             staffToInsert.put("job", 1);
+            staffToInsert.put("idhotel", 1);
 
             when(personService.personQuery(anyMap(), anyList())).thenReturn(er);
             when(daoHelper.query(any(StaffDao.class), anyMap(), anyList())).thenReturn(er);

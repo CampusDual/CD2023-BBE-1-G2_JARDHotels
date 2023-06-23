@@ -91,6 +91,12 @@ public class HotelRestController extends ORestController<IHotelService> {
     private EntityResult calculateDistance(EntityResult query, double latitude, double longitude) {
         List<BigDecimal>latitudeList = (List<BigDecimal>) query.get("latitude");
         List<BigDecimal>longitudeList = (List<BigDecimal>) query.get("longitude");
+        if (latitudeList == null) {
+            latitudeList = new ArrayList<>();
+        }
+        if (longitudeList == null) {
+            longitudeList = new ArrayList<>();
+        }
         List<Double> distances = calculateDistance(latitudeList, longitudeList, latitude, longitude);
         query.put("distance(km)", distances);
         return query;

@@ -64,7 +64,6 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestInsert(Map<String, Object> attrMap) {
 
         if (attrMap.get("id") != null) {

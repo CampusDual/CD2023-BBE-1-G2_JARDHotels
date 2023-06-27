@@ -143,44 +143,37 @@ INSERT INTO tserver_permission VALUES
 	 (11,'com.campusdual.jardhotelsontimize.api.core.service.IPersonService/personUpdate'),
 	 (12,'com.campusdual.jardhotelsontimize.api.core.service.IPersonService/personDelete'),
 	 (13,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestQuery'),
-	 (14,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestInsert'),
-	 (15,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestUpdate'),
-	 (16,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestDelete'),
-	 (17,'com.campusdual.jardhotelsontimize.api.core.service.IJobService/jobQuery'),
-	 (18,'com.campusdual.jardhotelsontimize.api.core.service.IBankAccountService/bankaccountQuery'),
-	 (19,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffQuery'),
-	 (20,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffInsert'),
-	 (21,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffUpdate'),
-	 (22,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffDelete'),
-	 (23,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingQuery'),
-	 (24,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingInsert'),
-	 (25,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingUpdate'),
-	 (26,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingDelete');
+	 (14,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestUpdate'),
+	 (15,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestDelete'),
+	 (16,'com.campusdual.jardhotelsontimize.api.core.service.IJobService/jobQuery'),
+	 (17,'com.campusdual.jardhotelsontimize.api.core.service.IBankAccountService/bankaccountQuery'),
+	 (18,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffQuery'),
+	 (19,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffInsert'),
+	 (20,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffUpdate'),
+	 (21,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffDelete'),
+	 (22,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingQuery'),
+	 (23,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingInsert'),
+	 (24,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingUpdate'),
+	 (25,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingDelete');
 
 INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES 
 	 (1, 1), -- 1 -> guest
 	 (1, 5),
-	 (1, 9),
-	 (1, 10),
-	 (1, 11),
-	 (1, 12),
 	 (1, 13),
 	 (1, 14),
 	 (1, 15),
-	 (1, 16),
 	 (1, 23),
 	 (1, 24),
 	 (1, 25),
-	 (1, 26),
+	 (1, 22),
 	 (2, 5), -- 2 -> recepcionist
 	 (2, 13),
 	 (2, 14),
 	 (2, 15),
-	 (2, 16),
 	 (2, 23),
 	 (2, 24),
 	 (2, 25),
-	 (2, 26),
+	 (2, 22),
 	 (3, 1), -- 3 -> hotel manager
 	 (3, 3),
 	 (3, 5),
@@ -190,7 +183,7 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (3, 19),
 	 (3, 20),
 	 (3, 21),
-	 (3, 22),
+	 (3, 18),
 	 (4,1), -- 4 -> admin
 	 (4,2),
 	 (4,3),
@@ -215,8 +208,7 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (4,22),
 	 (4,23),
 	 (4,24),
-	 (4,25),
-	 (4,26);
+	 (4,25);
 
 /*********************************************************************************/
 

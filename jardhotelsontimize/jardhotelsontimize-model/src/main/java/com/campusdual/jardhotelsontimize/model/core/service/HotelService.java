@@ -9,7 +9,10 @@ import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import com.ontimize.jee.common.services.user.UserInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +28,9 @@ public class HotelService implements IHotelService {
 
     @Autowired
     private HotelDao hotelDao;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
@@ -91,7 +97,13 @@ public class HotelService implements IHotelService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
+       try {
+           UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+           EntityResult userQuery = userService.userQuery();
+           System.err.println(userInformation.getUsername());
+       }catch (Exception e){
 
+       }
         List<String>attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult hotelQuery = hotelQuery(keyMap, attrList);

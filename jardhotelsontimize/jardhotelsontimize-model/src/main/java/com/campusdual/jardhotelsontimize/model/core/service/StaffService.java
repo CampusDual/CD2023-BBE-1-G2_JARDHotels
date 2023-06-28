@@ -77,6 +77,7 @@ public class StaffService implements IStaffService {
         }
 
         if (!attrList.contains("id")) attrList.add("id");
+        //TODO comprobar que quien intenta hacer la query es un manager del mismo hotel que el trabajador
         EntityResult erPerson = this.personService.personQuery(keyMap, attrList);
         EntityResult er = new EntityResultMapImpl();
 
@@ -134,7 +135,8 @@ public class StaffService implements IStaffService {
                 EntityResult queryStaff = staffQuery(map, attrList);
                 if (queryStaff.getCode() == 1) {
                     try {
-                        //TODO si ya existe la persona se busca su user_ a partir del id y se le da permisos de
+                        //TODO comprobar que quien intenta insertar al trabajador es en su hotel y no inserta un admin
+                        //TODO si ya existe la persona se busca su username a partir del id y se le da permisos de
                         // comprobar el trabajo
                         map.put("bankaccount", attrMap.get("bankaccount"));
                         map.put("bankaccountformat", attrMap.get("bankaccountformat"));
@@ -174,6 +176,7 @@ public class StaffService implements IStaffService {
             error.setMessage(e.getMessage());
             return error;
         }
+        //TODO comprobar que quien intenta insertar al trabajador es en su hotel y no inserta un admin
         //TODO si la persona no existe comprobar que tiene todos los datos necesarios para la inserción en user y verificar
         //después de insertar en persona añadir user y dar permisos a partir de su trabajo
         EntityResult result = personService.personInsert(copy);
@@ -237,6 +240,8 @@ public class StaffService implements IStaffService {
             EntityResult erPerson = personService.personUpdate(attrMap, keyMap);
             if (erPerson.getCode() == 0) {
                 try {
+                    //TODO comprobar que quien intenta modificar al trabajador es en su hotel y no lo cambia a un admin
+                    //TODO comprobar que existe algún admin si se intenta eliminar un admin
                     //TODO comprobar si cambia de oficio
                     // si cambia de oficio hay que darle los permisos del nuevo y quitarle el del antiguo
                     this.daoHelper.update(this.staffDao, attrMap2, keyMap);
@@ -369,6 +374,9 @@ public class StaffService implements IStaffService {
         attrList.add("id");
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList);
         if (erStaff.toString().contains("id")) {
+            //TODO comprobar que quien intenta eliminar al trabajador es en su hotel y no lo cambia a un admin
+            //TODO comprobar que existe algún admin si se intenta eliminar un admin
+
             EntityResult erGuest = guestService.guestQuery(keyMap, attrList);
             if (erGuest.toString().contains("id")) {
                 EntityResult deleteStaff = this.daoHelper.delete(this.staffDao, keyMap);

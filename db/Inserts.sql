@@ -51,11 +51,13 @@ INSERT INTO person (name, surname, phone, documentation, country, phonecountry) 
     ('Pedro', 'Navarro', '+351289876543', '987654321', 6,6),
     ('Isabel', 'Sánchez', '+34987987987', '87654321X', 1,1),
     ('José', 'Romero', '888888888', '56789012I', 8,8),
-    ('Ana', 'Jiménez', '+447876543210', 'G12345678', 3,3),
-   	('Admin', 'Admin', 'Admin', 'Admin', 8,8);
+    ('Ana', 'Jiménez', '+447876543210', 'G12345678', 3,3);
    
    
-INSERT INTO tuser (user_, password, email, idperson) VALUES
+INSERT INTO person (id, name, surname, phone, documentation, country, phonecountry) VALUES   
+	(-1, 'Admin', 'Admin', 'Admin', 'Admin', 8,8);
+   
+INSERT INTO tuser (username, password, email, idperson) VALUES
 	('juan123', 'password1', 'juan123@example.com', 1),
 	('maria456', 'password2', 'maria456@example.com', 2),
 	('antonio789', 'password3', 'antonio789@example.com', 3),
@@ -66,7 +68,7 @@ INSERT INTO tuser (user_, password, email, idperson) VALUES
 	('isabel987', 'password8', 'isabel987@example.com', 8),
 	('jose123', 'password9', 'jose123@example.com', 9),
 	('ana456', 'password10', 'ana456@example.com', 10),
-	('admin', 'admin', 'admin@example.com', 11);
+	('admin', 'admin', 'admin@admin.com', -1);
 
 
 INSERT INTO job (job) VALUES 
@@ -154,7 +156,8 @@ INSERT INTO tserver_permission VALUES
 	 (22,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingQuery'),
 	 (23,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingInsert'),
 	 (24,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingUpdate'),
-	 (25,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingDelete');
+	 (25,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingDelete'),
+	 (26, 'com.campusdual.jardhotelsontimize.api.core.service.IUserService/userQuery');
 
 INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES 
 	 (1, 1), -- 1 -> guest
@@ -184,31 +187,35 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (3, 20),
 	 (3, 21),
 	 (3, 18),
-	 (4,1), -- 4 -> admin
-	 (4,2),
-	 (4,3),
-	 (4,4),
-	 (4,5),
-	 (4,6),
-	 (4,7),
-	 (4,8),
-	 (4,9),
-	 (4,10),
-	 (4,11),
-	 (4,12),
-	 (4,13),
-	 (4,14),
-	 (4,15),
-	 (4,16),
-	 (4,17),
-	 (4,18),
-	 (4,19),
-  	 (4,20),
-	 (4,21),
-	 (4,22),
-	 (4,23),
-	 (4,24),
-	 (4,25);
+	 (3, 26),
+	 (3, 18),
+	 (3, 9),
+	 (4, 1), -- 4 -> admin
+	 (4, 2),
+	 (4, 3),
+	 (4, 4),
+	 (4, 5),
+	 (4, 6),
+	 (4, 7),
+	 (4, 8),
+	 (4, 9),
+	 (4, 10),
+	 (4, 11),
+	 (4, 12),
+	 (4, 13),
+	 (4, 14),
+	 (4, 15),
+	 (4, 16),
+	 (4, 17),
+	 (4, 18),
+	 (4, 19),
+  	 (4, 20),
+	 (4, 21),
+	 (4, 22),
+	 (4, 23),
+	 (4, 24),
+	 (4, 25),
+	 (4, 26);
 
 /*********************************************************************************/
 

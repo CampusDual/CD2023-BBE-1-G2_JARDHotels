@@ -37,7 +37,7 @@ ontimize:
          client-permission-column: xmlclientpermission
       user-information-service:
          user-repository: UserDao
-         user-login-column: user_
+         user-login-column: username
          user-password-column: password
          query-id: login
          other-data:
@@ -48,7 +48,7 @@ ontimize:
       user-role-information-service:
          user-role-repository: UserRoleDao
          query-id: userRole
-         role-login-column: user_
+         role-login-column: username
          role-name-column: rolename
 server:
    port: 65431

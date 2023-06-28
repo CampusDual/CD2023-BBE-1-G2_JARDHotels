@@ -25,7 +25,7 @@
 		</Query>
 		<Query id="userRole">
 			<AmbiguousColumns>
-				<AmbiguousColumn name="user_" prefix="tu" />
+				<AmbiguousColumn name="username" prefix="tu" />
 				<AmbiguousColumn name="id" prefix="tr" />
 				<AmbiguousColumn name="id" prefix="tur" />
 			</AmbiguousColumns>
@@ -35,7 +35,7 @@
 						#COLUMNS#
 					from
 						${mainschema}.tuser tu
-						JOIN ${mainschema}.tuser_role tur ON tu.user_ = tur.user_name
+						JOIN ${mainschema}.tuser_role tur ON tu.username = tur.user_name
 						JOIN ${mainschema}.trole tr ON tur.id_role = tr.id
 					#WHERE#
 					#ORDER#

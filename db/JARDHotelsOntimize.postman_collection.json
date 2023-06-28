@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cab937cd-2327-431e-b02b-08bb47f9b291",
+		"_postman_id": "f1d9f2f6-abbc-41da-9574-e4ae677d0424",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -60,12 +60,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 10\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -295,12 +295,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -309,7 +309,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"number\": 402,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 1,\r\n        \"price\": 10\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"number\": 402,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 9,\r\n        \"price\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -339,12 +339,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -353,7 +353,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 2\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 13\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 10\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -525,12 +525,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -539,7 +539,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 15\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 13\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -811,7 +811,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"64654645N\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"15521794Z\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"username\": \"laurencia99\",\r\n    \"email\":\"laurita2@gmail.com\",\r\n    \"password\":\"1234\"\r\n\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1880,7 +1880,10 @@
 					"name": "Add",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -1888,7 +1891,10 @@
 					"name": "Update",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -1940,7 +1946,10 @@
 					"name": "Get All",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -1948,7 +1957,10 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				}

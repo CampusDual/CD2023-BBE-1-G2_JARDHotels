@@ -37,7 +37,7 @@ public class UserService implements IUserService {
 	public EntityResult userQuery(Map<String, Object> keyMap, List<String> attrList) {
 		EntityResult result = this.daoHelper.query(userDao, keyMap, attrList);
 
-		if(!result.contains("user_")){
+		if(!result.toString().contains("username")){
 			EntityResult error = new EntityResultMapImpl();
 			error.setCode(EntityResult.OPERATION_WRONG);
 			error.setMessage("User not found");

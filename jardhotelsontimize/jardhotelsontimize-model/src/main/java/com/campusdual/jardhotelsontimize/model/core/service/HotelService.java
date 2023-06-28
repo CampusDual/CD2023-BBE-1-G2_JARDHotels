@@ -9,7 +9,6 @@ import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.ontimize.jee.common.services.user.UserInformation;
@@ -31,6 +30,9 @@ public class HotelService implements IHotelService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StaffService staffService;
 
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
@@ -97,13 +99,7 @@ public class HotelService implements IHotelService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
-       try {
-           UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-           EntityResult userQuery = userService.userQuery();
-           System.err.println(userInformation.getUsername());
-       }catch (Exception e){
 
-       }
         List<String>attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult hotelQuery = hotelQuery(keyMap, attrList);
@@ -111,6 +107,13 @@ public class HotelService implements IHotelService {
         if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
             hotelQuery.setMessage("Hotel not found");
             return hotelQuery;
+        }
+
+
+
+        EntityResult checkPermissions = checkPermissions(keyMap.get("id").toString());
+        if(checkPermissions.getCode() == EntityResult.OPERATION_WRONG){
+            return checkPermissions;
         }
 
         EntityResult result = new EntityResultMapImpl();
@@ -157,6 +160,46 @@ public class HotelService implements IHotelService {
         }
 
         return result;
+    }
+
+    private EntityResult checkPermissions(String idHotel){
+        try {
+            UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            Map<String, Object>key = new HashMap<>();
+            key.put("username", userInformation.getUsername());
+            List<String>attrList = new ArrayList<>();
+            attrList.add("idperson");
+            attrList.add("username");
+            EntityResult userQuery = userService.userQuery(key, attrList);
+
+            key = new HashMap<>();
+            List<Object> ids=(List<Object>)userQuery.get("idperson");
+            key.put("id", ids.get(0));
+            attrList = new ArrayList<>();
+            attrList.add("idhotel");
+            attrList.add("job");
+            attrList.add("id");
+
+            EntityResult staffQuery = staffService.staffQuery(key, attrList);
+
+            if(staffQuery.getCode() == 0){
+
+                List<Object>idsHotel = (List<Object>) staffQuery.get("idhotel");
+                List<Object>jobs = (List<Object>) staffQuery.get("job");
+
+                if(jobs.get(0).toString().equals("10") && !(idsHotel.get(0).toString().equals(idHotel))){
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("This hotel manager can only update the hotel " + idsHotel.get(0).toString());
+                    return error;
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new EntityResultMapImpl();
+        }
+        return new EntityResultMapImpl();
     }
 
     @Override

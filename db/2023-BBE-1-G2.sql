@@ -412,7 +412,7 @@ EXECUTE FUNCTION verify_documentation_china();
 /******************Tabla usuario******************/
 
 CREATE TABLE IF NOT EXISTS tuser(
-	user_ VARCHAR(50) NOT NULL PRIMARY KEY,
+	username VARCHAR(50) NOT NULL PRIMARY KEY,
 	password VARCHAR(255) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	lastpasswordupdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -450,7 +450,7 @@ CREATE TABLE IF NOT EXISTS tuser_role(
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE,
 		
-	FOREIGN KEY(user_name) references tuser(user_)
+	FOREIGN KEY(user_name) references tuser(username)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 ); 

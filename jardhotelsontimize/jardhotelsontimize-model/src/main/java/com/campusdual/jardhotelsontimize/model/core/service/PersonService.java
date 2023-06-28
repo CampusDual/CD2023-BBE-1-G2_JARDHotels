@@ -3,6 +3,7 @@ package com.campusdual.jardhotelsontimize.model.core.service;
 import com.campusdual.jardhotelsontimize.api.core.service.IPersonService;
 import com.campusdual.jardhotelsontimize.model.core.dao.PersonDao;
 import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Lazy
 @Service("PersonService")
@@ -24,6 +27,9 @@ public class PersonService implements IPersonService {
 
     @Autowired
     private PersonDao personDao;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
@@ -42,11 +48,22 @@ public class PersonService implements IPersonService {
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personInsert(Map<String, Object> attrMap) {
 
-        List<String> attrList = new ArrayList<>();
-        attrList.add("id");
-        EntityResult result = personQuery(attrMap, attrList);
+        EntityResult result = new EntityResultMapImpl();
         try {
+            Map<String, Object>userMap = checkAtributesUserInsert(attrMap);
+            attrMap = filterAttrMap(attrMap);
+
             result = this.daoHelper.insert(this.personDao, attrMap);
+
+            Map <String, Object>keyMap = new HashMap<>();
+            keyMap.put("documentation", attrMap.get("documentation"));
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+            EntityResult personQuery = personQuery(keyMap, attrList);
+            List<Object>ids = (List<Object>) personQuery.get("id");
+            userMap.put("idperson", ids.get(0));
+            userService.userInsert(userMap);
+
             result.setMessage("Successful person insertion");
         } catch (Exception e) {
             result.setCode(EntityResult.OPERATION_WRONG);
@@ -108,6 +125,70 @@ public class PersonService implements IPersonService {
         return result;
     }
 
+    private Map<String, Object> filterAttrMap(Map<String, Object> attrMap) {
+        if(attrMap.containsKey("username")){
+            attrMap.remove("username");
+        }
+
+        attrMap.remove("email");
+        attrMap.remove("password");
+
+        if(attrMap.containsKey("lastpasswordupdate")){
+            attrMap.remove("lastpasswordupdate");
+        }
+        if(attrMap.containsKey("firstlogin")){
+            attrMap.remove("firstlogin");
+        }
+        if(attrMap.containsKey("userbloqued")){
+            attrMap.remove("userbloqued");
+        }
+        if(attrMap.containsKey("idperson")){
+            attrMap.remove("idperson");
+        }
+        return attrMap;
+    }
+
+    private Map<String, Object> checkAtributesUserInsert(Map<String, Object> attrMap) {
+        Map<String, Object> toret = new HashMap<>();
+
+        if(!attrMap.containsKey("username")){
+            throw new RuntimeException("Missing username attribute");
+        }else{
+            Map<String, Object> key = new HashMap<>();
+            key.put("username", attrMap.get("username"));
+            List<String> attrList = new ArrayList<>();
+            attrList.add("username");
+            EntityResult userQuery = userService.userQuery(key, attrList);
+            if(userQuery.getCode() != EntityResult.OPERATION_WRONG){
+                throw new RuntimeException("Repeated username");
+            }
+
+            toret.put("username", attrMap.get("username"));
+        }
+
+        if(!attrMap.containsKey("email")){
+            throw new RuntimeException("Missing email attribute");
+        }else if(!isValidEmail(attrMap.get("email").toString())){
+            throw new RuntimeException("Email format not valid");
+        }else{
+            toret.put("email", attrMap.get("email"));
+        }
+
+        if(!attrMap.containsKey("password")){
+            throw new RuntimeException("Missing password attribute");
+        }else{
+            toret.put("password", attrMap.get("password"));
+        }
+        return toret;
+    }
+
+    public static boolean isValidEmail(String email) {
+        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
@@ -117,6 +198,10 @@ public class PersonService implements IPersonService {
         if (result.getMessage().contains("The person doesn't exist"))
             return result;
         try {
+            boolean updateUser = false;
+
+            //TODO
+
             result = this.daoHelper.update(this.personDao, attrMap, keyMap);
             result.setMessage("Successful person update");
         } catch (Exception e) {
@@ -185,15 +270,22 @@ public class PersonService implements IPersonService {
         attrList.add("id");
         attrList.add("name");
         EntityResult query = this.daoHelper.query(this.personDao, keyMap, attrList);
-        EntityResult result = this.daoHelper.delete(this.personDao, keyMap);
 
-        if (query.toString().contains("id")) result.setMessage("Successful person delete");
-        else {
-            result.setMessage("Person not found");
-            result.setCode(EntityResult.OPERATION_WRONG);
-            result.setColumnSQLTypes(new HashMap<>());
+        if (query.toString().contains("id")){
+            List<Integer>ids = (List<Integer>) query.get("id");
+            if(ids.get(0) == -1){
+                EntityResult error = new EntityResultMapImpl();
+                error.setMessage("The system´s admin cannot be deleted");
+            }
+
+            EntityResult result = this.daoHelper.delete(this.personDao, keyMap);
+            result.setMessage("Successful person delete");
+            return result;
+        } else {
+            EntityResult error = new EntityResultMapImpl();
+            error.setMessage("Person not found");
+            error.setCode(EntityResult.OPERATION_WRONG);
+            return error;
         }
-
-        return result;
     }
 }

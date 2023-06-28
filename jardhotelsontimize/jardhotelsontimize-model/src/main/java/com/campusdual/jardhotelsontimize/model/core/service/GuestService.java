@@ -75,7 +75,7 @@ public class GuestService implements IGuestService {
             if (resultId.getCode() == 0) {
                 EntityResult queryGuest = guestQuery(map, attrList);
                 if (queryGuest.getCode() == 1) {
-                    //TODO si ya existe la persona solo hay que darle permisos. hay que obtener el user_ a partir del id de la persona
+                    //TODO si ya existe la persona solo hay que darle permisos. hay que obtener el username a partir del id de la persona
 
                     EntityResult result = this.daoHelper.insert(this.guestDao, map);
                     result.setMessage("Successful guest insert");

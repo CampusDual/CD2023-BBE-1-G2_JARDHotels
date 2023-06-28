@@ -104,7 +104,7 @@ INSERT INTO guest (id) VALUES
 INSERT INTO staff (id, bankaccount, bankaccountformat, salary, job, idhotel)VALUES 
 	(1, 'ES6600190020961234567890', 1, 2500.00, 3, 1),
     (4, 'DE89370400440532013000', 1, 3200.00, 4, 2),
-    (6, '6789678967896789678967', 2, 2600.00, 6, 4),
+    (6, '6789678967896789678967', 2, 2600.00, 3, 4),
     (7, '789012', 3, 2900.00, 7, 6),
     (8, '901234567', 5, 3100.00, 8, 7),
     (9, '123456789', 4, 2700.00, 9, 8),
@@ -120,16 +120,17 @@ INSERT INTO trole VALUES
 	(3,'hotel manager', '<?xml version="1.0" encoding="UTF-8"?><security></security>'),
 	(4,'admin', '<?xml version="1.0" encoding="UTF-8"?><security></security>');
 
-INSERT INTO tuser_role VALUES
-	(1, 1, 'maria456'),
-	(2, 1, 'antonio789'),
-	(3, 1, 'manuel987'),
-	(5, 1, 'laura321'),
-	(6, 1, 'isabel987'),
-	(7, 1, 'ana456'),
-	(8, 2, 'juan123'),
-	(9, 3, 'ana456'),
-	(10, 4, 'admin');
+INSERT INTO tuser_role(id_role, user_name) VALUES
+	(1, 'maria456'),
+	(1, 'antonio789'),
+	(1, 'manuel987'),
+	(1, 'laura321'),
+	(2, 'laura321'),
+	(1, 'isabel987'),
+	(1, 'ana456'),
+	(2, 'juan123'),
+	(3, 'ana456'),
+	(4, 'admin');
 	
 INSERT INTO tserver_permission VALUES 
      (1,'com.campusdual.jardhotelsontimize.api.core.service.IHotelService/hotelQuery'),

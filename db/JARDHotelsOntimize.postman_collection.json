@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1d9f2f6-abbc-41da-9574-e4ae677d0424",
+		"_postman_id": "b26c9ea0-2264-4b9e-a004-8afe42149d34",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -811,7 +811,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"15521794Z\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"username\": \"laurencia99\",\r\n    \"email\":\"laurita2@gmail.com\",\r\n    \"password\":\"1234\"\r\n\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Tinky\",\r\n    \"surname\": \"Winky\",\r\n    \"phone\": \"+447975777666\",\r\n    \"documentation\": \"AC1234567\",\r\n    \"country\":3,\r\n    \"phonecountry\":3,\r\n    \"username\": \"tinkyWinky\",\r\n    \"email\":\"tinky@teletubbie.com\",\r\n    \"password\":\"champiñon\"\r\n\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -855,7 +855,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"id\":2\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"id\":9\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1029,7 +1029,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 9\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1358,7 +1358,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2695.12,\r\n    \"job\":2,\r\n    \"idhotel\":5421236598565\r\n\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":1100,\r\n    \"job\":1,\r\n    \"idhotel\":1,\r\n    \"email\":\"tambien@si.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"si\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1402,7 +1402,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\"data\": {\r\n    \"id\":2,\r\n    \"bankaccount\": \"1321546442134654\",\r\n    \"bankaccountformat\": 1,\r\n    \"salary\":2500.00,\r\n    \"job\":1\r\n}\r\n}",
+							"raw": " {\"data\": {\r\n    \"id\":2,\r\n    \"bankaccount\": \"ES3730042728317644342382\",\r\n    \"bankaccountformat\": 1,\r\n    \"salary\":2500.00,\r\n    \"job\":10,\r\n    \"idhotel\":1\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1446,7 +1446,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 4\r\n    },\r\n    \"data\": {\r\n        \"country\": 100,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"45678901234567890123\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 4,\r\n        \"email\": \"carmengarcia@example.com\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"country\": 1,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"ES1800758225257911838137\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 10,\r\n        \"email\": \"carmengarcia@example.com\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1576,7 +1576,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

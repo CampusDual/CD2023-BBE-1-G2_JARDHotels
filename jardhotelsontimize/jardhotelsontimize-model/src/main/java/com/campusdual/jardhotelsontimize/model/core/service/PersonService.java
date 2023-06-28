@@ -182,6 +182,40 @@ public class PersonService implements IPersonService {
         return toret;
     }
 
+    private boolean checkAtributesUserUpdate(Map<String, Object> attrMap, String oldUsername) {
+
+        //TODO revisar query
+
+        Map<String, Object> key = new HashMap<>();
+        key.put("username", oldUsername);
+        List<String> attrList = new ArrayList<>();
+        attrList.add("username");
+        EntityResult userQuery = userService.userQuery(key, attrList);
+
+        if (attrMap.containsKey("username")) {
+
+            List<String> usernames = (List<String>) userQuery.get("username");
+
+            if (!usernames.get(0).equals(oldUsername)) {
+                if (userQuery.getCode() != EntityResult.OPERATION_WRONG) {
+                    throw new RuntimeException("Repeated username");
+                }
+            }
+        }
+
+        if(attrMap.containsKey("email")) {
+            if(!isValidEmail(attrMap.get("email").toString())) {
+                throw new RuntimeException("Email format not valid");
+            }
+        }
+
+        if(attrMap.containsKey("password")) {
+            //TODO
+        }
+
+        return false;
+    }
+
     public static boolean isValidEmail(String email) {
         String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -198,12 +232,30 @@ public class PersonService implements IPersonService {
         if (result.getMessage().contains("The person doesn't exist"))
             return result;
         try {
-            boolean updateUser = false;
+            //TODO 1 - hacer una query user para recuperar username
+            //TODO 2 - mover los atributos de attrmap de user a otro attrmap
+            //TODO N'T 3 - verificar el nuevo attrmap
+            //TODO 4 - hacer update en user
 
-            //TODO
+            Map<String, Object> key = new HashMap<>();
+            key.put("idperson", keyMap.get("id"));
+            List<String> attrList2 = new ArrayList<>();
+            attrList2.add("username");
+            EntityResult userQuery = userService.userQuery(key, attrList2);
+            List<String> usernames = (List<String>) userQuery.get("username");
+
+            checkAtributesUserUpdate(attrMap, usernames.get(0));
+
+            key = new HashMap<>();
+
+            if (attrMap.containsKey("username")) {
+                key.put("username", attrMap.get("username"));
+                attrMap.remove("username");
+            }
 
             result = this.daoHelper.update(this.personDao, attrMap, keyMap);
             result.setMessage("Successful person update");
+
         } catch (Exception e) {
             result.setCode(EntityResult.OPERATION_WRONG);
             if (e.getMessage().contains("verify_documentation_spain()")) {

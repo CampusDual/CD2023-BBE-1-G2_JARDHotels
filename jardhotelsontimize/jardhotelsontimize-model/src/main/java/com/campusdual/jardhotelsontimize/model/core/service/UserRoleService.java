@@ -33,7 +33,7 @@ public class UserRoleService implements IUserRoleService {
 	public EntityResult user_roleQuery(Map<String, Object> keyMap, List<String> attrList) {
 		EntityResult result = this.daoHelper.query(userRoleDao, keyMap, attrList);
 
-		if(!result.contains("id")){
+		if(!result.toString().contains("id")){
 			EntityResult error = new EntityResultMapImpl();
 			error.setCode(EntityResult.OPERATION_WRONG);
 			error.setMessage("User_Role not found");

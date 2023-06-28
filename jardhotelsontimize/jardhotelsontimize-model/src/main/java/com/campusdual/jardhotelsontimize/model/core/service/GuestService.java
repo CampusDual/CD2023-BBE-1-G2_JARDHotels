@@ -32,6 +32,12 @@ public class GuestService implements IGuestService {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRoleService userRoleService;
+
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList) {
@@ -75,7 +81,21 @@ public class GuestService implements IGuestService {
             if (resultId.getCode() == 0) {
                 EntityResult queryGuest = guestQuery(map, attrList);
                 if (queryGuest.getCode() == 1) {
-                    //TODO si ya existe la persona solo hay que darle permisos. hay que obtener el username a partir del id de la persona
+
+                    Map<String, Object> keyMap = new HashMap<>();
+                    keyMap.put("idperson", attrMap.get("id"));
+
+                    List<String> attrListQuery = new ArrayList<>();
+                    attrListQuery.add("username");
+
+                    EntityResult userQuery = this.userService.userQuery(keyMap, attrListQuery);
+
+                    if (userQuery.getCode() != EntityResult.OPERATION_WRONG) {
+                        keyMap = new HashMap<>();
+                        keyMap.put("user_name", userQuery.get("username"));
+                        keyMap.put("id_role", 1);
+                        userRoleService.user_roleInsert(keyMap);
+                    }
 
                     EntityResult result = this.daoHelper.insert(this.guestDao, map);
                     result.setMessage("Successful guest insert");
@@ -94,9 +114,8 @@ public class GuestService implements IGuestService {
                 return error;
             }
         }
-        //TODO si no existe hay que comprobar que le llegan los atributos de user y que estan bien.
-        // si lo estan despues de insertar la persona se inserta el usuario y se le da rol
 
+        String username = attrMap.get("username").toString();
         EntityResult result = personService.personInsert(attrMap);
         if (result.getCode() == 0) {
             Map<String, Object> map = new HashMap<>();
@@ -109,6 +128,12 @@ public class GuestService implements IGuestService {
             map = new HashMap<>();
             map.put("id", id);
             this.daoHelper.insert(this.guestDao, map);
+
+            Map<String, Object> keyMap = new HashMap<>();
+            keyMap.put("user_name", username);
+            keyMap.put("id_role", 1);
+            userRoleService.user_roleInsert(keyMap);
+
             result.setMessage("Successful guest insertion");
         }
         return result;
@@ -145,6 +170,29 @@ public class GuestService implements IGuestService {
         if (erGuest.toString().contains("id")) {
             EntityResult erStaff = staffService.staffQuery(keyMap, attrList);
             if (erStaff.toString().contains("id")) {
+
+                List<Integer> ids = (List<Integer>) erGuest.get("id");
+
+                Map<String, Object> key = new HashMap<>();
+                key.put("idperson", ids.get(0));
+                List<String> attrList2 = new ArrayList<>();
+                attrList2.add("username");
+                EntityResult userQuery = userService.userQuery(key, attrList2);
+
+                List<String> usernames = (List<String>) userQuery.get("username");
+                key = new HashMap<>();
+                key.put("user_name", usernames.get(0));
+                key.put("id_role", 1);
+
+                attrList2 = new ArrayList<>();
+                attrList2.add("id");
+
+                EntityResult userRoleQuery = userRoleService.user_roleQuery(key, attrList2);
+                ids = (List<Integer>) userRoleQuery.get("id");
+                key = new HashMap<>();
+                key.put("id", ids.get(0));
+                userRoleService.user_roleDelete(key);
+
                 EntityResult deleteGuest = this.daoHelper.delete(this.guestDao, keyMap);
                 deleteGuest.setMessage("Successful guest delete");
                 return deleteGuest;

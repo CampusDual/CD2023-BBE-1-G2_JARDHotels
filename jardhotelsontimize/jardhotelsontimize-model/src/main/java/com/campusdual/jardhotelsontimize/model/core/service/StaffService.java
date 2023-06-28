@@ -2,6 +2,7 @@ package com.campusdual.jardhotelsontimize.model.core.service;
 
 import com.campusdual.jardhotelsontimize.api.core.service.IStaffService;
 import com.campusdual.jardhotelsontimize.model.core.dao.StaffDao;
+import com.campusdual.jardhotelsontimize.model.core.dao.UserRoleDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.security.PermissionsProviderSecured;
@@ -40,6 +41,12 @@ public class StaffService implements IStaffService {
 
     @Autowired
     private HotelService hotelService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     @Secured({PermissionsProviderSecured.SECURED})
@@ -136,8 +143,31 @@ public class StaffService implements IStaffService {
                 if (queryStaff.getCode() == 1) {
                     try {
                         //TODO comprobar que quien intenta insertar al trabajador es en su hotel y no inserta un admin
-                        //TODO si ya existe la persona se busca su username a partir del id y se le da permisos de
-                        // comprobar el trabajo
+
+                        Map<String, Object> keyMap = new HashMap<>();
+                        keyMap.put("idperson", attrMap.get("id"));
+
+                        List<String> attrListQuery = new ArrayList<>();
+                        attrListQuery.add("username");
+
+                        EntityResult userQuery = this.userService.userQuery(keyMap, attrListQuery);
+
+                        if (userQuery.getCode() != EntityResult.OPERATION_WRONG) {
+                            keyMap = new HashMap<>();
+                            keyMap.put("user_name", userQuery.get("username"));
+                            int job = (int) attrMap.get("job");
+                            switch (job) {
+                                case 3:
+                                    keyMap.put("id_role", 2);
+                                    userRoleService.user_roleInsert(keyMap);
+                                    break;
+                                case 10:
+                                    keyMap.put("id_role", 3);
+                                    userRoleService.user_roleInsert(keyMap);
+                                    break;
+                            }
+                        }
+
                         map.put("bankaccount", attrMap.get("bankaccount"));
                         map.put("bankaccountformat", attrMap.get("bankaccountformat"));
                         map.put("salary", attrMap.get("salary"));
@@ -177,10 +207,11 @@ public class StaffService implements IStaffService {
             return error;
         }
         //TODO comprobar que quien intenta insertar al trabajador es en su hotel y no inserta un admin
-        //TODO si la persona no existe comprobar que tiene todos los datos necesarios para la inserción en user y verificar
-        //después de insertar en persona añadir user y dar permisos a partir de su trabajo
         EntityResult result = personService.personInsert(copy);
         if (result.getCode() == 0) {
+
+            String username = attrMap.get("username").toString();
+
             Map<String, Object> map = new HashMap<>();
             map.put("documentation", attrMap.get("documentation"));
             List<String> attrList = new ArrayList<>();
@@ -197,6 +228,20 @@ public class StaffService implements IStaffService {
             map.put("idhotel", attrMap.get("idhotel"));
             this.daoHelper.insert(this.staffDao, map);
             result.setMessage("Successful staff member insertion");
+
+            Map<String, Object> keyMap = new HashMap<>();
+            keyMap.put("user_name", username);
+            int job = (int) attrMap.get("job");
+            switch (job) {
+                case 3:
+                    keyMap.put("id_role", 2);
+                    userRoleService.user_roleInsert(keyMap);
+                    break;
+                case 10:
+                    keyMap.put("id_role", 3);
+                    userRoleService.user_roleInsert(keyMap);
+                    break;
+            }
         }
         return result;
     }
@@ -241,10 +286,70 @@ public class StaffService implements IStaffService {
             if (erPerson.getCode() == 0) {
                 try {
                     //TODO comprobar que quien intenta modificar al trabajador es en su hotel y no lo cambia a un admin
-                    //TODO comprobar que existe algún admin si se intenta eliminar un admin
-                    //TODO comprobar si cambia de oficio
-                    // si cambia de oficio hay que darle los permisos del nuevo y quitarle el del antiguo
+
+                    List<String> attrList2 = new ArrayList<>();
+                    attrList2.add("id");
+                    attrList2.add("job");
+                    EntityResult staffQuery = staffQuery(keyMap, attrList2);
+                    List<Integer> jobs = (List<Integer>) staffQuery.get("job");
+                    int oldJob = jobs.get(0);
+
                     this.daoHelper.update(this.staffDao, attrMap2, keyMap);
+
+                    if (attrMap2.containsKey("job")) {
+
+                        int newJob = (int) attrMap2.get("job");
+                        if (oldJob != newJob) {
+
+                            Map<String, Object> key = new HashMap<>();
+                            key.put("idperson", keyMap.get("id"));
+                            List<String> attrList3 = new ArrayList<>();
+                            attrList3.add("username");
+
+                            EntityResult userQuery = userService.userQuery(key, attrList3);
+                            List<String> usernames = (List<String>) userQuery.get("username");
+
+                            key = new HashMap<>();
+                            attrList3 = new ArrayList<>();
+                            attrList3.add("id");
+
+                            List<Integer> ids;
+
+                            switch (oldJob) {
+                                case 3:
+                                    key.put("id_role", 2);
+                                    EntityResult userRoleQuery = userRoleService.user_roleQuery(key, attrList3);
+                                    ids = (List<Integer>) userRoleQuery.get("id");
+                                    key = new HashMap<>();
+                                    key.put("id", ids.get(0));
+                                    userRoleService.user_roleDelete(key);
+                                    break;
+                                case 10:
+                                    key.put("id_role", 3);
+                                    EntityResult userRoleQuery2 = userRoleService.user_roleQuery(key, attrList3);
+                                    ids = (List<Integer>) userRoleQuery2.get("id");
+                                    key = new HashMap<>();
+                                    key.put("id", ids.get(0));
+                                    userRoleService.user_roleDelete(key);
+                                    break;
+                            }
+
+                            key = new HashMap<>();
+                            key.put("user_name", usernames.get(0));
+
+                            switch (newJob) {
+                                case 3:
+                                    key.put("id_role", 2);
+                                    userRoleService.user_roleInsert(key);
+                                    break;
+                                case 10:
+                                    key.put("id_role", 3);
+                                    userRoleService.user_roleInsert(key);
+                                    break;
+                            }
+                        }
+                    }
+
                 } catch (Exception e) {
                     EntityResult error = new EntityResultMapImpl();
                     error.setMessage(e.getMessage());
@@ -372,13 +477,51 @@ public class StaffService implements IStaffService {
 
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
+        attrList.add("job");
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList);
         if (erStaff.toString().contains("id")) {
             //TODO comprobar que quien intenta eliminar al trabajador es en su hotel y no lo cambia a un admin
-            //TODO comprobar que existe algún admin si se intenta eliminar un admin
 
+            attrList.remove("job");
             EntityResult erGuest = guestService.guestQuery(keyMap, attrList);
             if (erGuest.toString().contains("id")) {
+
+                List<Integer> jobs = (List<Integer>) erStaff.get("job");
+                int job = jobs.get(0);
+                List<Integer> ids = (List<Integer>) erStaff.get("id");
+
+                Map<String, Object> key = new HashMap<>();
+                key.put("idperson", ids.get(0));
+                List<String> attrList2 = new ArrayList<>();
+                attrList2.add("username");
+                EntityResult userQuery = userService.userQuery(key, attrList2);
+
+                List<String> usernames = (List<String>) userQuery.get("username");
+                key = new HashMap<>();
+                key.put("user_name", usernames.get(0));
+
+                attrList2 = new ArrayList<>();
+                attrList2.add("id");
+
+                switch (job) {
+                    case 3:
+                        key.put("id_role", 2);
+                        EntityResult userRoleQuery = userRoleService.user_roleQuery(key, attrList2);
+                        ids = (List<Integer>) userRoleQuery.get("id");
+                        key = new HashMap<>();
+                        key.put("id", ids.get(0));
+                        userRoleService.user_roleDelete(key);
+                        break;
+                    case 10:
+                        key.put("id_role", 3);
+                        EntityResult userRoleQuery2 = userRoleService.user_roleQuery(key, attrList2);
+                        ids = (List<Integer>) userRoleQuery2.get("id");
+                        key = new HashMap<>();
+                        key.put("id", ids.get(0));
+                        userRoleService.user_roleDelete(key);
+                        break;
+                }
+
                 EntityResult deleteStaff = this.daoHelper.delete(this.staffDao, keyMap);
                 deleteStaff.setMessage("Successful staff delete");
                 return deleteStaff;

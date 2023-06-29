@@ -2,16 +2,18 @@ package com.campusdual.jardhotelsontimize.model.core.service;
 
 import com.campusdual.jardhotelsontimize.api.core.service.IStaffService;
 import com.campusdual.jardhotelsontimize.model.core.dao.StaffDao;
-import com.campusdual.jardhotelsontimize.model.core.dao.UserRoleDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.security.PermissionsProviderSecured;
+import com.ontimize.jee.common.services.user.UserInformation;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.Keymap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,7 +127,13 @@ public class StaffService implements IStaffService {
             error.setMessage("All attributes must be filled");
             return error;
         }
-
+        try {
+            EntityResult checkPermissions = checkPermissionsInsert(attrMap, "insert");
+            if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
+                return checkPermissions;
+            }
+        } catch (Exception e) {
+        }
         Map<String, Object> copy = new HashMap<>(attrMap);
         copy.remove("bankaccount");
         copy.remove("bankaccountformat");
@@ -142,8 +150,6 @@ public class StaffService implements IStaffService {
                 EntityResult queryStaff = staffQuery(map, attrList);
                 if (queryStaff.getCode() == 1) {
                     try {
-                        //TODO comprobar que quien intenta insertar al trabajador es en su hotel y no inserta un admin
-
                         Map<String, Object> keyMap = new HashMap<>();
                         keyMap.put("idperson", attrMap.get("id"));
 
@@ -198,15 +204,14 @@ public class StaffService implements IStaffService {
                 return error;
             }
         }
-        try{
+        try {
             checkAttributesStaff(attrMap);
-        }catch (Exception e){
+        } catch (Exception e) {
             EntityResult error = new EntityResultMapImpl();
             error.setCode(EntityResult.OPERATION_WRONG);
             error.setMessage(e.getMessage());
             return error;
         }
-        //TODO comprobar que quien intenta insertar al trabajador es en su hotel y no inserta un admin
         EntityResult result = personService.personInsert(copy);
         if (result.getCode() == 0) {
 
@@ -246,6 +251,41 @@ public class StaffService implements IStaffService {
         return result;
     }
 
+    private EntityResult checkPermissionsInsert(Map<String, Object> attrMap, String operation) {
+        UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String, Object> keyMap = new HashMap<>();
+        keyMap.put("username", userInformation.getUsername());
+        List<String> attrList = new ArrayList<>();
+        attrList.add("idperson");
+        attrList.add("username");
+        EntityResult userQuery = userService.userQuery(keyMap, attrList);
+        keyMap = new HashMap<>();
+        List<Integer>ids = (List<Integer>) userQuery.get("idperson");
+        keyMap.put("id", ids.get(0));
+        attrList = new ArrayList<>();
+        attrList.add("idhotel");
+        attrList.add("job");
+        attrList.add("id");
+        EntityResult staffQuery = staffQuery(keyMap, attrList);
+
+        if (staffQuery.getCode() != EntityResult.OPERATION_WRONG ) {
+
+            List<Object> jobs = (List<Object>) staffQuery.get("job");
+            List<Integer> idsStaff = (List<Integer>) staffQuery.get("idhotel");
+
+            int idhotel = idsStaff.get(0);
+            int idhotel2 = (int) attrMap.get("idhotel");
+
+            if (idhotel != idhotel2 && jobs.get(0).toString().equals("10")) {
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("This hotel manager can only " + operation + " staff in the hotel " + idhotel);
+                return error;
+            }
+        }
+        return new EntityResultMapImpl();
+    }
+
     @Override
     @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult staffUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
@@ -269,10 +309,23 @@ public class StaffService implements IStaffService {
                 attrMap.remove("salary");
             }
             if (attrMap.containsKey("job")) {
+                try {
+                    EntityResult checkPermissions = checkPermissionsInsert(attrMap, "update");
+                    if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
+                        return checkPermissions;
+                    }
+                } catch (Exception e) {
+                }
                 attrMap2.put("job", attrMap.get("job"));
                 attrMap.remove("job");
             }
-
+            try {
+                EntityResult checkPermissions = checkPermissionsUpdate((int) keyMap.get("id"));
+                if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
+                    return checkPermissions;
+                }
+            } catch (Exception e) {
+            }
             try {
                 checkAttributesStaff(attrMap2, keyMap);
             } catch (Exception e) {
@@ -370,6 +423,24 @@ public class StaffService implements IStaffService {
         error.setCode(EntityResult.OPERATION_WRONG);
         error.setMessage("Staff member not found");
         return error;
+    }
+
+    private EntityResult checkPermissionsUpdate(int idStaff) {
+        Map<String, Object> keyMap = new HashMap<>();
+        keyMap.put("id", idStaff);
+        List<String> attrList = new ArrayList<>();
+        attrList.add("id");
+        attrList.add("idhotel");
+        EntityResult staffQuery = staffQuery(keyMap, attrList);
+        keyMap = new HashMap<>();
+        List<Integer> idshotel = (List<Integer>) staffQuery.get("idhotel");
+        keyMap.put("idhotel", idshotel.get(0));
+        EntityResult er = checkPermissionsInsert(keyMap, "");
+        if (er.getCode() == EntityResult.OPERATION_WRONG) {
+            er.setMessage("This hotel manager can't update staff from other hotels");
+            return er;
+        }
+        return new EntityResultMapImpl();
     }
 
     private void checkAttributesStaff(Map<String, Object> attrMap, Map<String, Object> keyMap) {
@@ -477,11 +548,19 @@ public class StaffService implements IStaffService {
 
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
-        attrList.add("job");
+        attrList.add("idhotel");
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList);
         if (erStaff.toString().contains("id")) {
-            //TODO comprobar que quien intenta eliminar al trabajador es en su hotel y no lo cambia a un admin
-
+            Map<String, Object> key = new HashMap<>();
+            List<Integer>idsHotel = (List<Integer>) erStaff.get("idhotel");
+            key.put("idhotel", idsHotel.get(0));
+            try {
+                EntityResult checkPermissions = checkPermissionsInsert(key, "delete");
+                if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
+                    return checkPermissions;
+                }
+            } catch (Exception e) {
+            }
             attrList.remove("job");
             EntityResult erGuest = guestService.guestQuery(keyMap, attrList);
             if (erGuest.toString().contains("id")) {
@@ -490,7 +569,7 @@ public class StaffService implements IStaffService {
                 int job = jobs.get(0);
                 List<Integer> ids = (List<Integer>) erStaff.get("id");
 
-                Map<String, Object> key = new HashMap<>();
+                key = new HashMap<>();
                 key.put("idperson", ids.get(0));
                 List<String> attrList2 = new ArrayList<>();
                 attrList2.add("username");

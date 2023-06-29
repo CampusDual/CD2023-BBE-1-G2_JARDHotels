@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b26c9ea0-2264-4b9e-a004-8afe42149d34",
+		"_postman_id": "a0d60dc6-62b9-48b7-9e57-c98c7febd423",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 10\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -295,12 +295,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "password10",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "ana456",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -309,7 +309,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"number\": 402,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 9,\r\n        \"price\": 10\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"number\": 409,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 10,\r\n        \"price\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -353,7 +353,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 13\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 10\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 10\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -539,7 +539,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 13\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1344,12 +1344,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -1358,7 +1358,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":1100,\r\n    \"job\":1,\r\n    \"idhotel\":1,\r\n    \"email\":\"tambien@si.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"si\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Jeremías\",\r\n    \"surname\": \"Ballesteros\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"14440135E\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2100,\r\n    \"job\":10,\r\n    \"idhotel\":10,\r\n    \"email\":\"jeremyballes@hotmail.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"baes\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1432,12 +1432,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -1446,7 +1446,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"country\": 1,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"ES1800758225257911838137\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 10,\r\n        \"email\": \"carmengarcia@example.com\",\r\n        \"password\":\"si\",\r\n        \"username\":\"no\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n        \"country\": 1,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"34201463A\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"ES1800758225257911838137\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 10,\r\n        \"email\": \"carmengarcia@example.com\",\r\n        \"password\":\"si\",\r\n        \"username\":\"quesi\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1562,12 +1562,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -1576,7 +1576,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1878,9 +1878,21 @@
 			"item": [
 				{
 					"name": "Add",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": ""
 						}

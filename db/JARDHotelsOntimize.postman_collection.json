@@ -632,7 +632,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"email\":\"hola@caracola.com\",\r\n    \"username\":\"hola456\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -899,7 +899,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"username\":\"algo\",\r\n    \"password\":\"algomas\",\r\n    \"email\":\"algo@eso.com\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1446,7 +1446,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"country\": 1,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"ES1800758225257911838137\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 10,\r\n        \"email\": \"carmengarcia@example.com\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"country\": 1,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"ES1800758225257911838137\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 10,\r\n        \"email\": \"carmengarcia@example.com\",\r\n        \"password\":\"si\",\r\n        \"username\":\"no\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

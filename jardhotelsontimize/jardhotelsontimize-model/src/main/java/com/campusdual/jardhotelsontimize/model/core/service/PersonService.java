@@ -11,10 +11,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -184,20 +182,22 @@ public class PersonService implements IPersonService {
 
     private boolean checkAtributesUserUpdate(Map<String, Object> attrMap, String oldUsername) {
 
-        //TODO revisar query
-
         Map<String, Object> key = new HashMap<>();
         key.put("username", oldUsername);
         List<String> attrList = new ArrayList<>();
         attrList.add("username");
+        attrList.add("password");
         EntityResult userQuery = userService.userQuery(key, attrList);
 
         if (attrMap.containsKey("username")) {
 
-            List<String> usernames = (List<String>) userQuery.get("username");
+            String newUsername = attrMap.get("username").toString();
+            Map<String, Object> key2 = new HashMap<>();
+            key2.put("username", newUsername);
+            EntityResult userQuery2 = userService.userQuery(key2, attrList);
 
-            if (!usernames.get(0).equals(oldUsername)) {
-                if (userQuery.getCode() != EntityResult.OPERATION_WRONG) {
+            if (!newUsername.equals(oldUsername)) {
+                if (userQuery2.getCode() != EntityResult.OPERATION_WRONG) {
                     throw new RuntimeException("Repeated username");
                 }
             }
@@ -210,7 +210,11 @@ public class PersonService implements IPersonService {
         }
 
         if(attrMap.containsKey("password")) {
-            //TODO
+            List<String> passwords = (List<String>) userQuery.get("password");
+            String password = attrMap.get("password").toString();
+            if (!passwords.get(0).equals(password)) {
+                return true;
+            }
         }
 
         return false;
@@ -232,10 +236,6 @@ public class PersonService implements IPersonService {
         if (result.getMessage().contains("The person doesn't exist"))
             return result;
         try {
-            //TODO 1 - hacer una query user para recuperar username
-            //TODO 2 - mover los atributos de attrmap de user a otro attrmap
-            //TODO N'T 3 - verificar el nuevo attrmap
-            //TODO 4 - hacer update en user
 
             Map<String, Object> key = new HashMap<>();
             key.put("idperson", keyMap.get("id"));
@@ -244,19 +244,50 @@ public class PersonService implements IPersonService {
             EntityResult userQuery = userService.userQuery(key, attrList2);
             List<String> usernames = (List<String>) userQuery.get("username");
 
-            checkAtributesUserUpdate(attrMap, usernames.get(0));
-
+            boolean changePassword = checkAtributesUserUpdate(attrMap, usernames.get(0));
             key = new HashMap<>();
 
             if (attrMap.containsKey("username")) {
                 key.put("username", attrMap.get("username"));
                 attrMap.remove("username");
             }
+            if (attrMap.containsKey("password")) {
+                key.put("password", attrMap.get("password"));
+                attrMap.remove("password");
+            }
+            if (attrMap.containsKey("email")) {
+                key.put("email", attrMap.get("email"));
+                attrMap.remove("email");
+            }
+
+            if (attrMap.containsKey("firstlogin")) {
+                attrMap.remove("firstlogin");
+            }
+            if (attrMap.containsKey("userblocked")) {
+                attrMap.remove("userblocked");
+            }
+            if (attrMap.containsKey("idperson")) {
+                attrMap.remove("idperson");
+            }
+            if (attrMap.containsKey("lastpasswordupdate")) {
+                attrMap.remove("lastpasswordupdate");
+            }
+
+            if (changePassword) {
+                Date currentDate = new Date();
+                Timestamp timestamp = new Timestamp(currentDate.getTime());
+                key.put("lastpasswordupdate", timestamp);
+            }
 
             result = this.daoHelper.update(this.personDao, attrMap, keyMap);
             result.setMessage("Successful person update");
 
+            Map<String, Object> key2 = new HashMap<>();
+            key2.put("username", usernames.get(0));
+            userService.userUpdate(key, key2);
+
         } catch (Exception e) {
+            e.printStackTrace();
             result.setCode(EntityResult.OPERATION_WRONG);
             if (e.getMessage().contains("verify_documentation_spain()")) {
                 if (e.getMessage().contains(("The spanish DNI must have 9 characters")))

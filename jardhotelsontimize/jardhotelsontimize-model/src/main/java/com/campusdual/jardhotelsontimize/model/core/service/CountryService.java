@@ -26,7 +26,6 @@ public class CountryService implements ICountryService {
 
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult countryQuery(Map<String, Object> keyMap, List<String> attrList) {
         EntityResult result = this.daoHelper.query(this.countryDao, keyMap, attrList);
 

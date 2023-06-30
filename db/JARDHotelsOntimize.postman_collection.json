@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a0d60dc6-62b9-48b7-9e57-c98c7febd423",
+		"_postman_id": "78d49360-a4dd-46a1-8c4a-0fbf5a360082",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -142,7 +142,7 @@
 					"response": []
 				},
 				{
-					"name": "Query",
+					"name": "Filter",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -163,7 +163,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"country\": 1,\r\n        \"name\": \"deluxe\",\r\n        \"latitude\": 2.0,\r\n        \"longitude\": 3.0\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\",\"latitude\",\"longitude\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"name\":\"Deluxe\",\r\n        \"country\": 1,\r\n        \"latitude\": 2.0,\r\n        \"longitude\": 3.0\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\",\"latitude\",\"longitude\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -885,12 +885,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password3",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "antonio789",
 									"type": "string"
 								}
 							]
@@ -899,7 +899,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"username\":\"algo\",\r\n    \"password\":\"algomas\",\r\n    \"email\":\"algo@eso.com\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 3\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"username\":\"algo\",\r\n    \"password\":\"algomas\",\r\n    \"email\":\"algo@eso.com\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1064,12 +1064,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password1",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "juan123",
 									"type": "string"
 								}
 							]
@@ -1078,7 +1078,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 1,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1108,12 +1108,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password1",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "juan123",
 									"type": "string"
 								}
 							]
@@ -1122,7 +1122,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 3\r\n    },\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 6,\r\n    \"arrivaldate\": \"2023-07-02\",\r\n    \"departuredate\": \"2023-07-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"departuredate\": 93,\r\n        \"guest\": 4,\r\n        \"arrivaldate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2023-07-02\",\r\n    \"departuredate\": \"2023-07-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"departuredate\": 93,\r\n        \"guest\": 4,\r\n        \"arrivaldate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1222,7 +1222,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/bookings/booking?columns=id,room,person,arrivaldate,departuredate,totalprice",
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,arrivaldate,departuredate,totalprice",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1235,7 +1235,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,room,person,arrivaldate,departuredate,totalprice"
+									"value": "id,room,guest,arrivaldate,departuredate,totalprice"
 								}
 							]
 						}
@@ -1250,12 +1250,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password1",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "juan123",
 									"type": "string"
 								}
 							]
@@ -1264,7 +1264,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 17\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

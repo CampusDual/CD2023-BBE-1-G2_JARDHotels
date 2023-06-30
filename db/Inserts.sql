@@ -158,17 +158,21 @@ INSERT INTO tserver_permission VALUES
 	 (23,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingInsert'),
 	 (24,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingUpdate'),
 	 (25,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingDelete'),
-	 (26, 'com.campusdual.jardhotelsontimize.api.core.service.IUserService/userQuery');
+	 (26,'com.campusdual.jardhotelsontimize.api.core.service.IUserService/userQuery');
 
 INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES 
 	 (1, 1), -- 1 -> guest
 	 (1, 5),
+	 (1, 9),
+	 (1, 11),
+	 (1, 12),
 	 (1, 13),
 	 (1, 14),
 	 (1, 15),
 	 (1, 23),
 	 (1, 24),
 	 (1, 25),
+	 (1, 26),
 	 (1, 22),
 	 (2, 5), -- 2 -> recepcionist
 	 (2, 13),
@@ -177,7 +181,10 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (2, 23),
 	 (2, 24),
 	 (2, 25),
+	 (2, 26),
+	 (2, 18),
 	 (2, 22),
+	 (2, 9),
 	 (3, 1), -- 3 -> hotel manager
 	 (3, 3),
 	 (3, 5),

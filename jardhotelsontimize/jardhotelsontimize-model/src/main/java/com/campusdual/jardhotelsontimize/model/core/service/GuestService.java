@@ -5,10 +5,12 @@ import com.campusdual.jardhotelsontimize.model.core.dao.GuestDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.security.PermissionsProviderSecured;
+import com.ontimize.jee.common.services.user.UserInformation;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -139,10 +141,45 @@ public class GuestService implements IGuestService {
         return result;
     }
 
+    private EntityResult checkPermission(int idGuest,String operation){
+        try{
+            UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Map<String, Object>key = new HashMap<>();
+            key.put("username", userInformation.getUsername());
+            List<String>attrList = new ArrayList<>();
+            attrList.add("idperson");
+            attrList.add("username");
+            EntityResult userQuery = userService.userQuery(key, attrList);
+            key = new HashMap<>();
+            key.put("id_role",2);
+            key.put("user_name", userInformation.getUsername());
+            attrList = new ArrayList<>();
+            attrList.add("id");
+            EntityResult userRoleQuery = userRoleService.user_roleQuery(key,attrList);
+            if (userRoleQuery.getCode()==0){
+                return new EntityResultMapImpl();
+            }
+            List<Integer> ids = (List<Integer>)userQuery.get("idperson");
+            if (ids.get(0)!=idGuest){
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("This guest can only "+operation+" its profile");
+                return error;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new EntityResultMapImpl();
+        }
+        return new EntityResultMapImpl();
+    }
+
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
-
+        EntityResult checkPermission = checkPermission((Integer) keyMap.get("id"),"update");
+        if (checkPermission.getCode()==EntityResult.OPERATION_WRONG){
+            return checkPermission;
+        }
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult erGuest = guestQuery(keyMap, attrList);
@@ -163,7 +200,10 @@ public class GuestService implements IGuestService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestDelete(Map<String, Object> keyMap) {
-
+        EntityResult checkPermission = checkPermission((Integer) keyMap.get("id"),"delete");
+        if (checkPermission.getCode()==EntityResult.OPERATION_WRONG){
+            return checkPermission;
+        }
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList);

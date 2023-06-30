@@ -5,10 +5,12 @@ import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.security.PermissionsProviderSecured;
+import com.ontimize.jee.common.services.user.UserInformation;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -32,11 +34,26 @@ public class BookingService implements IBookingService {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private StaffService staffService;
+
+
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingQuery(Map<String, Object> keyMap, List<String> attrList) {
+        boolean deleteId = false;
+        if(!attrList.contains("id")){
+            attrList.add("id");
+            deleteId = true;
+        }
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
-        if (result.toString().contains("id")) result.setMessage("");
+        if (result.toString().contains("id")){
+            result.setMessage("");
+            if(deleteId)result.remove("id");
+        }
         else {
             result.setMessage("The booking doesn't exist");
             result.setCode(EntityResult.OPERATION_WRONG);
@@ -51,24 +68,39 @@ public class BookingService implements IBookingService {
 
         EntityResult result = new EntityResultMapImpl();
 
-        Map<String, Object>keyMapRoom = new HashMap<>();
-        keyMapRoom.put("id", Integer.parseInt(attrMap.get("room").toString()));
+        if(attrMap.containsKey("room")){
+            Map<String, Object>keyMapRoom = new HashMap<>();
+            keyMapRoom.put("id", Integer.parseInt(attrMap.get("room").toString()));
 
-        List<String>attrListRoom = new ArrayList<>();
-        attrListRoom.add("price");
+            List<String>attrListRoom = new ArrayList<>();
+            attrListRoom.add("price");
+            attrListRoom.add("hotel");
 
-        EntityResult roomQuery = roomService.roomQuery(keyMapRoom, attrListRoom);
+            EntityResult roomQuery = roomService.roomQuery(keyMapRoom, attrListRoom);
 
-        if(roomQuery.toString().contains("price")){
-            if (!attrMap.containsKey("totalprice") && attrMap.containsKey("arrivaldate") && attrMap.containsKey("departuredate")) {
-                double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
-                attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
+            if(roomQuery.toString().contains("price")){
+                if (!attrMap.containsKey("totalprice") && attrMap.containsKey("arrivaldate") && attrMap.containsKey("departuredate")) {
+                    double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                    attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
+                }
+                List<Integer> hotels = (List<Integer>) roomQuery.get("hotel");
+                EntityResult checkPermisions = checkPermission(hotels.get(0), "insert");
+                if(checkPermisions.getCode()==EntityResult.OPERATION_WRONG){
+                    return checkPermisions;
+                }
             }
+        }else{
+            EntityResult error = new EntityResultMapImpl();
+            error.setMessage("Missing room attribute");
+            error.setCode(EntityResult.OPERATION_WRONG);
+            return error;
         }
 
         try {
             result = this.daoHelper.insert(this.bookingDao, attrMap);
             result.setMessage("Successful booking insertion");
+
+
         } catch (Exception e) {
 
             result.setCode(EntityResult.OPERATION_WRONG);
@@ -86,8 +118,6 @@ public class BookingService implements IBookingService {
                 result.setMessage("Room not found");
             } else if (e.getMessage().contains("booking_guest_fkey")) {
                 result.setMessage("Guest not found");
-            } else if(!roomQuery.contains("price")) {
-                result.setMessage("Room not found");
             } else {
                 result.setMessage(e.getMessage());
             }
@@ -96,27 +126,78 @@ public class BookingService implements IBookingService {
         return result;
     }
 
+    private EntityResult checkPermission(int idHotel,String operation){
+        try {
+
+            UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Map<String, Object>key = new HashMap<>();
+            key.put("username", userInformation.getUsername());
+            List<String>attrList = new ArrayList<>();
+            attrList.add("idperson");
+            attrList.add("username");
+            EntityResult userQuery = userService.userQuery(key, attrList);
+            key = new HashMap<>();
+            List<Object> ids=(List<Object>)userQuery.get("idperson");
+            key.put("id", ids.get(0));
+            attrList = new ArrayList<>();
+            attrList.add("idhotel");
+            attrList.add("job");
+            attrList.add("id");
+            EntityResult staffQuery = staffService.staffQuery(key, attrList);
+        if (staffQuery.getCode()== 0){
+            List<Integer> idsHotel = (List<Integer>) staffQuery.get("idhotel");
+            List<Integer> jobs = (List<Integer>) staffQuery.get("job");
+            if(jobs.get(0) == 3 && (idHotel!= (int)idsHotel.get(0))) {
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("This receptionist can only "+operation+" bookings in rooms from the hotel " + idsHotel.get(0));
+                return error;
+            }
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new EntityResultMapImpl();
+
+        }
+        return new EntityResultMapImpl();
+
+    }
+
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         EntityResult result = new EntityResultMapImpl();
 
-        //sacar el precio de la habitación
-
-        Map<String, Object>keyMapRoom = new HashMap<>();
-        keyMapRoom.put("id", Integer.parseInt(attrMap.get("room").toString()));
-
-        List<String>attrListRoom = new ArrayList<>();
-        attrListRoom.add("price");
-
-        EntityResult roomQuery = roomService.roomQuery(keyMapRoom, attrListRoom);
-
-        if(roomQuery.toString().contains("price")){
-            if (!attrMap.containsKey("totalprice")) {
-                double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
-                attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
+        List<String> attrList = new ArrayList<>();
+        attrList.add("room");
+        EntityResult bookingQuery = bookingQuery(keyMap, attrList);
+        if(bookingQuery.getCode() == 0){
+            List<Integer> ids = (List<Integer>) bookingQuery.get("room");
+            EntityResult checkPermissions = checkPermission(ids.get(0),"update");
+            if (checkPermissions.getCode()== EntityResult.OPERATION_WRONG){
+                return checkPermissions;
             }
+        }
+
+        //sacar el precio de la habitación
+        if(attrMap.containsKey("room")){
+            Map<String, Object>keyMapRoom = new HashMap<>();
+            keyMapRoom.put("id", Integer.parseInt(attrMap.get("room").toString()));
+
+            List<String>attrListRoom = new ArrayList<>();
+            attrListRoom.add("price");
+
+            EntityResult roomQuery = roomService.roomQuery(keyMapRoom, attrListRoom);
+
+            if(roomQuery.toString().contains("price")){
+                if (!attrMap.containsKey("totalprice")) {
+                    double price = Double.parseDouble(((List<BigDecimal>) roomQuery.get("price")).get(0).toString());
+                    attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
+                }
+            }
+
+
         }
 
         try{
@@ -175,6 +256,17 @@ public class BookingService implements IBookingService {
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bookingDelete(Map<String, Object> keyMap) {
         List<String> attrList = new ArrayList<>();
+        attrList.add("room");
+        EntityResult bookingQuery = bookingQuery(keyMap, attrList);
+        if(bookingQuery.getCode() == 0){
+            List<Integer> ids = (List<Integer>) bookingQuery.get("room");
+            EntityResult checkPermissions = checkPermission(ids.get(0),"delete");
+            if (checkPermissions.getCode()== EntityResult.OPERATION_WRONG){
+                return checkPermissions;
+            }
+        }
+
+        attrList = new ArrayList<>();
         attrList.add("id");
         attrList.add("totalprice");
         attrList.add("arrivaldate");

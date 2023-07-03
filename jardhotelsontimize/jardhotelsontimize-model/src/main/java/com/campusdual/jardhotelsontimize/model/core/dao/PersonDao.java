@@ -13,7 +13,6 @@ public class PersonDao extends OntimizeJdbcDaoSupport {
     public static final String ATTR_NAME = "name";
     public static final String ATTR_SURNAME = "surname";
     public static final String ATTR_PHONE = "phone";
-    public static final String ATTR_EMAIL = "email";
     public static final String ATTR_DOCUMENTATION = "documentation";
     public static final String ATTR_COUNTRY = "country";
     public static final String ATTR_PHONECOUNTRY = "phonecountry";

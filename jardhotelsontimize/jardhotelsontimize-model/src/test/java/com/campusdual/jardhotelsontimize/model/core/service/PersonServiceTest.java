@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +32,9 @@ public class PersonServiceTest {
 
     @Mock
     PersonDao personDao;
+
+    @Mock
+    UserService userService;
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -71,15 +75,21 @@ public class PersonServiceTest {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
-            er.put("id", 1);
+            er.put("id", List.of(1));
             Map<String, Object> personToInsert = new HashMap<>();
             personToInsert.put("id", 1);
+            personToInsert.put("username", "");
+            personToInsert.put("email", "aaaaa@aaa.aa");
+            personToInsert.put("password", "1234");
             when(daoHelper.insert(any(PersonDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(PersonDao.class), anyMap(), anyList())).thenReturn(er);
+            when(userService.userInsert(anyMap())).thenReturn(er);
+
             EntityResult result = personService.personInsert(personToInsert);
+            assertEquals("Successful person insertion", result.getMessage());
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).insert(any(PersonDao.class), anyMap());
-            assertEquals("Successful person insertion", result.getMessage());
+
         }
 
         @Test
@@ -87,14 +97,19 @@ public class PersonServiceTest {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(1);
             er.put("id", 1);
+
             Map<String, Object> personToInsert = new HashMap<>();
             personToInsert.put("id", 1);
+            personToInsert.put("username", "");
+            personToInsert.put("email", "aaaaa@aaa.aa");
+            personToInsert.put("password", "1234");
+
             when(daoHelper.insert(any(PersonDao.class), anyMap())).thenThrow(new RuntimeException(""));
-            when(daoHelper.query(any(PersonDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = personService.personInsert(personToInsert);
+
+            assertNotEquals("Successful person insertion", result.getMessage());
             assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).insert(any(PersonDao.class), anyMap());
-            assertNotEquals("Successful person insertion", result.getMessage());
         }
     }
 
@@ -127,15 +142,16 @@ public class PersonServiceTest {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.setMessage("");
-            er.put("id", 1);
+            er.put("id", List.of(1));
             Map<String, Object> personKey = new HashMap<>();
             personKey.put("id", 1);
             when(daoHelper.delete(any(PersonDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(PersonDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = personService.personDelete(personKey);
+
+            assertEquals("Successful person delete", result.getMessage());
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).delete(any(PersonDao.class), anyMap());
-            assertEquals("Successful person delete", result.getMessage());
         }
 
         @Test
@@ -145,12 +161,11 @@ public class PersonServiceTest {
             er.setMessage("");
             Map<String, Object> personKey = new HashMap<>();
             personKey.put("id", 1);
-            when(daoHelper.delete(any(PersonDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(PersonDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = personService.personDelete(personKey);
-            assertEquals(1, result.getCode());
-            verify(daoHelper, times(1)).delete(any(PersonDao.class), anyMap());
+
             assertEquals("Person not found", result.getMessage());
+            assertEquals(1, result.getCode());
         }
     }
 

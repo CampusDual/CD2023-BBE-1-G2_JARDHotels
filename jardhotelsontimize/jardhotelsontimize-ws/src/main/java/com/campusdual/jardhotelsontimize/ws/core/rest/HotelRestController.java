@@ -6,9 +6,11 @@ import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.rest.ORestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +36,6 @@ public class HotelRestController extends ORestController<IHotelService> {
     public IHotelService getService() {
         return this.iHotelService;
     }
-
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult filter(@RequestBody Map<String, Object> req) {
@@ -68,12 +69,21 @@ public class HotelRestController extends ORestController<IHotelService> {
             }else if (filter.get("latitude") == null && filter.get("longitude") != null){
                 throw new RuntimeException("You cannot apply the distance filter without the latitude. Please add it or remove longitude");
             }
-
+            boolean isEmpty=false;
+            if (hotelQuery.get("latitude")==null){
+                isEmpty=true;
+            }
             if(deleteLatitude){
                 hotelQuery.remove("latitude");
             }
             if(deleteLongitude){
                 hotelQuery.remove("longitude");
+            }
+            if (isEmpty){
+                EntityResult empty = new EntityResultMapImpl();
+                empty.setCode(EntityResult.OPERATION_WRONG);
+                empty.setMessage("No hotels founded with this filter");
+                return empty;
             }
 
             return hotelQuery;
@@ -91,6 +101,12 @@ public class HotelRestController extends ORestController<IHotelService> {
     private EntityResult calculateDistance(EntityResult query, double latitude, double longitude) {
         List<BigDecimal>latitudeList = (List<BigDecimal>) query.get("latitude");
         List<BigDecimal>longitudeList = (List<BigDecimal>) query.get("longitude");
+        if (latitudeList == null) {
+            latitudeList = new ArrayList<>();
+        }
+        if (longitudeList == null) {
+            longitudeList = new ArrayList<>();
+        }
         List<Double> distances = calculateDistance(latitudeList, longitudeList, latitude, longitude);
         query.put("distance(km)", distances);
         return query;

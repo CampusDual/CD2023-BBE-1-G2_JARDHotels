@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6fcdb426-b29e-4ef6-b987-8ea1cafc44ee",
+		"_postman_id": "78d49360-a4dd-46a1-8c4a-0fbf5a360082",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,19 @@
 					"name": "Add",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -44,13 +56,25 @@
 					"name": "Update",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,7 +100,19 @@
 					"name": "Get",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -106,13 +142,28 @@
 					"response": []
 				},
 				{
-					"name": "Query",
+					"name": "Filter",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"country\": 1,\r\n        \"name\": \"deluxe\",\r\n        \"latitude\": 2.0,\r\n        \"longitude\": 3.0\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\",\"latitude\",\"longitude\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"name\":\"Deluxe\",\r\n        \"country\": 1,\r\n        \"latitude\": 2.0,\r\n        \"longitude\": 3.0\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\",\"latitude\",\"longitude\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -145,12 +196,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "demouser",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "demo",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -191,7 +242,19 @@
 					"name": "Delete",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
@@ -228,13 +291,25 @@
 					"name": "Add",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"number\": 402,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 1,\r\n        \"price\": 10\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"number\": 409,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 10,\r\n        \"price\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -260,13 +335,25 @@
 					"name": "Update",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 2\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 10\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -292,7 +379,19 @@
 					"name": "Get",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -324,6 +423,21 @@
 				{
 					"name": "Query",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -361,12 +475,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "demouser",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "demo",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -407,13 +521,25 @@
 					"name": "Delete",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 15\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -444,13 +570,25 @@
 					"name": "Add",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -476,13 +614,25 @@
 					"name": "Update",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"email\":\"hola@caracola.com\",\r\n    \"username\":\"hola456\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -508,13 +658,25 @@
 					"name": "Get",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 12\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 12\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -541,12 +703,24 @@
 					"name": "Get All",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:65431/persons/person?columns=id,name,surname,phone,email,documentation,country,phonecountry",
+							"raw": "http://localhost:65431/persons/person?columns=id,name,surname,phone,documentation,country,phonecountry",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -559,7 +733,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,surname,phone,email,documentation,country,phonecountry"
+									"value": "id,name,surname,phone,documentation,country,phonecountry"
 								}
 							]
 						}
@@ -570,7 +744,19 @@
 					"name": "Delete",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
@@ -607,13 +793,25 @@
 					"name": "Add",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"64654645N\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Tinky\",\r\n    \"surname\": \"Winky\",\r\n    \"phone\": \"+447975777666\",\r\n    \"documentation\": \"AC1234567\",\r\n    \"country\":3,\r\n    \"phonecountry\":3,\r\n    \"username\": \"tinkyWinky\",\r\n    \"email\":\"tinky@teletubbie.com\",\r\n    \"password\":\"champiñon\"\r\n\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -639,13 +837,25 @@
 					"name": "Add2",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"id\":2\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"id\":9\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -671,13 +881,25 @@
 					"name": "Update",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password3",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "antonio789",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 3\r\n    },\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34666666133\",\r\n    \"documentation\": \"21115274D\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"username\":\"algo\",\r\n    \"password\":\"algomas\",\r\n    \"email\":\"algo@eso.com\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -703,13 +925,25 @@
 					"name": "Get",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"documentation\",\"country\",\"phonecountry\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -736,12 +970,24 @@
 					"name": "Get All",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,email,documentation,country,phonecountry",
+							"raw": "http://localhost:65431/guests/guest?columns=id,name,surname,phone,documentation,country,phonecountry",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -754,7 +1000,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,surname,phone,email,documentation,country,phonecountry"
+									"value": "id,name,surname,phone,documentation,country,phonecountry"
 								}
 							]
 						}
@@ -765,13 +1011,25 @@
 					"name": "Delete",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 9\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -802,13 +1060,25 @@
 					"name": "Add",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "juan123",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 1,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -834,13 +1104,25 @@
 					"name": "Update",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "juan123",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 3\r\n    },\r\n    \"data\": {\r\n    \"room\": 1,\r\n    \"guest\": 6,\r\n    \"arrivaldate\": \"2023-07-02\",\r\n    \"departuredate\": \"2023-07-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"departuredate\": 93,\r\n        \"guest\": 4,\r\n        \"arrivaldate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2023-07-02\",\r\n    \"departuredate\": \"2023-07-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"departuredate\": 93,\r\n        \"guest\": 4,\r\n        \"arrivaldate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -866,7 +1148,19 @@
 					"name": "Get",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -906,12 +1200,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "demouser",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "demo",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -928,7 +1222,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/bookings/booking?columns=id,room,person,arrivaldate,departuredate,totalprice",
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,arrivaldate,departuredate,totalprice",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -941,7 +1235,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,room,person,arrivaldate,departuredate,totalprice"
+									"value": "id,room,guest,arrivaldate,departuredate,totalprice"
 								}
 							]
 						}
@@ -952,13 +1246,25 @@
 					"name": "Delete",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "juan123",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 17\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -983,6 +1289,21 @@
 				{
 					"name": "GetByGuest",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1018,11 +1339,26 @@
 				{
 					"name": "Add",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Laura\",\r\n    \"surname\": \"Fernández\",\r\n    \"phone\": \"+34123123123\",\r\n    \"email\": \"laurafernandez@example.com\",\r\n    \"documentation\": \"58024847X\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"1231345456\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2695.12,\r\n    \"job\":4\r\n\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Jeremías\",\r\n    \"surname\": \"Ballesteros\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"14440135E\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2100,\r\n    \"job\":10,\r\n    \"idhotel\":10,\r\n    \"email\":\"jeremyballes@hotmail.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"baes\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1047,11 +1383,26 @@
 				{
 					"name": "Add2",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\"data\": {\r\n    \"id\":2,\r\n    \"bankaccount\": \"1321546442134654\",\r\n    \"bankaccountformat\": 1,\r\n    \"salary\":2500.00,\r\n    \"job\":1\r\n}\r\n}",
+							"raw": " {\"data\": {\r\n    \"id\":2,\r\n    \"bankaccount\": \"ES3730042728317644342382\",\r\n    \"bankaccountformat\": 1,\r\n    \"salary\":2500.00,\r\n    \"job\":10,\r\n    \"idhotel\":1\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1076,11 +1427,26 @@
 				{
 					"name": "Update",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 4\r\n    },\r\n    \"data\": {\r\n        \"country\": 100,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"76543210S\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"45678901234567890123\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 4,\r\n        \"email\": \"carmengarcia@example.com\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n        \"country\": 1,\r\n        \"phone\": \"111222333\",\r\n        \"surname\": \"García\",\r\n        \"phonecountry\": 8,\r\n        \"documentation\": \"34201463A\",\r\n        \"name\": \"Carmenilda\",\r\n        \"bankaccount\": \"ES1800758225257911838137\",\r\n        \"id\": 4,\r\n        \"bankaccountformat\": 1,\r\n        \"salary\": 3210.00,\r\n        \"job\": 10,\r\n        \"email\": \"carmengarcia@example.com\",\r\n        \"password\":\"si\",\r\n        \"username\":\"quesi\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1105,6 +1471,21 @@
 				{
 					"name": "Get",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1135,10 +1516,25 @@
 				{
 					"name": "Get All",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:65431/staffs/staff?columns=id,name,surname,phone,email,documentation,country,phonecountry,bankaccount,bankaccountformat,salary,job",
+							"raw": "http://localhost:65431/staffs/staff?columns=id,name,surname,phone,documentation,country,phonecountry,bankaccount,bankaccountformat,salary,job,idhotel",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1151,7 +1547,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,surname,phone,email,documentation,country,phonecountry,bankaccount,bankaccountformat,salary,job"
+									"value": "id,name,surname,phone,documentation,country,phonecountry,bankaccount,bankaccountformat,salary,job,idhotel"
 								}
 							]
 						}
@@ -1161,10 +1557,43 @@
 				{
 					"name": "Delete",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:65431/staffs/staff",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"staffs",
+								"staff"
+							]
 						}
 					},
 					"response": []
@@ -1178,7 +1607,19 @@
 					"name": "Get",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -1215,12 +1656,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "demouser",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "demo",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -1256,6 +1697,21 @@
 				{
 					"name": "Get",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1286,6 +1742,21 @@
 				{
 					"name": "Get All",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1317,6 +1788,21 @@
 				{
 					"name": "Get",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1347,6 +1833,21 @@
 				{
 					"name": "Get All",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1366,6 +1867,111 @@
 									"value": "id,format"
 								}
 							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserRole",
+			"item": [
+				{
+					"name": "Add",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"id_role\",\"user_name\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/user_roles/user_role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"user_roles",
+								"user_role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": ""
 						}
 					},
 					"response": []

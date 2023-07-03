@@ -27,32 +27,29 @@ ontimize:
          upper-like: true
    security:
       mode: default
-      ignore-paths: /**
+      ignore-paths: /app/**
       role-information-service:
          role-repository: UserRoleDao
-         role-name-column: ROLENAME
+         role-name-column: rolename
          server-permission-query-id: serverPermissions
-         server-permission-name-column: PERMISSION_NAME
+         server-permission-name-column: permission_name
          client-permission-query-id: clientPermissions
-         client-permission-column: XMLCLIENTPERMISSION
+         client-permission-column: xmlclientpermission
       user-information-service:
          user-repository: UserDao
-         user-login-column: USER_
-         user-password-column: PASSWORD
+         user-login-column: username
+         user-password-column: password
          query-id: login
          other-data:
-            - NAME
-            - SURNAME
-            - EMAIL
-            - NIF
-            - USERBLOCKED
-            - LASTPASSWORDUPDATE
-            - FIRSTLOGIN
+            - email
+            - userbloqued
+            - lastpasswordupdate
+            - firstlogin
       user-role-information-service:
          user-role-repository: UserRoleDao
          query-id: userRole
-         role-login-column: USER_
-         role-name-column: ROLENAME
+         role-login-column: username
+         role-name-column: rolename
 server:
    port: 65431
    error:

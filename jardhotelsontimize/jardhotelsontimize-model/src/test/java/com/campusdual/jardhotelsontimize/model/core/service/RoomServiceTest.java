@@ -73,7 +73,6 @@ public class RoomServiceTest {
             Map<String, Object> roomToInsert = new HashMap<>();
             roomToInsert.put("id", 1);
             when(daoHelper.insert(any(RoomDao.class), anyMap())).thenReturn(er);
-            when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomInsert(roomToInsert);
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).insert(any(RoomDao.class), anyMap());
@@ -82,14 +81,10 @@ public class RoomServiceTest {
 
         @Test
         void roomInsertTestFail() {
-            EntityResult er = new EntityResultMapImpl();
-            er.setCode(1);
-            er.setMessage("");
-            er.put("id", 1);
+
             Map<String, Object> roomToInsert = new HashMap<>();
             roomToInsert.put("id", 1);
             when(daoHelper.insert(any(RoomDao.class), anyMap())).thenThrow(new RuntimeException("Error"));
-            when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomInsert(roomToInsert);
             assertEquals(1, result.getCode());
             verify(daoHelper, times(1)).insert(any(RoomDao.class), anyMap());
@@ -160,11 +155,9 @@ public class RoomServiceTest {
             er.setMessage("");
             Map<String, Object> roomKey = new HashMap<>();
             roomKey.put("id", 1);
-            when(daoHelper.delete(any(RoomDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(RoomDao.class), anyMap(), anyList())).thenReturn(er);
             EntityResult result = roomService.roomDelete(roomKey);
             assertEquals(1, result.getCode());
-            verify(daoHelper, times(1)).delete(any(RoomDao.class), anyMap());
             assertEquals("Room not found", result.getMessage());
         }
     }

@@ -5,7 +5,7 @@ INSERT INTO coin (coin) VALUES
 
 
 INSERT INTO country (country, coin) VALUES 
-	('Spain' ,1),
+	('Spain', 1),
 	('United States', 2),
 	('United Kingdom', 3),
 	('France', 1),
@@ -41,18 +41,57 @@ INSERT INTO room (number, capacity, description, hotel, price) VALUES
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5, 200);
    
 
-INSERT INTO person (name, surname, phone, email, documentation, country, phonecountry) VALUES
-    ('Juan', 'Gómez', '+34123456789', 'juangomez@example.com', '12345678Z', 1,1),
-    ('María', 'Rodríguez', '+4916012345', 'mariarodriguez@example.com', 'XY9876543', 5,5),
-    ('Antonio', 'López', '+11234567891', 'antoniolopez@example.com', '111222333', 2,2),
-    ('Carmen', 'García', '111222333', 'carmengarcia@example.com', '76543210D', 8,8),
-    ('Manuel', 'Martínez', '+861987654321', 'manuelmartinez@example.com', '987654198512311234', 7,7),
-    ('Laura', 'Fernández', '+330987654321', 'laurafernandez@example.com', '9305078912345678', 4,4),
-    ('Pedro', 'Navarro', '+351289876543', 'pedronavarro@example.com', '987654321', 6,6),
-    ('Isabel', 'Sánchez', '+34987987987', 'isabelsanchez@example.com', '87654321X', 1,1),
-    ('José', 'Romero', '888888888', 'joseromero@example.com', '56789012I', 8,8),
-    ('Ana', 'Jiménez', '+447876543210', 'anajimenez@example.com', 'G12345678', 3,3);
+INSERT INTO person (name, surname, phone, documentation, country, phonecountry) VALUES
+    ('Juan', 'Gómez', '+34123456789', '12345678Z', 1,1),
+    ('María', 'Rodríguez', '+4916012345', 'XY9876543', 5,5),
+    ('Antonio', 'López', '+11234567891', '111222333', 2,2),
+    ('Carmen', 'García', '111222333', '76543210D', 8,8),
+    ('Manuel', 'Martínez', '+861987654321', '987654198512311234', 7,7),
+    ('Laura', 'Fernández', '+330987654321', '9305078912345678', 4,4),
+    ('Pedro', 'Navarro', '+351289876543', '987654321', 6,6),
+    ('Isabel', 'Sánchez', '+34987987987', '87654321X', 1,1),
+    ('José', 'Romero', '888888888', '56789012I', 8,8),
+    ('Ana', 'Jiménez', '+447876543210', 'G12345678', 3,3);
    
+   
+INSERT INTO person (id, name, surname, phone, documentation, country, phonecountry) VALUES   
+	(-1, 'Admin', 'Admin', 'Admin', 'Admin', 8,8);
+   
+INSERT INTO tuser (username, password, email, idperson) VALUES
+	('juan123', 'password1', 'juan123@example.com', 1),
+	('maria456', 'password2', 'maria456@example.com', 2),
+	('antonio789', 'password3', 'antonio789@example.com', 3),
+	('carmen123', 'password4', 'carmen123@example.com', 4),
+	('manuel987', 'password5', 'manuel987@example.com', 5),
+	('laura321', 'password6', 'laura321@example.com', 6),
+	('pedro654', 'password7', 'pedro654@example.com', 7),
+	('isabel987', 'password8', 'isabel987@example.com', 8),
+	('jose123', 'password9', 'jose123@example.com', 9),
+	('ana456', 'password10', 'ana456@example.com', 10),
+	('admin', 'admin', 'admin@admin.com', -1);
+
+
+INSERT INTO job (job) VALUES 
+ 	('cleaning service'),
+ 	('bellhop'),
+ 	('recepcionist'),
+ 	('cooker'),
+	('waiter'),
+ 	('lifeguard'),
+ 	('masseuse'),
+ 	('room service'),
+ 	('maintenance'),
+	('hotel manager');
+ 
+
+INSERT INTO bankaccountformat (format) VALUES 
+	('IBAN'),
+	('CCC'),
+	('Sort Code'),
+	('ABA'),
+	('Other');
+
+
 INSERT INTO guest (id) VALUES
    (2),
    (3),
@@ -60,34 +99,140 @@ INSERT INTO guest (id) VALUES
    (6),
    (8),
    (10);
-
-INSERT INTO job (job) VALUES 
- ('cleaning service'),
- ('bellhop'),
- ('recepcionist'),
- ('cooker'),
- ('waiter'),
- ('lifeguard'),
- ('masseuse'),
- ('room service'),
- ('maintenance'),
- ('hotel manager');
- 
-INSERT INTO bankaccountformat (format) VALUES 
-('IBAN'),
-('CCC'),
-('Sort Code'),
-('ABA'),
-('Other');
       
-INSERT INTO staff (id, bankaccount, bankaccountformat, salary, job)
-VALUES (1, 'ES6600190020961234567890', 1, 2500.00, 1),
-       (4, 'DE89370400440532013000', 1, 3200.00, 4),
-       (6, '6789678967896789678967', 2, 2600.00, 6),
-       (7, '789012', 3, 2900.00, 7),
-       (8, '901234567', 5, 3100.00, 8),
-       (9, '123456789', 4, 2700.00, 9),
-       (10, 'GB29NWBK60161331926819', 1, 3500.00, 10);
+  
+INSERT INTO staff (id, bankaccount, bankaccountformat, salary, job, idhotel)VALUES 
+	(1, 'ES6600190020961234567890', 1, 2500.00, 3, 1),
+    (4, 'DE89370400440532013000', 1, 3200.00, 4, 2),
+    (6, '6789678967896789678967', 2, 2600.00, 3, 4),
+    (7, '789012', 3, 2900.00, 7, 6),
+    (8, '901234567', 5, 3100.00, 8, 7),
+    (9, '123456789', 4, 2700.00, 9, 8),
+    (10, 'GB29NWBK60161331926819', 1, 3500.00, 10, 10);
+
+   
+ --PERMISOS
+/*********************************************************************************/
+   
+INSERT INTO trole VALUES 
+	(1,'guest', '<?xml version="1.0" encoding="UTF-8"?><security></security>'),
+	(2,'recepcionist', '<?xml version="1.0" encoding="UTF-8"?><security></security>'),
+	(3,'hotel manager', '<?xml version="1.0" encoding="UTF-8"?><security></security>'),
+	(4,'admin', '<?xml version="1.0" encoding="UTF-8"?><security></security>');
+
+INSERT INTO tuser_role(id_role, user_name) VALUES
+	(1, 'maria456'),
+	(1, 'antonio789'),
+	(1, 'manuel987'),
+	(1, 'laura321'),
+	(2, 'laura321'),
+	(1, 'isabel987'),
+	(1, 'ana456'),
+	(2, 'juan123'),
+	(3, 'ana456'),
+	(4, 'admin');
+	
+INSERT INTO tserver_permission VALUES 
+     (1,'com.campusdual.jardhotelsontimize.api.core.service.IHotelService/hotelQuery'),
+	 (2,'com.campusdual.jardhotelsontimize.api.core.service.IHotelService/hotelInsert'),
+	 (3,'com.campusdual.jardhotelsontimize.api.core.service.IHotelService/hotelUpdate'),
+	 (4,'com.campusdual.jardhotelsontimize.api.core.service.IHotelService/hotelDelete'),
+	 (5,'com.campusdual.jardhotelsontimize.api.core.service.IRoomService/roomQuery'),
+	 (6,'com.campusdual.jardhotelsontimize.api.core.service.IRoomService/roomInsert'),
+	 (7,'com.campusdual.jardhotelsontimize.api.core.service.IRoomService/roomUpdate'),
+	 (8,'com.campusdual.jardhotelsontimize.api.core.service.IRoomService/roomDelete'),
+	 (9,'com.campusdual.jardhotelsontimize.api.core.service.IPersonService/personQuery'),
+	 (10,'com.campusdual.jardhotelsontimize.api.core.service.IPersonService/personInsert'),
+	 (11,'com.campusdual.jardhotelsontimize.api.core.service.IPersonService/personUpdate'),
+	 (12,'com.campusdual.jardhotelsontimize.api.core.service.IPersonService/personDelete'),
+	 (13,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestQuery'),
+	 (14,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestUpdate'),
+	 (15,'com.campusdual.jardhotelsontimize.api.core.service.IGuestService/guestDelete'),
+	 (16,'com.campusdual.jardhotelsontimize.api.core.service.IJobService/jobQuery'),
+	 (17,'com.campusdual.jardhotelsontimize.api.core.service.IBankAccountService/bankaccountQuery'),
+	 (18,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffQuery'),
+	 (19,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffInsert'),
+	 (20,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffUpdate'),
+	 (21,'com.campusdual.jardhotelsontimize.api.core.service.IStaffService/staffDelete'),
+	 (22,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingQuery'),
+	 (23,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingInsert'),
+	 (24,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingUpdate'),
+	 (25,'com.campusdual.jardhotelsontimize.api.core.service.IBookingService/bookingDelete'),
+	 (26,'com.campusdual.jardhotelsontimize.api.core.service.IUserService/userQuery');
+
+INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES 
+	 (1, 1), -- 1 -> guest
+	 (1, 5),
+	 (1, 9),
+	 (1, 11),
+	 (1, 12),
+	 (1, 13),
+	 (1, 14),
+	 (1, 15),
+	 (1, 23),
+	 (1, 24),
+	 (1, 25),
+	 (1, 26),
+	 (1, 22),
+	 (2, 5), -- 2 -> recepcionist
+	 (2, 13),
+	 (2, 14),
+	 (2, 15),
+	 (2, 23),
+	 (2, 24),
+	 (2, 25),
+	 (2, 26),
+	 (2, 18),
+	 (2, 22),
+	 (2, 9),
+	 (3, 1), -- 3 -> hotel manager
+	 (3, 3),
+	 (3, 5),
+	 (3, 6),
+	 (3, 7),
+	 (3, 8),
+	 (3, 9),
+	 (3, 10),
+	 (3, 11),
+	 (3, 12),
+	 (3, 19),
+	 (3, 20),
+	 (3, 21),
+	 (3, 18),
+	 (3, 26),
+	 (3, 18),
+	 (3, 17),
+	 (3, 9),
+	 (3, 16),
+	 (4, 1), -- 4 -> admin
+	 (4, 2),
+	 (4, 3),
+	 (4, 4),
+	 (4, 5),
+	 (4, 6),
+	 (4, 7),
+	 (4, 8),
+	 (4, 9),
+	 (4, 10),
+	 (4, 11),
+	 (4, 12),
+	 (4, 13),
+	 (4, 14),
+	 (4, 15),
+	 (4, 16),
+	 (4, 17),
+	 (4, 18),
+	 (4, 19),
+  	 (4, 20),
+	 (4, 21),
+	 (4, 22),
+	 (4, 23),
+	 (4, 24),
+	 (4, 25),
+	 (4, 26);
+
+/*********************************************************************************/
+
 
 INSERT INTO booking (room, guest, arrivaldate, departuredate)
 VALUES

@@ -157,7 +157,7 @@ $$ LANGUAGE plpgsql;
 --empieza por +34 seguido de 9 numeros
 CREATE OR REPLACE FUNCTION verify_phone_spain() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+34\d{9}$' THEN
+  IF NEW.phone !~ '\d{9}$' THEN
     RAISE EXCEPTION 'The format for the spanish phone is incorrect. It must be +34 and 9 numbers';
   END IF;
 
@@ -195,7 +195,7 @@ $$ LANGUAGE plpgsql;
 --(3 numeros)3 numeros-4 numeros ej: +11234567890
 CREATE OR REPLACE FUNCTION verify_phone_united_states() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+1\d{10}$' THEN
+  IF NEW.phone !~ '\d{10}$' THEN
     RAISE EXCEPTION 'The format for the phone in United States is incorrect';
   END IF;
 
@@ -234,7 +234,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION verify_phone_united_kingdom() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+44[1-9]\d{9}$' THEN
+  IF NEW.phone !~ '[1-9]\d{9}$' THEN
     RAISE EXCEPTION 'The format for the phone in United Kingdom is incorrect';
   END IF;
 
@@ -271,7 +271,7 @@ $$ LANGUAGE plpgsql;
 --Función de Telefono de Francia ej: +330612345678
 CREATE OR REPLACE FUNCTION verify_phone_france() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+330\d{9}$' THEN
+  IF NEW.phone !~ '\d{9}$' THEN
     RAISE EXCEPTION 'The format for the phone in France is incorrect';
   END IF;
 
@@ -309,7 +309,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION verify_phone_germany() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+49[1-9]\d{1,4}\d{1,10}$' THEN
+  IF NEW.phone !~ '[1-9]\d{1,4}\d{1,10}$' THEN
     RAISE EXCEPTION 'The format for the phone in Germany is incorrect';
   END IF;
 
@@ -346,7 +346,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION verify_phone_portugal() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+351[28969]\d{8}$' THEN
+  IF NEW.phone !~ '[28969]\d{8}$' THEN
     RAISE EXCEPTION 'The format for the phone in Portugal is incorrect';
   END IF;
 
@@ -385,7 +385,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION verify_phone_china() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.phone !~ '^\+861\d{9}$' THEN
+  IF NEW.phone !~ '\d{9}$' THEN
     RAISE EXCEPTION 'The format for the phone in China is incorrect';
   END IF;
 

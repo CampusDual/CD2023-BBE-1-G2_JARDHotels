@@ -42,16 +42,16 @@ INSERT INTO room (number, capacity, description, hotel, price) VALUES
    
 
 INSERT INTO person (name, surname, phone, documentation, country, phonecountry) VALUES
-    ('Juan', 'Gómez', '+34123456789', '12345678Z', 1,1),
-    ('María', 'Rodríguez', '+4916012345', 'XY9876543', 5,5),
-    ('Antonio', 'López', '+11234567891', '111222333', 2,2),
+    ('Juan', 'Gómez', '123456789', '12345678Z', 1,1),
+    ('María', 'Rodríguez', '16012345', 'XY9876543', 5,5),
+    ('Antonio', 'López', '1234567891', '111222333', 2,2),
     ('Carmen', 'García', '111222333', '76543210D', 8,8),
-    ('Manuel', 'Martínez', '+861987654321', '987654198512311234', 7,7),
-    ('Laura', 'Fernández', '+330987654321', '9305078912345678', 4,4),
-    ('Pedro', 'Navarro', '+351289876543', '987654321', 6,6),
-    ('Isabel', 'Sánchez', '+34987987987', '87654321X', 1,1),
+    ('Manuel', 'Martínez', '987654321', '987654198512311234', 7,7),
+    ('Laura', 'Fernández', '987654321', '9305078912345678', 4,4),
+    ('Pedro', 'Navarro', '289876543', '987654321', 6,6),
+    ('Isabel', 'Sánchez', '987987987', '87654321X', 1,1),
     ('José', 'Romero', '888888888', '56789012I', 8,8),
-    ('Ana', 'Jiménez', '+447876543210', 'G12345678', 3,3);
+    ('Ana', 'Jiménez', '7876543210', 'G12345678', 3,3);
    
    
 INSERT INTO person (id, name, surname, phone, documentation, country, phonecountry) VALUES   

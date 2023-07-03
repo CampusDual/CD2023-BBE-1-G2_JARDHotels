@@ -76,6 +76,8 @@ public class PersonServiceTest {
             er.setCode(0);
             er.setMessage("");
             er.put("id", List.of(1));
+            EntityResult er2 = new EntityResultMapImpl();
+            er2.setCode(EntityResult.OPERATION_WRONG);
             Map<String, Object> personToInsert = new HashMap<>();
             personToInsert.put("id", 1);
             personToInsert.put("username", "");
@@ -84,6 +86,7 @@ public class PersonServiceTest {
             when(daoHelper.insert(any(PersonDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(PersonDao.class), anyMap(), anyList())).thenReturn(er);
             when(userService.userInsert(anyMap())).thenReturn(er);
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er2);
 
             EntityResult result = personService.personInsert(personToInsert);
             assertEquals("Successful person insertion", result.getMessage());
@@ -105,6 +108,7 @@ public class PersonServiceTest {
             personToInsert.put("password", "1234");
 
             when(daoHelper.insert(any(PersonDao.class), anyMap())).thenThrow(new RuntimeException(""));
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er);
             EntityResult result = personService.personInsert(personToInsert);
 
             assertNotEquals("Successful person insertion", result.getMessage());
@@ -121,16 +125,18 @@ public class PersonServiceTest {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
+            er.put("username", List.of("aaaaa"));
             Map<String, Object> personToUpdate = new HashMap<>();
             personToUpdate.put("id", 1);
             Map<String, Object> personKey = new HashMap<>();
             personKey.put("id", 1);
             when(daoHelper.update(any(PersonDao.class), anyMap(), anyMap())).thenReturn(er);
             when(daoHelper.query(any(PersonDao.class), anyMap(), anyList())).thenReturn(er);
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er);
             EntityResult result = personService.personUpdate(personToUpdate, personKey);
+            assertEquals("Successful person update", result.getMessage());
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).update(any(PersonDao.class), anyMap(), anyMap());
-            assertEquals("Successful person update", result.getMessage());
         }
     }
 

@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -35,6 +34,12 @@ public class GuestServiceTest {
 
     @Mock
     StaffService staffService;
+
+    @Mock
+    UserService userService;
+
+    @Mock
+    UserRoleService userRoleService;
 
     @Mock
     GuestDao guestDao;
@@ -95,6 +100,7 @@ public class GuestServiceTest {
             er.setMessage("");
             er.put("id", 1);
             er2.put("id", l2);
+            er2.put("username", "test");
 
             Map<String, Object> guestToInsert = new HashMap<>();
             guestToInsert.put("id", 1);
@@ -102,6 +108,7 @@ public class GuestServiceTest {
             when(daoHelper.insert(any(GuestDao.class), anyMap())).thenReturn(er);
             when(personService.personQuery(anyMap(), anyList())).thenReturn(er2);
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er3);
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er2);
 
             EntityResult result = guestService.guestInsert(guestToInsert);
             assertEquals("Successful guest insert", result.getMessage());
@@ -200,7 +207,12 @@ public class GuestServiceTest {
         void guestDeleteTestExistingInStaff() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
-            er.put("id", 1);
+            er.put("id", List.of(1));
+
+            EntityResult er2 = new EntityResultMapImpl();
+            er2.setCode(0);
+            er2.put("id", List.of(1));
+            er2.put("username", List.of("username"));
 
             Map<String, Object> guestKey = new HashMap<>();
             guestKey.put("id", 1);
@@ -208,6 +220,8 @@ public class GuestServiceTest {
             when(daoHelper.query(any(GuestDao.class), anyMap(), anyList())).thenReturn(er);
             when(staffService.staffQuery(anyMap(), anyList())).thenReturn(er);
             when(daoHelper.delete(any(GuestDao.class), anyMap())).thenReturn(er);
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er2);
+            when(userRoleService.user_roleQuery(anyMap(), anyList())).thenReturn(er2);
 
             EntityResult result = guestService.guestDelete(guestKey);
 
@@ -234,6 +248,7 @@ public class GuestServiceTest {
             EntityResult result = guestService.guestDelete(guestKey);
 
             assertEquals(0, result.getCode());
+            System.err.println(result.getMessage());
             assertEquals("Successful guest delete", result.getMessage());
         }
 

@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.net.http.WebSocketHandshakeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,9 @@ public class StaffServiceTest {
     JobService jobService;
     @Mock
     HotelService hotelService;
+
+    @Mock
+    UserService userService;
 
     @Mock
     StaffDao staffDao;
@@ -117,6 +121,7 @@ public class StaffServiceTest {
             when(bankAccountService.bankaccountQuery(anyMap(), anyList())).thenReturn(er2);
             when(jobService.jobQuery(anyMap(), anyList())).thenReturn(er2);
             when(hotelService.hotelQuery(anyMap(), anyList())).thenReturn(er2);
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er2);
 
             EntityResult result = staffService.staffInsert(staffToInsert);
             assertEquals("Successful staff insert", result.getMessage());
@@ -235,7 +240,10 @@ public class StaffServiceTest {
         void staffDeleteTestExistingInGuest() {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
-            er.put("id", 1);
+            er.put("id", List.of(1));
+            er.put("idhotel", List.of(1));
+            er.put("job", List.of(1));
+            er.put("username", List.of("username"));
 
             Map<String, Object> staffKey = new HashMap<>();
             staffKey.put("id", 1);
@@ -243,6 +251,7 @@ public class StaffServiceTest {
             when(daoHelper.query(any(StaffDao.class), anyMap(), anyList())).thenReturn(er);
             when(guestService.guestQuery(anyMap(), anyList())).thenReturn(er);
             when(daoHelper.delete(any(StaffDao.class), anyMap())).thenReturn(er);
+            when(userService.userQuery(anyMap(), anyList())).thenReturn(er);
 
             EntityResult result = staffService.staffDelete(staffKey);
 
@@ -258,6 +267,7 @@ public class StaffServiceTest {
             er2.setCode(1);
             er.setCode(0);
             er.put("id", 1);
+            er.put("idhotel", List.of(1));
 
             Map<String, Object> staffKey = new HashMap<>();
             staffKey.put("id", 1);

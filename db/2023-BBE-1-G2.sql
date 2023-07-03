@@ -532,7 +532,9 @@ CREATE TABLE IF NOT EXISTS booking (
 	guest INTEGER NOT NULL,
 	arrivaldate DATE NOT NULL,
 	departuredate DATE NOT NULL,
-	totalprice 	DECIMAL NOT NULL,
+	totalprice DECIMAL NOT NULL,
+	checkindate TIMESTAMP NULL,
+	checkoutdate TIMESTAMP NULL,
 	FOREIGN KEY(room) REFERENCES room(id) 
 		ON DELETE CASCADE 
 		ON UPDATE CASCADE,

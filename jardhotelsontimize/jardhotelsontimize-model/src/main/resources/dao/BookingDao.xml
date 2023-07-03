@@ -21,6 +21,8 @@
                 <Column>arrivaldate</Column>
                 <Column>departuredate</Column>
                 <Column>totalprice</Column>
+                <Column>checkindate</Column>
+                <Column>checkoutdate</Column>
             </ValidColumns>
             <Sentence>
                 <![CDATA[

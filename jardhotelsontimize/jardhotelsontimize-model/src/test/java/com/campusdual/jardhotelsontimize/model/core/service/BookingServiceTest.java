@@ -13,10 +13,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -82,6 +81,7 @@ public class BookingServiceTest {
             bookingToInsert.put("room", 1);
             EntityResult res = new EntityResultMapImpl();
             res.put("price", 100);
+            res.put("hotel", List.of(1));
             when(roomService.roomQuery(any(), anyList())).thenReturn(res);
             when(daoHelper.insert(any(BookingDao.class), anyMap())).thenReturn(er);
             EntityResult result = bookingService.bookingInsert(bookingToInsert);
@@ -100,6 +100,7 @@ public class BookingServiceTest {
             bookingToInsert.put("room", 1);
             EntityResult res = new EntityResultMapImpl();
             res.put("price", 100);
+            res.put("hotel", List.of(1));
             when(roomService.roomQuery(any(), anyList())).thenReturn(res);
             when(daoHelper.insert(any(BookingDao.class), anyMap())).thenThrow(new RuntimeException(""));
             EntityResult result = bookingService.bookingInsert(bookingToInsert);
@@ -120,6 +121,15 @@ public class BookingServiceTest {
             er.put("id", 1);
             er.put("totalprice", 650);
             er2.put("price", List.of(BigDecimal.valueOf(650)));
+
+            EntityResult er3 = new EntityResultMapImpl();
+            er3.put("id", List.of(1));
+            er3.put("checkindate",List.of("2023-06-03 00:00:00.0"));
+            er3.put("checkoutdate",List.of("2023-06-06 00:00:00.0"));
+            er3.put("arrivaldate",List.of("2023-06-03"));
+            er3.put("departuredate",List.of("2023-06-06"));
+            er3.put("room",List.of(1));
+
             Map<String, Object> bookingToUpdate = new HashMap<>();
             bookingToUpdate.put("room", 1);
             bookingToUpdate.put("arrivaldate", "2023-06-03");
@@ -128,6 +138,7 @@ public class BookingServiceTest {
             bookingKey.put("id", 1);
             when(daoHelper.update(any(BookingDao.class), anyMap(), anyMap())).thenReturn(er);
             when(roomService.roomQuery(anyMap(), anyList())).thenReturn(er2);
+            when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er3, er3);
             EntityResult result = bookingService.bookingUpdate(bookingToUpdate, bookingKey);
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).update(any(BookingDao.class), anyMap(), anyMap());
@@ -146,14 +157,24 @@ public class BookingServiceTest {
             er.put("id", 1);
             er.put("totalprice", List.of(new BigDecimal("650.5")));
             er.put("arrivaldate", List.of("2025-06-06"));
+
+            EntityResult er2 = new EntityResultMapImpl();
+            er2.put("id", List.of(1));
+            er2.put("room", List.of(1));
+            LocalDate now = LocalDate.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String dateNow = now.format(format);
+            er2.put("arrivaldate", List.of(dateNow));
+            er2.put("totalprice", List.of(new BigDecimal("650.5")));
+
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);
             when(daoHelper.delete(any(BookingDao.class), anyMap())).thenReturn(er);
-            when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er);
+            when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er2);
             EntityResult result = bookingService.bookingDelete(bookingKey);
+            assertEquals("Successful booking delete", result.getMessage());
             assertEquals(0, result.getCode());
             verify(daoHelper, times(1)).delete(any(BookingDao.class), anyMap());
-            assertEquals("Successful booking delete", result.getMessage());
         }
 
         @Test

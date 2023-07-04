@@ -32,7 +32,9 @@ CREATE TABLE IF NOT EXISTS country (
 	ON UPDATE CASCADE
 );
 
+ /***********************************************/
 /******************Tabla hotel******************/
+
 CREATE TABLE IF NOT EXISTS hotel(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
@@ -41,10 +43,14 @@ CREATE TABLE IF NOT EXISTS hotel(
 	country INTEGER NOT NULL,
 	latitude DECIMAL (9,7) NOT NULL,
 	longitude DECIMAL (10,7) NOT NULL,
+	phone VARCHAR(30) NOT NULL,
 	
 	FOREIGN KEY(country) REFERENCES country(id)
 	ON DELETE RESTRICT
 	ON UPDATE CASCADE,
+	
+	CONSTRAINT "Repeated phone in an other hotel"
+		UNIQUE(phone), 
 	
 	CONSTRAINT "Stars must be between one and five" 
 		CHECK(stars >= 1 AND stars <= 5)
@@ -91,8 +97,6 @@ CREATE TRIGGER check_hotel_room_update
 BEFORE UPDATE ON room
 FOR EACH ROW
 EXECUTE FUNCTION check_hotel_from_room();
-
-
 
  /*************************************************/
 /******************Tabla persona******************/
@@ -405,7 +409,6 @@ BEFORE INSERT OR UPDATE ON person
 FOR EACH ROW
 WHEN (NEW.country = 7) --Id de China debe ser 7
 EXECUTE FUNCTION verify_documentation_china();
-
 
 --------------------------SECURIZACIÓN-------------------------------
  /*************************************************/

@@ -30,7 +30,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel deluxe pizza\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle pizza\",\r\n    \"country\": 1,\r\n    \"latitude\":32.09123,\r\n    \"longitude\": 20.76252\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel deluxe pizza\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle pizza\",\r\n    \"country\": 1,\r\n    \"latitude\":32.09123,\r\n    \"longitude\": 20.76252,\r\n    \"phone\": \"111333222\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":2,\r\n        \"phone\": \"\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

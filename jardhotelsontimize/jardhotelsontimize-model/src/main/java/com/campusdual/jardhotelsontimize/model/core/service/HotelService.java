@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Lazy
 @Service("HotelService")
@@ -77,6 +78,13 @@ public class HotelService implements IHotelService {
             }
         }
 
+        if(attrMap.containsKey("country") && attrMap.containsKey("phone")){
+            EntityResult phone = checkPhone(attrMap.get("country"), attrMap.get("phone"));
+            if(phone.getCode() == EntityResult.OPERATION_WRONG){
+                return phone;
+            }
+        }
+
         try{
             result = this.daoHelper.insert(this.hotelDao,attrMap);
             result.setMessage("Successful hotel insertion");
@@ -87,10 +95,95 @@ public class HotelService implements IHotelService {
                 result.setMessage("Stars must be between one and five");
             } else if (e.getMessage().contains("\"hotel\" violates foreign key constraint \"hotel_country_fkey\"")) {
                 result.setMessage("The country doesn't exist");
+            } else if (e.getMessage().contains("Repeated phone in an other hotel")){
+                result.setMessage("Repeated phone in an other hotel");
             } else {
                 result.setMessage(e.getMessage());
             }
             result.setCode(EntityResult.OPERATION_WRONG);
+        }
+
+        return result;
+    }
+
+    private EntityResult checkPhone(Object c, Object p) {
+        EntityResult result = new EntityResultMapImpl();
+
+        String phone = p.toString();
+        int country = 0;
+        try{
+            country = (int)c;
+        }catch (Exception e){
+            return result;
+        }
+
+        String pat;
+        Pattern pattern;
+
+        switch (country){
+            case 1:
+                pat = "\\d{9}";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The spanish phone format is incorrect");
+                    return result;
+                }
+                break;
+            case 2:
+                pat = "\\d{10}";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The United States phone format is incorrect");
+                    return result;
+                }
+                break;
+            case 3:
+                pat = "[1-9]\\d{9}";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The United Kingdom phone format is incorrect");
+                    return result;
+                }
+                break;
+            case 4:
+                pat = "\\d{9}";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The french phone format is incorrect");
+                    return result;
+                }
+                break;
+            case 5:
+                pat = "[1-9]\\d{1,4}\\d{1,10}";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The german phone format is incorrect");
+                    return result;
+                }
+                break;
+            case 6:
+                pat = "[28969]\\d{8}$";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The Portugal phone format is incorrect");
+                    return result;
+                }
+                break;
+            case 7:
+                pat = "\\d{9}";
+                pattern = Pattern.compile(pat);
+                if(!pattern.matcher(phone).matches()){
+                    result.setCode(EntityResult.OPERATION_WRONG);
+                    result.setMessage("The China phone format is incorrect");
+                    return result;
+                }
+                break;
         }
 
         return result;
@@ -102,6 +195,8 @@ public class HotelService implements IHotelService {
 
         List<String>attrList = new ArrayList<>();
         attrList.add("id");
+        attrList.add("phone");
+        attrList.add("country");
         EntityResult hotelQuery = hotelQuery(keyMap, attrList);
 
         if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
@@ -109,11 +204,31 @@ public class HotelService implements IHotelService {
             return hotelQuery;
         }
 
-
-
         EntityResult checkPermissions = checkPermissions(keyMap.get("id").toString());
         if(checkPermissions.getCode() == EntityResult.OPERATION_WRONG){
             return checkPermissions;
+        }
+
+        Object phone, country;
+        List<Object> list;
+
+        if(attrMap.containsKey("phone")){
+            phone = attrMap.get("phone");
+        }else{
+            list = (List<Object>) hotelQuery.get("phone");
+            phone = list.get(0);
+        }
+
+        if(attrMap.containsKey("country")){
+            country = attrMap.get("country");
+        }else{
+            list = (List<Object>) hotelQuery.get("country");
+            country = list.get(0);
+        }
+
+        EntityResult checkPhone = checkPhone(country, phone);
+        if(checkPhone.getCode() == EntityResult.OPERATION_WRONG){
+            return checkPhone;
         }
 
         EntityResult result = new EntityResultMapImpl();
@@ -153,6 +268,8 @@ public class HotelService implements IHotelService {
                 result.setMessage("Stars must be between one and five");
             } else if (e.getMessage().contains("\"hotel\" violates foreign key constraint \"hotel_country_fkey\"")) {
                 result.setMessage("The country doesn't exist");
+            } else if (e.getMessage().contains("Repeated phone in an other hotel")){
+                result.setMessage("Repeated phone in an other hotel");
             } else {
                 result.setMessage(e.getMessage());
             }

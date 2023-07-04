@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a74053fe-d757-49ce-8913-d86cac81a73b",
+		"_postman_id": "6b9c285d-565a-4cda-a6d2-91732859a857",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -142,50 +142,6 @@
 					"response": []
 				},
 				{
-					"name": "Filter",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"name\":\"Deluxe\",\r\n        \"country\": 1,\r\n        \"latitude\": 2.0,\r\n        \"longitude\": 3.0\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\",\"latitude\",\"longitude\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:65431/hotels/filter",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "65431",
-							"path": [
-								"hotels",
-								"filter"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get All",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -277,6 +233,94 @@
 							"path": [
 								"hotels",
 								"hotel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "hotelDoor",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":5,\r\n        \"code\": \"9-8-2025-06-10-98765\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/hotelDoor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"hotelDoor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"name\":\"Deluxe\",\r\n        \"country\": 1,\r\n        \"latitude\": 2.0,\r\n        \"longitude\": 3.0\r\n    },\r\n    \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\",\"latitude\",\"longitude\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"filter"
 							]
 						}
 					},
@@ -421,50 +465,6 @@
 					"response": []
 				},
 				{
-					"name": "Query",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"capacity_min\": 1,\r\n        \"hotel\": 1,\r\n        \"description\": \" \",\r\n        \"price_min\": 25.5\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:65431/rooms/filter",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "65431",
-							"path": [
-								"rooms",
-								"filter"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get All",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -556,6 +556,94 @@
 							"path": [
 								"rooms",
 								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "roomDoor",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password10",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ana456",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"room\":9,\r\n        \"code\": \"9-8-2025-06-10-98765\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/roomDoor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"roomDoor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"capacity_min\": 1,\r\n        \"hotel\": 1,\r\n        \"description\": \" \",\r\n        \"price_min\": 25.5\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/rooms/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"rooms",
+								"filter"
 							]
 						}
 					},
@@ -1222,7 +1310,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,arrivaldate,departuredate,totalprice,checkindate,checkoutdate",
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,arrivaldate,departuredate,totalprice,checkindate,checkoutdate,code",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1235,7 +1323,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,room,guest,arrivaldate,departuredate,totalprice,checkindate,checkoutdate"
+									"value": "id,room,guest,arrivaldate,departuredate,totalprice,checkindate,checkoutdate,code"
 								}
 							]
 						}

@@ -1,7 +1,9 @@
 package com.campusdual.jardhotelsontimize.ws.core.rest;
 
+import com.campusdual.jardhotelsontimize.api.core.service.IBookingService;
 import com.campusdual.jardhotelsontimize.api.core.service.ICountryService;
 import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
+import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
@@ -32,9 +34,88 @@ public class HotelRestController extends ORestController<IHotelService> {
     @Autowired
     private ICountryService iCountryService;
 
+    @Autowired
+    private IBookingService iBookingService;
+
+    @Autowired
+    private IRoomService iRoomService;
+
     @Override
     public IHotelService getService() {
         return this.iHotelService;
+    }
+
+    @RequestMapping(value = "/hotelDoor", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult hotelDoor(@RequestBody Map<String, Object> req){
+        Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+
+        if(filter.get("code") == null){
+            error.setMessage("Missing code");
+            return error;
+        }
+
+        if(filter.get("hotel") == null){
+            error.setMessage("Missing hotel");
+            return error;
+        }
+
+        try {
+            Map<String, Object>key = new HashMap<>();
+            key.put("id", filter.get("hotel"));
+
+            List<String>attrList = new ArrayList<>();
+            attrList.add("id");
+
+            EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
+            if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+                error.setMessage(hotelQuery.getMessage());
+                return error;
+            }
+
+            key = new HashMap<>();
+            key.put("code", filter.get("code"));
+
+            attrList.add("room");
+
+            EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
+
+            if(bookingQuery.getCode() == EntityResult.OPERATION_WRONG){
+                error.setMessage(bookingQuery.getMessage());
+                return error;
+            }
+
+            List<Integer>rooms = (List<Integer>) bookingQuery.get("room");
+            key = new HashMap<>();
+            key.put("id", rooms.get(0));
+
+            attrList = new ArrayList<>();
+            attrList.add("id");
+            attrList.add("hotel");
+
+            EntityResult roomQuery = iRoomService.roomQuery(key, attrList);
+            List<Integer>hotels = (List<Integer>) roomQuery.get("hotel");
+
+            int hotelToPass = (int) filter.get("hotel");
+            int hotelFromBooking = hotels.get(0);
+
+            if(hotelToPass == hotelFromBooking){
+                EntityResult ok = new EntityResultMapImpl();
+                ok.setMessage("Access granted");
+                return ok;
+            }else{
+                error.setMessage("Access denied");
+                return error;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            error.setMessage(e.getMessage());
+            return error;
+        }
+
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -64,6 +64,13 @@ public class BookingService implements IBookingService {
     @Override
     @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult bookingInsert(Map<String, Object> attrMap) {
+        if (attrMap.containsKey("code")) {
+            attrMap.remove("code");
+        }
+        if (attrMap.containsKey("room") && attrMap.containsKey("guest") && attrMap.containsKey("arrivaldate")) {
+            String code = attrMap.get("room").toString() + "-" + attrMap.get("guest").toString() + "-" + attrMap.get("arrivaldate").toString() + "-" + generateRandomDigits(5);
+            attrMap.put("code", code);
+        }
 
         EntityResult result = new EntityResultMapImpl();
 
@@ -104,10 +111,7 @@ public class BookingService implements IBookingService {
         try {
             result = this.daoHelper.insert(this.bookingDao, attrMap);
             result.setMessage("Successful booking insertion");
-
-
         } catch (Exception e) {
-
             result.setCode(EntityResult.OPERATION_WRONG);
             if (e.getMessage().contains("null value")) {
                 result.setMessage("All attributes must be filled");
@@ -129,6 +133,16 @@ public class BookingService implements IBookingService {
 
         }
         return result;
+    }
+
+    private static String generateRandomDigits(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int digit = random.nextInt(10);
+            sb.append(digit);
+        }
+        return sb.toString();
     }
 
     private EntityResult checkCheckInCheckOut(Map<String, Object> attrMap) {

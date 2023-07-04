@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "78d49360-a4dd-46a1-8c4a-0fbf5a360082",
+		"_postman_id": "a74053fe-d757-49ce-8913-d86cac81a73b",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1078,7 +1078,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\",\r\n    \"checkindate\": \"2033-08-05 00:00:00\",\r\n    \"checkoutdate\": \"2033-08-07 00:00:00\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1122,7 +1122,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2023-07-02\",\r\n    \"departuredate\": \"2023-07-08\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"departuredate\": 93,\r\n        \"guest\": 4,\r\n        \"arrivaldate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 6\r\n    },\r\n    \"data\": {\r\n    \"checkoutdate\": \"2033-08-20 00:00:00\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"departuredate\": 93,\r\n        \"guest\": 4,\r\n        \"arrivaldate\": 93,\r\n        \"id\": 4,\r\n        \"room\": 4\r\n    } \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1166,7 +1166,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\",\"arrivaldate\",\"departuredate\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1222,7 +1222,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,arrivaldate,departuredate,totalprice",
+							"raw": "http://localhost:65431/bookings/booking?columns=id,room,guest,arrivaldate,departuredate,totalprice,checkindate,checkoutdate",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1235,7 +1235,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,room,guest,arrivaldate,departuredate,totalprice"
+									"value": "id,room,guest,arrivaldate,departuredate,totalprice,checkindate,checkoutdate"
 								}
 							]
 						}

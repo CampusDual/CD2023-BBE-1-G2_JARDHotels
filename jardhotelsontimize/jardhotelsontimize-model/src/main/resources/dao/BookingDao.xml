@@ -23,6 +23,7 @@
                 <Column>totalprice</Column>
                 <Column>checkindate</Column>
                 <Column>checkoutdate</Column>
+                <Column>code</Column>
             </ValidColumns>
             <Sentence>
                 <![CDATA[

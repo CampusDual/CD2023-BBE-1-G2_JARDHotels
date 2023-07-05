@@ -32,12 +32,23 @@ public class PersonService implements IPersonService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personQuery(Map<String, Object> keyMap, List<String> attrList) {
+
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         EntityResult result = this.daoHelper.query(this.personDao, keyMap, attrList);
         if (result.toString().contains("id")) result.setMessage("");
         else {
             result.setMessage("The person doesn't exist");
             result.setCode(EntityResult.OPERATION_WRONG);
             result.setColumnSQLTypes(new HashMap<>());
+        }
+
+        if (deleteId) {
+            result.remove("id");
         }
         return result;
     }
@@ -230,6 +241,17 @@ public class PersonService implements IPersonService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
+
+        try {
+            int idAdmin = (int) keyMap.get("id");
+            if (idAdmin == -1) {
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("The given id is not valid");
+                return error;
+            }
+        } catch (Exception e) {}
+
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         EntityResult result = personQuery(keyMap, attrList);
@@ -349,6 +371,17 @@ public class PersonService implements IPersonService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult personDelete(Map<String, Object> keyMap) {
+
+        try {
+            int idAdmin = (int) keyMap.get("id");
+            if (idAdmin == -1) {
+                EntityResult error = new EntityResultMapImpl();
+                error.setCode(EntityResult.OPERATION_WRONG);
+                error.setMessage("The given id is not valid");
+                return error;
+            }
+        } catch (Exception e) {}
+
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         attrList.add("name");

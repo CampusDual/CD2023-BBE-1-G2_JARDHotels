@@ -41,11 +41,22 @@ public class RoomService implements IRoomService {
     @Override
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult roomQuery(Map<String, Object> keyMap, List<String> attrList) {
+
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         EntityResult result = this.daoHelper.query(this.roomDao, keyMap, attrList);
 
-        if (result.toString().contains("id") || result.toString().contains("ID"))
+        if (result.toString().contains("id") || result.toString().contains("ID")) {
             result.setMessage("");
-        else {
+            if (deleteId) {
+                result.remove("id");
+            }
+
+        } else {
             result.setMessage("The room doesn't exist");
             result.setCode(EntityResult.OPERATION_WRONG);
             result.setColumnSQLTypes(new HashMap<>());

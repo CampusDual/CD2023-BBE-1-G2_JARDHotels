@@ -31,6 +31,13 @@ public class UserRoleService implements IUserRoleService {
 
 
 	public EntityResult user_roleQuery(Map<String, Object> keyMap, List<String> attrList) {
+
+		boolean deleteId = false;
+		if (!attrList.contains("id")) {
+			attrList.add("id");
+			deleteId = true;
+		}
+
 		EntityResult result = this.daoHelper.query(userRoleDao, keyMap, attrList);
 
 		if(!result.toString().contains("id")){
@@ -40,6 +47,9 @@ public class UserRoleService implements IUserRoleService {
 			return error;
 		}
 
+		if (deleteId) {
+			result.remove("id");
+		}
 		return result;
 	}
 

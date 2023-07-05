@@ -33,9 +33,18 @@ public class BankAccountService implements IBankAccountService {
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult bankaccountQuery(Map<String, Object> keyMap, List<String> attrList) {
 
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         EntityResult result = this.daoHelper.query(this.bankAccountDao,keyMap,attrList);
         if(result.toString().contains("id")) {
             result.setMessage("");
+            if (deleteId) {
+                result.remove("id");
+            }
 
         } else {
             result.setMessage("The bank account format doesn't exist");

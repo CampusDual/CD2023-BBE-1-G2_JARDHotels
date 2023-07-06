@@ -159,7 +159,7 @@ public class BookingService implements IBookingService {
     private EntityResult checkCheckInCheckOut(Map<String, Object> attrMap) {
         try {
             if (attrMap.containsKey("arrivaldate") && attrMap.containsKey("departuredate")) {
-                if (attrMap.containsKey("checkindate")) {
+                if (attrMap.containsKey("checkindate") && attrMap.get("checkindate")!=null) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date arrivalDate = dateFormat.parse(attrMap.get("arrivaldate").toString());
                     Date checkInDate = dateFormat.parse(attrMap.get("checkindate").toString());
@@ -170,7 +170,7 @@ public class BookingService implements IBookingService {
                         return error;
                     }
                 }
-                if (attrMap.containsKey("checkoutdate")) {
+                if (attrMap.containsKey("checkoutdate") && attrMap.get("checkoutdate")!=null) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date departureDate = dateFormat.parse(attrMap.get("departuredate").toString());
                     Date checkOutDate = dateFormat.parse(attrMap.get("checkoutdate").toString());
@@ -180,7 +180,7 @@ public class BookingService implements IBookingService {
                         error.setCode(EntityResult.OPERATION_WRONG);
                         return error;
                     }
-                    if (attrMap.containsKey("checkindate")) {
+                    if (attrMap.containsKey("checkindate") && attrMap.get("checkindate")!=null) {
                         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date checkInDate = dateFormat.parse(attrMap.get("checkindate").toString());
                         if (checkOutDate.before(checkInDate)) {
@@ -308,7 +308,6 @@ public class BookingService implements IBookingService {
     public EntityResult bookingUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         EntityResult result = new EntityResultMapImpl();
-
         EntityResult check = checkCheckInCheckOut(attrMap, keyMap);
         if (check.getCode() == EntityResult.OPERATION_WRONG) {
             return check;

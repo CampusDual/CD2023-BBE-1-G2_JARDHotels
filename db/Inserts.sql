@@ -169,6 +169,7 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (1, 13),
 	 (1, 14),
 	 (1, 15),
+	 (1, 18),
 	 (1, 23),
 	 (1, 24),
 	 (1, 25),
@@ -176,6 +177,7 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (1, 22),
 	 (2, 5), -- 2 -> recepcionist
 	 (2, 13),
+	 (2, 10),
 	 (2, 14),
 	 (2, 15),
 	 (2, 23),

@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/hotels")
@@ -79,6 +76,8 @@ public class HotelRestController extends ORestController<IHotelService> {
             key.put("code", filter.get("code"));
 
             attrList.add("room");
+            attrList.add("arrivaldate");
+            attrList.add("departuredate");
 
             EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
 
@@ -102,9 +101,18 @@ public class HotelRestController extends ORestController<IHotelService> {
             int hotelFromBooking = hotels.get(0);
 
             if(hotelToPass == hotelFromBooking){
-                EntityResult ok = new EntityResultMapImpl();
-                ok.setMessage("Access granted");
-                return ok;
+                List<Date>arrivalDates = (List<Date>) bookingQuery.get("arrivaldate");
+                List<Date>departureDates = (List<Date>) bookingQuery.get("departuredate");
+
+                Date fechaActual = new Date();
+                if (fechaActual.compareTo(arrivalDates.get(0)) >= 0 && fechaActual.compareTo(departureDates.get(0)) <= 0) {
+                    EntityResult ok = new EntityResultMapImpl();
+                    ok.setMessage("Access granted");
+                    return ok;
+                } else {
+                    error.setMessage("Access denied");
+                    return error;
+                }
             }else{
                 error.setMessage("Access denied");
                 return error;

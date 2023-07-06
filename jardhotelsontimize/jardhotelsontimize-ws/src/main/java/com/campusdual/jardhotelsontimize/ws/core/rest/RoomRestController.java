@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/rooms")
@@ -73,6 +70,10 @@ public class RoomRestController extends ORestController<IRoomService> {
             key.put("code", filter.get("code"));
 
             attrList.add("room");
+            attrList.add("arrivaldate");
+            attrList.add("departuredate");
+            attrList.add("chekindate");
+            attrList.add("id");
 
             EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
 
@@ -87,9 +88,28 @@ public class RoomRestController extends ORestController<IRoomService> {
             int roomFromBooking = rooms.get(0);
 
             if(roomToPass == roomFromBooking){
-                EntityResult ok = new EntityResultMapImpl();
-                ok.setMessage("Access granted");
-                return ok;
+                List<Date>arrivalDates = (List<Date>) bookingQuery.get("arrivaldate");
+                List<Date>departureDates = (List<Date>) bookingQuery.get("departuredate");
+
+                Date now = new Date();
+                if (now.compareTo(arrivalDates.get(0)) >= 0 && now.compareTo(departureDates.get(0)) <= 0) {
+                    EntityResult ok = new EntityResultMapImpl();
+                    ok.setMessage("Access granted");
+
+                    List<Date>checkinsDate = (List<Date>) bookingQuery.get("checkindate");
+                    List<Integer>ids = (List<Integer>) bookingQuery.get("id");
+                    if (checkinsDate == null){
+                        key = new HashMap<>();
+                        key.put("id", ids.get(0));
+                        Map<String, Object>attrMap = new HashMap<>();
+                        attrMap.put("checkindate", now);
+                        iBookingService.bookingUpdate(attrMap, key);
+                    }
+                    return ok;
+                } else {
+                    error.setMessage("Access denied");
+                    return error;
+                }
             }else{
                 error.setMessage("Access denied");
                 return error;

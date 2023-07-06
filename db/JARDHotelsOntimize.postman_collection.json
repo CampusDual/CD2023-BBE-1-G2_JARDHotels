@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ccb7a540-4d82-4daf-afa4-cda68bd78de4",
+		"_postman_id": "c687c3e6-c7f7-4f48-ae85-2a842bd4ced7",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -327,12 +327,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -341,7 +341,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"number\": 409,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 10,\r\n        \"price\": 10\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"number\": 408,\r\n        \"capacity\": 3,\r\n        \"description\": \"cama de matrimonio\",\r\n        \"hotel\": 10,\r\n        \"price\": 10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,7 +385,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 10\r\n    }\r\n}\r\n",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 9\r\n    },\r\n    \"data\": {\r\n    \"number\": 502,\r\n    \"capacity\": 2,\r\n    \"description\": \"Deluxe Room with a king bed and ocean view\",\r\n    \"hotel\": 10\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -429,7 +429,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 9\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -873,12 +873,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password6",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "laura321",
 									"type": "string"
 								}
 							]
@@ -887,7 +887,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Tinky\",\r\n    \"surname\": \"Winky\",\r\n    \"phone\": \"+447975777666\",\r\n    \"documentation\": \"AC1234567\",\r\n    \"country\":3,\r\n    \"phonecountry\":3,\r\n    \"username\": \"tinkyWinky\",\r\n    \"email\":\"tinky@teletubbie.com\",\r\n    \"password\":\"champiñon\"\r\n\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Tinky\",\r\n    \"surname\": \"Winky\",\r\n    \"phone\": \"7975777666\",\r\n    \"documentation\": \"AC1234567\",\r\n    \"country\":3,\r\n    \"phonecountry\":3,\r\n    \"username\": \"tinkyWinky\",\r\n    \"email\":\"tinky@teletubbie.com\",\r\n    \"password\":\"champiñon\"\r\n\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1140,12 +1140,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "champiñones",
+									"value": "champiñon",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "franWinky",
+									"value": "tinkyWinky",
 									"type": "string"
 								}
 							]
@@ -1154,7 +1154,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\":11,\r\n    \"guest\":13,\r\n    \"arrivaldate\": \"2035-08-05\",\r\n    \"departuredate\": \"2035-08-13\",\r\n    \"checkindate\": \"2035-08-05 00:00:00\",\r\n    \"checkoutdate\": \"2035-08-07 00:00:00\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":8,\r\n    \"guest\":11,\r\n    \"arrivaldate\": \"2035-09-28\",\r\n    \"departuredate\": \"2035-09-30\",\r\n    \"checkindate\": \"2035-09-28 00:00:00\",\r\n    \"checkoutdate\": \"2035-09-30 00:00:00\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1242,7 +1242,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 6\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\",\"arrivaldate\",\"departuredate\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 5\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\",\"arrivaldate\",\"departuredate\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1434,7 +1434,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Jeremías\",\r\n    \"surname\": \"Ballesteros\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"14440135E\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2100,\r\n    \"job\":3,\r\n    \"idhotel\":10,\r\n    \"email\":\"jeremyballes@hotmail.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"baes\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Jeremías\",\r\n    \"surname\": \"Ballesteros\",\r\n    \"phone\": \"123123123\",\r\n    \"documentation\": \"14440135E\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2100,\r\n    \"job\":3,\r\n    \"idhotel\":10,\r\n    \"email\":\"jeremyballes@hotmail.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"baes\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1566,7 +1566,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 4\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"email\",\"documentation\",\"country\",\"phonecountry\",\"bankaccount\",\"bankaccountformat\",\"salary\",\"job\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 12\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"surname\",\"phone\",\"documentation\",\"country\",\"phonecountry\",\"bankaccount\",\"bankaccountformat\",\"salary\",\"job\",\"idhotel\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1792,7 +1792,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 65\r\n    },\r\n     \"columns\": [\"id\",\"job\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\":10\r\n    },\r\n     \"columns\": [\"id\",\"job\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

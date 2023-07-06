@@ -109,6 +109,8 @@ public class BookingService implements IBookingService {
                         }
                     } catch (Exception e) {}
                 }
+            }else {
+                return roomQuery;
             }
         } else {
             EntityResult error = new EntityResultMapImpl();

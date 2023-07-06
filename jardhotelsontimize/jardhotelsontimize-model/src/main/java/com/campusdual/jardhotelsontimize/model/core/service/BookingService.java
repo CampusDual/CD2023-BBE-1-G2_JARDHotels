@@ -40,6 +40,9 @@ public class BookingService implements IBookingService {
     @Autowired
     private StaffService staffService;
 
+    @Autowired
+    private GuestService guestService;
+
 
     @Override
     @Secured({PermissionsProviderSecured.SECURED})
@@ -52,7 +55,9 @@ public class BookingService implements IBookingService {
         EntityResult result = this.daoHelper.query(this.bookingDao, keyMap, attrList);
         if (result.toString().contains("id")) {
             result.setMessage("");
-            if (deleteId) result.remove("id");
+            if (deleteId) {
+                result.remove("id");
+            }
         } else {
             result.setMessage("The booking doesn't exist");
             result.setCode(EntityResult.OPERATION_WRONG);
@@ -96,9 +101,13 @@ public class BookingService implements IBookingService {
                     attrMap.put("totalprice", calculateTotalPrice(attrMap.get("arrivaldate").toString(), attrMap.get("departuredate").toString(), price));
                 }
                 List<Integer> hotels = (List<Integer>) roomQuery.get("hotel");
-                EntityResult checkPermisions = checkPermission(hotels.get(0), "insert");
-                if (checkPermisions.getCode() == EntityResult.OPERATION_WRONG) {
-                    return checkPermisions;
+                if (attrMap.containsKey("guest")) {
+                    try {
+                        EntityResult checkPermisions = checkPermission(hotels.get(0), (Integer) attrMap.get("guest"), "insert");
+                        if (checkPermisions.getCode() == EntityResult.OPERATION_WRONG) {
+                            return checkPermisions;
+                        }
+                    } catch (Exception e) {}
                 }
             }
         } else {
@@ -225,7 +234,7 @@ public class BookingService implements IBookingService {
         }
     }
 
-    private EntityResult checkPermission(int idHotel, String operation) {
+    private EntityResult checkPermission(int idHotel, int idGuest, String operation) {
         try {
 
             UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -243,7 +252,12 @@ public class BookingService implements IBookingService {
             attrList.add("job");
             attrList.add("id");
             EntityResult staffQuery = staffService.staffQuery(key, attrList);
-            if (staffQuery.getCode() == 0) {
+
+            attrList = new ArrayList<>();
+            attrList.add("id");
+            EntityResult guestQuery = guestService.guestQuery(key, attrList);
+
+            if (staffQuery.getCode() == 0 && guestQuery.getCode() == 1) {
                 List<Integer> idsHotel = (List<Integer>) staffQuery.get("idhotel");
                 List<Integer> jobs = (List<Integer>) staffQuery.get("job");
                 if (jobs.get(0) == 3 && (idHotel != (int) idsHotel.get(0))) {
@@ -252,7 +266,32 @@ public class BookingService implements IBookingService {
                     error.setMessage("This receptionist can only " + operation + " bookings in rooms from the hotel " + idsHotel.get(0));
                     return error;
                 }
+
+            } else if (staffQuery.getCode() == 0 && guestQuery.getCode() == 0) {
+                List<Integer> idsGuest = (List<Integer>) guestQuery.get("id");
+                List<Integer> idsHotel = (List<Integer>) staffQuery.get("idhotel");
+                List<Integer> jobs = (List<Integer>) staffQuery.get("job");
+                if ((idHotel != (int) idsHotel.get(0)) && (idsGuest.get(0) != idGuest)) {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    if (jobs.get(0) == 3) {
+                        error.setMessage("This receptionist can only " + operation + " bookings in rooms from the hotel " + idsHotel.get(0));
+                    } else {
+                        error.setMessage("This guest can only " + operation + " their bookings");
+                    }
+                    return error;
+                }
+
+            } else if (staffQuery.getCode() == 1 && guestQuery.getCode() == 0) {
+                List<Integer> idsGuest = (List<Integer>) guestQuery.get("id");
+                if (idsGuest.get(0) != idGuest) {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("This guest can only " + operation + " their bookings");
+                    return error;
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return new EntityResultMapImpl();
@@ -275,10 +314,12 @@ public class BookingService implements IBookingService {
 
         List<String> attrList = new ArrayList<>();
         attrList.add("room");
+        attrList.add("guest");
         EntityResult bookingQuery = bookingQuery(keyMap, attrList);
         if (bookingQuery.getCode() == 0) {
             List<Integer> ids = (List<Integer>) bookingQuery.get("room");
-            EntityResult checkPermissions = checkPermission(ids.get(0), "update");
+            List<Integer> idGuests = (List<Integer>) bookingQuery.get("guest");
+            EntityResult checkPermissions = checkPermission(ids.get(0), idGuests.get(0), "update");
             if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
                 return checkPermissions;
             }
@@ -364,10 +405,12 @@ public class BookingService implements IBookingService {
         attrList.add("id");
         attrList.add("totalprice");
         attrList.add("arrivaldate");
+        attrList.add("guest");
         EntityResult bookingQuery = bookingQuery(keyMap, attrList);
         if (bookingQuery.getCode() == 0) {
             List<Integer> ids = (List<Integer>) bookingQuery.get("room");
-            EntityResult checkPermissions = checkPermission(ids.get(0), "delete");
+            List<Integer> idGuests = (List<Integer>) bookingQuery.get("guest");
+            EntityResult checkPermissions = checkPermission(ids.get(0), idGuests.get(0), "delete");
             if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
                 return checkPermissions;
             }

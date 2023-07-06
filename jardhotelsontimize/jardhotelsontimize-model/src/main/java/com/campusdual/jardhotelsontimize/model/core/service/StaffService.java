@@ -54,6 +54,12 @@ public class StaffService implements IStaffService {
     @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult staffQuery(Map<String, Object> keyMap, List<String> attrList) {
 
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         List<String> attrList2 = new ArrayList<>();
         attrList2.add("id");
         if (attrList.contains("bankaccount")) {
@@ -86,7 +92,6 @@ public class StaffService implements IStaffService {
         }
 
         if (!attrList.contains("id")) attrList.add("id");
-        //TODO comprobar que quien intenta hacer la query es un manager del mismo hotel que el trabajador
         EntityResult erPerson = this.personService.personQuery(keyMap, attrList);
         EntityResult er = new EntityResultMapImpl();
 
@@ -115,6 +120,9 @@ public class StaffService implements IStaffService {
             }
         }
 
+        if (deleteId) {
+            er.remove("id");
+        }
         return er;
     }
 
@@ -141,6 +149,17 @@ public class StaffService implements IStaffService {
         copy.remove("job");
         copy.remove("idhotel");
         if (attrMap.get("id") != null) {
+
+            try {
+                int idAdmin = (int) attrMap.get("id");
+                if (idAdmin == -1) {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("The given id is not valid");
+                    return error;
+                }
+            } catch (Exception e) {}
+
             Map<String, Object> map = new HashMap<>();
             map.put("id", attrMap.get("id"));
             List<String> attrList = new ArrayList<>();
@@ -338,8 +357,6 @@ public class StaffService implements IStaffService {
             EntityResult erPerson = personService.personUpdate(attrMap, keyMap);
             if (erPerson.getCode() == 0) {
                 try {
-                    //TODO comprobar que quien intenta modificar al trabajador es en su hotel y no lo cambia a un admin
-
                     List<String> attrList2 = new ArrayList<>();
                     attrList2.add("id");
                     attrList2.add("job");
@@ -549,6 +566,7 @@ public class StaffService implements IStaffService {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         attrList.add("idhotel");
+        attrList.add("job");
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList);
         if (erStaff.toString().contains("id")) {
             Map<String, Object> key = new HashMap<>();
@@ -561,6 +579,7 @@ public class StaffService implements IStaffService {
                 }
             } catch (Exception e) {
             }
+            attrList.remove("idhotel");
             attrList.remove("job");
             EntityResult erGuest = guestService.guestQuery(keyMap, attrList);
             if (erGuest.toString().contains("id")) {

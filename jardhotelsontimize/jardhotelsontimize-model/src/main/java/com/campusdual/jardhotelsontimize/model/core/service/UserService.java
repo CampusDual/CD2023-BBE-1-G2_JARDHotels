@@ -35,6 +35,13 @@ public class UserService implements IUserService {
 
 	@Secured({ PermissionsProviderSecured.SECURED })
 	public EntityResult userQuery(Map<String, Object> keyMap, List<String> attrList) {
+
+		boolean deleteId = false;
+		if (!attrList.contains("id")) {
+			attrList.add("id");
+			deleteId = true;
+		}
+
 		EntityResult result = this.daoHelper.query(userDao, keyMap, attrList);
 
 		if(!result.toString().contains("username")){
@@ -44,6 +51,9 @@ public class UserService implements IUserService {
 			return error;
 		}
 
+		if (deleteId) {
+			result.remove("id");
+		}
 		return result;
 	}
 

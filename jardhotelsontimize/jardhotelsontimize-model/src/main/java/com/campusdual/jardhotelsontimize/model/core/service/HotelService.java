@@ -39,9 +39,18 @@ public class HotelService implements IHotelService {
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult hotelQuery(Map<String, Object> keyMap, List<String> attrList) {
 
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         EntityResult result = this.daoHelper.query(this.hotelDao,keyMap,attrList);
         if(result.toString().contains("id")) {
             result.setMessage("");
+            if (deleteId) {
+                result.remove("id");
+            }
 
         } else {
             result.setMessage("The hotel doesn't exist");

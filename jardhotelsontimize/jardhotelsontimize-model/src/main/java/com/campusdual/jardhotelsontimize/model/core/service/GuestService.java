@@ -44,6 +44,12 @@ public class GuestService implements IGuestService {
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult guestQuery(Map<String, Object> keyMap, List<String> attrList) {
 
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         List<String> attrList2 = new ArrayList<>();
         attrList2.add("id");
         EntityResult erGuest = this.daoHelper.query(this.guestDao, keyMap, attrList2);
@@ -68,6 +74,9 @@ public class GuestService implements IGuestService {
             }
         }
 
+        if (deleteId) {
+            er.remove("id");
+        }
         return er;
     }
 
@@ -75,6 +84,17 @@ public class GuestService implements IGuestService {
     public EntityResult guestInsert(Map<String, Object> attrMap) {
 
         if (attrMap.get("id") != null) {
+
+            try {
+                int idAdmin = (int) attrMap.get("id");
+                if (idAdmin == -1) {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("The given id is not valid");
+                    return error;
+                }
+            } catch (Exception e) {}
+
             Map<String, Object> map = new HashMap<>();
             map.put("id", attrMap.get("id"));
             List<String> attrList = new ArrayList<>();

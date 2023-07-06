@@ -129,6 +129,7 @@ public class BookingServiceTest {
             er3.put("arrivaldate",List.of("2023-06-03"));
             er3.put("departuredate",List.of("2023-06-06"));
             er3.put("room",List.of(1));
+            er3.put("guest", List.of(1));
 
             Map<String, Object> bookingToUpdate = new HashMap<>();
             bookingToUpdate.put("room", 1);
@@ -166,6 +167,7 @@ public class BookingServiceTest {
             String dateNow = now.format(format);
             er2.put("arrivaldate", List.of(dateNow));
             er2.put("totalprice", List.of(new BigDecimal("650.5")));
+            er2.put("guest", List.of(1));
 
             Map<String, Object> bookingKey = new HashMap<>();
             bookingKey.put("id", 1);

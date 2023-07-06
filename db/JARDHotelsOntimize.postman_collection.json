@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6b9c285d-565a-4cda-a6d2-91732859a857",
+		"_postman_id": "ccb7a540-4d82-4daf-afa4-cda68bd78de4",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -118,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\", \"latitude\", \"longitude\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\", \"latitude\", \"longitude\",\"phone\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -143,9 +143,6 @@
 				},
 				{
 					"name": "Get All",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -164,17 +161,8 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:65431/hotels/hotel?columns=id,name,stars,address,country,latitude,longitude",
+							"raw": "http://localhost:65431/hotels/hotel?columns=id,name,stars,address,country,latitude,longitude,phone",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -187,7 +175,7 @@
 							"query": [
 								{
 									"key": "columns",
-									"value": "id,name,stars,address,country,latitude,longitude"
+									"value": "id,name,stars,address,country,latitude,longitude,phone"
 								}
 							]
 						}
@@ -1152,12 +1140,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "password1",
+									"value": "champiñones",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "juan123",
+									"value": "franWinky",
 									"type": "string"
 								}
 							]
@@ -1166,7 +1154,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\": 2,\r\n    \"arrivaldate\": \"2033-08-05\",\r\n    \"departuredate\": \"2033-08-13\",\r\n    \"checkindate\": \"2033-08-05 00:00:00\",\r\n    \"checkoutdate\": \"2033-08-07 00:00:00\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":11,\r\n    \"guest\":13,\r\n    \"arrivaldate\": \"2035-08-05\",\r\n    \"departuredate\": \"2035-08-13\",\r\n    \"checkindate\": \"2035-08-05 00:00:00\",\r\n    \"checkoutdate\": \"2035-08-07 00:00:00\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1446,7 +1434,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Jeremías\",\r\n    \"surname\": \"Ballesteros\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"14440135E\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2100,\r\n    \"job\":10,\r\n    \"idhotel\":10,\r\n    \"email\":\"jeremyballes@hotmail.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"baes\"\r\n}\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Jeremías\",\r\n    \"surname\": \"Ballesteros\",\r\n    \"phone\": \"+34123123123\",\r\n    \"documentation\": \"14440135E\",\r\n    \"country\":1,\r\n    \"phonecountry\":1,\r\n    \"bankaccount\":\"12345678901234567890\",\r\n    \"bankaccountformat\": 2,\r\n    \"salary\":2100,\r\n    \"job\":3,\r\n    \"idhotel\":10,\r\n    \"email\":\"jeremyballes@hotmail.com\",\r\n    \"password\":\"vale\",\r\n    \"username\":\"baes\"\r\n}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

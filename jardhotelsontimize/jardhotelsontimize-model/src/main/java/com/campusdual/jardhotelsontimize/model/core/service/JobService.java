@@ -35,9 +35,18 @@ public class JobService implements IJobService {
     @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult jobQuery(Map<String, Object> keyMap, List<String> attrList) {
 
+        boolean deleteId = false;
+        if (!attrList.contains("id")) {
+            attrList.add("id");
+            deleteId = true;
+        }
+
         EntityResult result = this.daoHelper.query(this.jobDao,keyMap,attrList);
         if(result.toString().contains("id")) {
             result.setMessage("");
+            if (deleteId) {
+                result.remove("id");
+            }
 
         } else {
             result.setMessage("The job doesn't exist");

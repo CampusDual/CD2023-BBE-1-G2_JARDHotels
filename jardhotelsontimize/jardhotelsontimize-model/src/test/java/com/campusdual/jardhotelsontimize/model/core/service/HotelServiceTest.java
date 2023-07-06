@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -107,6 +108,8 @@ public class HotelServiceTest {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
+            er.put("phone", List.of("111111111"));
+            er.put("country", List.of(8));
             Map<String, Object> hotelToUpdate = new HashMap<>();
             hotelToUpdate.put("name", "Hotel 1");
             hotelToUpdate.put("address", "Address 1");
@@ -144,6 +147,8 @@ public class HotelServiceTest {
             EntityResult er = new EntityResultMapImpl();
             er.setCode(0);
             er.put("id", 1);
+            er.put("phone", List.of("111111111"));
+            er.put("country", List.of(8));
             Map<String, Object> hotelToUpdate = new HashMap<>();
             hotelToUpdate.put("name", "Hotel 1");
             hotelToUpdate.put("address", "Address 1");

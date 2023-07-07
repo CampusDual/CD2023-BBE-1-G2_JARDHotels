@@ -320,6 +320,12 @@ public class BookingService implements IBookingService {
         if (bookingQuery.getCode() == 0) {
             List<Integer> ids = (List<Integer>) bookingQuery.get("room");
             List<Integer> idGuests = (List<Integer>) bookingQuery.get("guest");
+            Map<String, Object>key = new HashMap<>();
+            key.put("id", ids.get(0));
+            attrList= new ArrayList<>();
+            attrList.add("hotel");
+            EntityResult roomQuery = roomService.roomQuery(key, attrList);
+            ids = (List<Integer>) roomQuery.get("hotel");
             EntityResult checkPermissions = checkPermission(ids.get(0), idGuests.get(0), "update");
             if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
                 return checkPermissions;
@@ -411,6 +417,12 @@ public class BookingService implements IBookingService {
         if (bookingQuery.getCode() == 0) {
             List<Integer> ids = (List<Integer>) bookingQuery.get("room");
             List<Integer> idGuests = (List<Integer>) bookingQuery.get("guest");
+            Map<String, Object>key = new HashMap<>();
+            key.put("id", ids.get(0));
+            attrList= new ArrayList<>();
+            attrList.add("hotel");
+            EntityResult roomQuery = roomService.roomQuery(key, attrList);
+            ids = (List<Integer>) roomQuery.get("hotel");
             EntityResult checkPermissions = checkPermission(ids.get(0), idGuests.get(0), "delete");
             if (checkPermissions.getCode() == EntityResult.OPERATION_WRONG) {
                 return checkPermissions;

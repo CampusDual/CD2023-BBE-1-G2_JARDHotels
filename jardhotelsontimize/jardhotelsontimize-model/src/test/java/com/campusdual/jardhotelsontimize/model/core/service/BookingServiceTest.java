@@ -121,6 +121,7 @@ public class BookingServiceTest {
             er.put("id", 1);
             er.put("totalprice", 650);
             er2.put("price", List.of(BigDecimal.valueOf(650)));
+            er2.put("hotel", List.of(1));
 
             EntityResult er3 = new EntityResultMapImpl();
             er3.put("id", List.of(1));
@@ -130,6 +131,7 @@ public class BookingServiceTest {
             er3.put("departuredate",List.of("2023-06-06"));
             er3.put("room",List.of(1));
             er3.put("guest", List.of(1));
+
 
             Map<String, Object> bookingToUpdate = new HashMap<>();
             bookingToUpdate.put("room", 1);
@@ -162,6 +164,7 @@ public class BookingServiceTest {
             EntityResult er2 = new EntityResultMapImpl();
             er2.put("id", List.of(1));
             er2.put("room", List.of(1));
+            er2.put("hotel", List.of(1));
             LocalDate now = LocalDate.now();
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String dateNow = now.format(format);
@@ -173,6 +176,7 @@ public class BookingServiceTest {
             bookingKey.put("id", 1);
             when(daoHelper.delete(any(BookingDao.class), anyMap())).thenReturn(er);
             when(daoHelper.query(any(BookingDao.class), anyMap(), anyList())).thenReturn(er2);
+            when(roomService.roomQuery(anyMap(), anyList())).thenReturn(er2);
             EntityResult result = bookingService.bookingDelete(bookingKey);
             assertEquals("Successful booking delete", result.getMessage());
             assertEquals(0, result.getCode());

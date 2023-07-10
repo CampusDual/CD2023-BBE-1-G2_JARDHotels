@@ -8,18 +8,26 @@ import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
-import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.rest.ORestController;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/hotels")
@@ -389,4 +397,226 @@ public class HotelRestController extends ORestController<IHotelService> {
         BasicField field = new BasicField(HotelDao.ATTR_COUNTRY);
         return new BasicExpression(field, BasicOperator.EQUAL_OP, country);
     }
+
+    /**Métodos de lugares turísticos**/
+
+    @RequestMapping(value = "/touristicPlaces", method = RequestMethod.POST, produces =  MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult touristicPlaces(@RequestBody Map<String, Object> req){
+
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+
+        Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+
+        if(!filter.containsKey("hotel")){
+            error.setMessage("Missing hotel attribute");
+            return error;
+        }
+
+        if(!filter.containsKey("radio")){
+            error.setMessage("Missing radio attribute");
+            return error;
+        }
+
+        Map<String, Object> key = new HashMap<>();
+        key.put("id", filter.get("hotel"));
+
+        List<String> attrList = new ArrayList<>();
+        attrList.add("latitude");
+        attrList.add("longitude");
+
+        EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
+
+        if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+            return hotelQuery;
+        }
+
+        List<BigDecimal> coordenates = (List<BigDecimal>) hotelQuery.get("latitude");
+        double latitude = coordenates.get(0).doubleValue();
+        coordenates = (List<BigDecimal>) hotelQuery.get("longitude");
+        double longitude = coordenates.get(0).doubleValue();
+
+        try{
+            double radio = 0;
+
+            try {
+                radio = (double) filter.get("radio");
+            }catch (Exception e){
+                int raux = (int)filter.get("radio");
+                radio = raux;
+            }
+
+            if(radio <= 0){
+                error.setMessage("radio must be greater than 0");
+                return error;
+            }
+
+            EntityResult touristicPlaces =  getTouristicPlaces(latitude, longitude, radio);
+            return touristicPlaces;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            error.setMessage(e.getMessage());
+            return error;
+        }
+    }
+
+    private static EntityResult getTouristicPlaces(double latitude, double longitude, double distance) throws IOException {
+        List<TouristicPlace>touristicPlaceList = parseTouristicPlaces(getTouristicPlacesString(latitude, longitude, distance));
+
+        if(touristicPlaceList.size() == 0){
+            EntityResult error = new EntityResultMapImpl();
+            error.setMessage("No nearby tourist places founded");
+            error.setCode(EntityResult.OPERATION_WRONG);
+            return error;
+        }
+
+        EntityResult toret = new EntityResultMapImpl();
+
+        for (TouristicPlace tp : touristicPlaceList){
+            if(!(tp.getType().equalsIgnoreCase("hostel") || tp.getType().equalsIgnoreCase("hotel")||tp.getType().equalsIgnoreCase("motel")||tp.getType().equalsIgnoreCase("motel"))){
+                Hashtable<String, Object> row = new Hashtable<>();
+                row.put("latitude", tp.getLatitude());
+                row.put("longitude", tp.getLongitude());
+                row.put("name", tp.getName());
+                row.put("type", tp.getType());
+                toret.addRecord(row);
+            }
+        }
+
+        return toret;
+    }
+
+    private static String getTouristicPlacesString(double latitude, double longitude, double distance) throws IOException {
+        String formattedLatitude = String.valueOf(latitude);
+        String formattedLongitude = String.valueOf(longitude);
+        String formattedDistance = String.valueOf(distance);
+
+        String query = "[out:json];" +
+                "node(around:" + formattedDistance + "," + formattedLatitude + "," + formattedLongitude + ")" +
+                "[tourism];" +
+                "out 20;";
+
+        String encodedQuery = URLEncoder.encode(query, "UTF-8");
+
+        String requestUrl = "https://lz4.overpass-api.de/api/interpreter?data=" + encodedQuery;
+
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(requestUrl).openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+
+        return response.toString();
+    }
+
+    private static List<TouristicPlace> parseTouristicPlaces(String json) {
+        List<TouristicPlace> touristicPlaces = new ArrayList<>();
+
+        json = extractTextBetweenBrackets(json);
+
+        JSONArray jsonArray = new JSONArray(json);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try{
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            double latitude = jsonObject.getDouble("lat");
+            double longitude = jsonObject.getDouble("lon");
+
+            String type = jsonObject.getJSONObject("tags").getString("tourism");
+            String name = jsonObject.getJSONObject("tags").getString("name");
+
+            try{
+                String artWorkType = jsonObject.getJSONObject("tags").getString("artwork_type");
+                type = artWorkType;
+            }catch (Exception e){
+            }
+
+            TouristicPlace touristicPlace = new TouristicPlace(longitude, latitude, type, name);
+            touristicPlaces.add(touristicPlace);
+            }catch (Exception e){
+                System.err.println("Imposible to parse " + jsonArray.getJSONObject(i));
+            }
+        }
+
+
+        return touristicPlaces;
+    }
+
+    public static String extractTextBetweenBrackets(String input) {
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return "["+matcher.group(1)+"]";
+        } else {
+            return input;
+        }
+    }
+
+
+
+    /**Clase Touristic Place**/
+
+    private static class TouristicPlace {
+        private double longitude;
+        private double latitude;
+        private String type;
+        private String name;
+
+        public TouristicPlace(double longitude, double latitude, String type, String name) {
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.type = type;
+            this.name = name;
+        }
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "TouristicPlace{" +
+                    "longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    ", type='" + type + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+    }
+
 }

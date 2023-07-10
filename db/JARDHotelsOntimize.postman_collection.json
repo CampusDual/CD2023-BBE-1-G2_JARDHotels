@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c687c3e6-c7f7-4f48-ae85-2a842bd4ced7",
+		"_postman_id": "524d2c47-ada5-483b-ac8f-dd3ae1df19e1",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -30,7 +30,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel deluxe pizza\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle pizza\",\r\n    \"country\": 1,\r\n    \"latitude\":32.09123,\r\n    \"longitude\": 20.76252,\r\n    \"phone\": \"11133222\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel madrid\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle madrid\",\r\n    \"country\": 1,\r\n    \"latitude\":40.31,\r\n    \"longitude\": -3.70,\r\n    \"phone\": \"111333228\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -118,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\", \"latitude\", \"longitude\",\"phone\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\", \"latitude\", \"longitude\",\"phone\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -309,6 +309,50 @@
 							"path": [
 								"hotels",
 								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Touristic Places",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":13,\r\n        \"radio\": 2000\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/touristicPlaces",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"touristicPlaces"
 							]
 						}
 					},

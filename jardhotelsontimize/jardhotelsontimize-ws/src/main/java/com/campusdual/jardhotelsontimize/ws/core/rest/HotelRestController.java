@@ -4,6 +4,7 @@ import com.campusdual.jardhotelsontimize.api.core.service.IBookingService;
 import com.campusdual.jardhotelsontimize.api.core.service.ICountryService;
 import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
 import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
+import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
@@ -25,6 +26,8 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +52,8 @@ public class HotelRestController extends ORestController<IHotelService> {
     public IHotelService getService() {
         return this.iHotelService;
     }
+
+    /**Metodo de puerta de hotel**/
 
     @RequestMapping(value = "/hotelDoor", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult hotelDoor(@RequestBody Map<String, Object> req){
@@ -133,6 +138,8 @@ public class HotelRestController extends ORestController<IHotelService> {
         }
 
     }
+
+    /**Metodo de filtro**/
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult filter(@RequestBody Map<String, Object> req) {
@@ -617,6 +624,111 @@ public class HotelRestController extends ORestController<IHotelService> {
                     ", name='" + name + '\'' +
                     '}';
         }
+    }
+
+    /**Metodo de estadisticas**/
+
+    @RequestMapping(value = "/capacity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult capacity(@RequestBody Map<String, Object> req){
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+
+        EntityResult toret = new EntityResultMapImpl();
+
+        Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+        try {
+            Map<String, Object> key = new HashMap<>();
+            key.put("id", filter.get("hotel"));
+
+            List<String>attrList = new ArrayList<>();
+            attrList.add("id");
+
+            EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
+            if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+                return hotelQuery;
+            }
+            key = new HashMap<>();
+            key.put("hotel", filter.get("hotel"));
+
+            EntityResult roomQuery = iRoomService.roomQuery(key, attrList);
+            if(roomQuery.getCode() == EntityResult.OPERATION_WRONG){
+                error.setMessage("This hotel doesn't have any room to generate the capacity");
+                return error;
+            }
+
+            List<Integer>idsRoom = (List<Integer>) roomQuery.get("id");
+
+            key = new HashMap<>();
+            key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
+                    concatenateExpressionsBooking(idsRoom));
+
+            attrList = new ArrayList<>();
+            attrList.add("id");
+            attrList.add("room");
+
+            EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
+
+            int totalRooms = idsRoom.size();
+            int occupiedRooms = 0;
+            double percent;
+            int bookingCount = 0;
+
+            if(bookingQuery.getCode() == EntityResult.OPERATION_WRONG){
+                toret.put("total_rooms", totalRooms);
+                toret.put("occupied_rooms", occupiedRooms);
+                percent = (occupiedRooms * 100)/totalRooms;
+                toret.put("occupation_percent", percent);
+                toret.put("total_bookings", bookingCount);
+                return toret;
+            }
+
+            List<Integer>idsRoomBooking = (List<Integer>) bookingQuery.get("room");
+            bookingCount = idsRoomBooking.size();
+            HashSet<Integer> roomsNotRepeated = new HashSet<>(idsRoomBooking);
+            idsRoomBooking = new ArrayList<>(roomsNotRepeated);
+
+            occupiedRooms = idsRoomBooking.size();
+            toret.put("total_rooms", totalRooms);
+            toret.put("occupied_rooms", occupiedRooms);
+            percent = (occupiedRooms * 100)/totalRooms;
+            toret.put("occupation_percent", percent);
+            toret.put("total_bookings", bookingCount);
+
+            return toret;
+        }catch (Exception e){
+            error.setMessage(e.getMessage());
+            return error;
+        }
+
+    }
+
+    private BasicExpression concatenateExpressionsBooking(List<Integer>idsRoom){
+        return new BasicExpression(searchBookingFromRooms(idsRoom), BasicOperator.AND_OP, searchBookingInActualDate());
+    }
+
+    private BasicExpression searchBookingFromRooms(List<Integer>idsRoom) {
+
+        BasicField field = new BasicField(BookingDao.ATTR_ROOM);
+        BasicExpression bexp = new BasicExpression(field, BasicOperator.EQUAL_OP, idsRoom.get(0));
+
+        for(int i = 1 ; i < idsRoom.size() ; i++){
+            BasicExpression bexp2 = new BasicExpression(field, BasicOperator.EQUAL_OP, idsRoom.get(i));
+            bexp = new BasicExpression(bexp, BasicOperator.OR_OP, bexp2);
+        }
+
+        return bexp;
+    }
+
+    private BasicExpression searchBookingInActualDate(){
+        Date date = new Date();
+
+        BasicField field = new BasicField(BookingDao.ATTR_ARRIVALDATE);
+        BasicExpression bexp = new BasicExpression(field, BasicOperator.LESS_EQUAL_OP, date);
+
+        BasicField field2 = new BasicField(BookingDao.ATTR_DEPARTUREDATE);
+        BasicExpression bexp2 = new BasicExpression(field2, BasicOperator.MORE_EQUAL_OP, date);
+
+        return new BasicExpression(bexp, BasicOperator.AND_OP, bexp2);
     }
 
 }

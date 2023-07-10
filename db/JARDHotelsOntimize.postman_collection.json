@@ -30,7 +30,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel madrid\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle madrid\",\r\n    \"country\": 1,\r\n    \"latitude\":40.31,\r\n    \"longitude\": -3.70,\r\n    \"phone\": \"111333228\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel CALIFORNIA 2\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle CALIFORNIA\",\r\n    \"country\": 1,\r\n    \"latitude\":22.888216,\r\n    \"longitude\": -109.950484,\r\n    \"phone\": \"111303288\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -118,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 1\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\", \"latitude\", \"longitude\",\"phone\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 15\r\n    },\r\n     \"columns\": [\"id\",\"name\",\"stars\",\"address\",\"country\", \"latitude\", \"longitude\",\"phone\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -336,7 +336,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":13,\r\n        \"radio\": 2000\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":13,\r\n        \"radio\": 5000\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -353,6 +353,50 @@
 							"path": [
 								"hotels",
 								"touristicPlaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Capacity",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/capacity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"capacity"
 							]
 						}
 					},
@@ -473,7 +517,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 14\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\": 1\r\n    },\r\n     \"columns\": [\"id\",\"number\",\"capacity\",\"description\",\"hotel\",\"price\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1184,12 +1228,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "champiñon",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "tinkyWinky",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -1198,7 +1242,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\":8,\r\n    \"guest\":11,\r\n    \"arrivaldate\": \"2035-12-28\",\r\n    \"departuredate\": \"2035-12-30\",\r\n    \"checkindate\": \"2035-12-28 00:00:00\",\r\n    \"checkoutdate\": \"2035-12-30 00:00:00\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\":2,\r\n    \"arrivaldate\": \"2023-07-10\",\r\n    \"departuredate\": \"2023-07-30\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1286,7 +1330,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 9\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\",\"arrivaldate\",\"departuredate\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 7\r\n    },\r\n     \"columns\": [\"id\",\"room\",\"guest\",\"checkindate\",\"checkoutdate\",\"totalprice\",\"arrivaldate\",\"departuredate\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

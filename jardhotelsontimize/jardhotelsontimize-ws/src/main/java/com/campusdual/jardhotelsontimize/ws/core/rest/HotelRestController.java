@@ -12,15 +12,17 @@ import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.server.rest.ORestController;
+import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.*;
 
 @RestController
@@ -495,6 +497,11 @@ public class HotelRestController extends ORestController<IHotelService> {
         EntityResult toret = new EntityResultMapImpl();
 
         Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+        if (!filter.containsKey("hotel")) {
+            error.setMessage("Missing hotel attribute");
+            return error;
+        }
+
         try {
             Map<String, Object> key = new HashMap<>();
             key.put("id", filter.get("hotel"));
@@ -561,8 +568,95 @@ public class HotelRestController extends ORestController<IHotelService> {
 
     }
 
+    @PostMapping(value = "/profit", produces = MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult profit(@RequestBody Map<String, Object> req) {
+
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+
+        EntityResult toret = new EntityResultMapImpl();
+
+        Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+        if (!filter.containsKey("hotel")) {
+            error.setMessage("Missing hotel attribute");
+            return error;
+        } else if (!filter.containsKey("year")) {
+            error.setMessage("Missing year attribute");
+            return error;
+        }
+
+        try {
+            int currentYear = LocalDate.now().getYear();
+            int yearToCheck = (int) filter.get("year");
+            int currentMonth = LocalDate.now().getMonthValue();
+
+            if (yearToCheck > currentYear) {
+                error.setMessage("The year can't be after current year");
+                return error;
+            }
+
+            Map<String, Object> key = new HashMap<>();
+            key.put("id", filter.get("hotel"));
+
+            List<String> attrList = new ArrayList<>();
+            attrList.add("id");
+
+            EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
+            if (hotelQuery.getCode() == EntityResult.OPERATION_WRONG) {
+                return hotelQuery;
+            }
+            key = new HashMap<>();
+            key.put("hotel", filter.get("hotel"));
+
+            EntityResult roomQuery = iRoomService.roomQuery(key, attrList);
+            if (roomQuery.getCode() == EntityResult.OPERATION_WRONG) {
+                error.setMessage("This hotel doesn't have any room");
+                return error;
+            }
+
+            List<Integer> idsRoom = (List<Integer>) roomQuery.get("id");
+
+            for (int i = 1; i <= 12; i++) {
+                if (currentYear == yearToCheck && i > currentMonth) {
+                    break;
+                }
+
+                key = new HashMap<>();
+                key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY, concatenateExpressionsBooking(idsRoom, yearToCheck, i));
+                attrList = new ArrayList<>();
+                attrList.add("totalprice");
+
+                EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
+                if (bookingQuery.getCode() != EntityResult.OPERATION_WRONG) {
+
+                    List<BigDecimal> prices = (List<BigDecimal>) bookingQuery.get("totalprice");
+                    double price = 0;
+                    for (BigDecimal b : prices) {
+                        double p = b.doubleValue();
+                        price += p;
+                    }
+                    toret.put("month " + i, price);
+
+                } else {
+                    toret.put("month " + i, 0);
+                }
+            }
+
+            return toret;
+
+        } catch (Exception e) {
+            error.setMessage(e.getMessage());
+            return error;
+        }
+    }
+
     private BasicExpression concatenateExpressionsBooking(List<Integer>idsRoom){
         return new BasicExpression(searchBookingFromRooms(idsRoom), BasicOperator.AND_OP, searchBookingInActualDate());
+    }
+
+    private BasicExpression concatenateExpressionsBooking(List<Integer> idsRoom, int year, int month) throws ParseException {
+
+        return new BasicExpression(searchBookingFromRooms(idsRoom), BasicOperator.AND_OP, searchBookingsInMonth(year, month));
     }
 
     private BasicExpression searchBookingFromRooms(List<Integer>idsRoom) {
@@ -590,4 +684,39 @@ public class HotelRestController extends ORestController<IHotelService> {
         return new BasicExpression(bexp, BasicOperator.AND_OP, bexp2);
     }
 
+    private BasicExpression searchBookingsInMonth(int year, int month) throws ParseException {
+
+        Date date = new Date();
+
+        String startDateString = year + "-" + month + "-01";
+        String finishDateString = year + "-" + month + "-" + getDaysMonth(year, month);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(startDateString);
+        Date finishDate = dateFormat.parse(finishDateString);
+        if (finishDate.after(date)) {
+            finishDate = date;
+        }
+
+        BasicField field = new BasicField(BookingDao.ATTR_ARRIVALDATE);
+        BasicExpression bexp2 = new BasicExpression(field, BasicOperator.MORE_EQUAL_OP, startDate);
+        BasicExpression bexp = new BasicExpression(field, BasicOperator.LESS_EQUAL_OP, finishDate);
+
+        return new BasicExpression(bexp, BasicOperator.AND_OP, bexp2);
+    }
+
+    private static int getDaysMonth(int year, int month) {
+        boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        switch (month) {
+            case 2:
+                return isLeap ? 29 : 28;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            default:
+                return 31;
+        }
+    }
 }

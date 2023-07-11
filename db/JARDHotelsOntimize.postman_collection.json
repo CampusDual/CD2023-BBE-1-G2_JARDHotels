@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "524d2c47-ada5-483b-ac8f-dd3ae1df19e1",
+		"_postman_id": "4e2a36f9-0b3a-44af-bfdc-5f0509ebaf75",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -380,7 +380,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":1\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":10\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -397,6 +397,50 @@
 							"path": [
 								"hotels",
 								"capacity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profit",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":3,\r\n        \"year\":2023\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/hotels/profit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"hotels",
+								"profit"
 							]
 						}
 					},

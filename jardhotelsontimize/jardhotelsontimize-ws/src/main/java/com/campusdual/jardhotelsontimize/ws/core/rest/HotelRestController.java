@@ -6,12 +6,12 @@ import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
 import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
 import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
+import com.campusdual.jardhotelsontimize.model.core.model.TouristicPlace;
+import com.campusdual.jardhotelsontimize.model.core.service.HotelService;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.server.rest.ORestController;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,18 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/hotels")
@@ -469,9 +460,9 @@ public class HotelRestController extends ORestController<IHotelService> {
     }
 
     private static EntityResult getTouristicPlaces(double latitude, double longitude, double distance) throws IOException {
-        List<TouristicPlace>touristicPlaceList = parseTouristicPlaces(getTouristicPlacesString(latitude, longitude, distance));
+        List<TouristicPlace> touristicPlaceList = TouristicPlace.parseTouristicPlaces(HotelService.getTouristicPlacesString(latitude, longitude, distance));
 
-        if(touristicPlaceList.size() == 0){
+        if (touristicPlaceList.size() == 0) {
             EntityResult error = new EntityResultMapImpl();
             error.setMessage("No nearby tourist places founded");
             error.setCode(EntityResult.OPERATION_WRONG);
@@ -480,8 +471,8 @@ public class HotelRestController extends ORestController<IHotelService> {
 
         EntityResult toret = new EntityResultMapImpl();
 
-        for (TouristicPlace tp : touristicPlaceList){
-            if(!(tp.getType().equalsIgnoreCase("hostel") || tp.getType().equalsIgnoreCase("hotel")||tp.getType().equalsIgnoreCase("motel")||tp.getType().equalsIgnoreCase("motel"))){
+        for (TouristicPlace tp : touristicPlaceList) {
+            if (!(tp.getType().equalsIgnoreCase("hostel") || tp.getType().equalsIgnoreCase("hotel") || tp.getType().equalsIgnoreCase("motel") || tp.getType().equalsIgnoreCase("motel"))) {
                 Hashtable<String, Object> row = new Hashtable<>();
                 row.put("latitude", tp.getLatitude());
                 row.put("longitude", tp.getLongitude());
@@ -492,138 +483,6 @@ public class HotelRestController extends ORestController<IHotelService> {
         }
 
         return toret;
-    }
-
-    private static String getTouristicPlacesString(double latitude, double longitude, double distance) throws IOException {
-        String formattedLatitude = String.valueOf(latitude);
-        String formattedLongitude = String.valueOf(longitude);
-        String formattedDistance = String.valueOf(distance);
-
-        String query = "[out:json];" +
-                "node(around:" + formattedDistance + "," + formattedLatitude + "," + formattedLongitude + ")" +
-                "[tourism];" +
-                "out 20;";
-
-        String encodedQuery = URLEncoder.encode(query, "UTF-8");
-
-        String requestUrl = "https://lz4.overpass-api.de/api/interpreter?data=" + encodedQuery;
-
-
-        HttpURLConnection connection = (HttpURLConnection) new URL(requestUrl).openConnection();
-        connection.setRequestMethod("GET");
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
-        }
-        reader.close();
-
-        return response.toString();
-    }
-
-    private static List<TouristicPlace> parseTouristicPlaces(String json) {
-        List<TouristicPlace> touristicPlaces = new ArrayList<>();
-
-        json = extractTextBetweenBrackets(json);
-
-        JSONArray jsonArray = new JSONArray(json);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try{
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            double latitude = jsonObject.getDouble("lat");
-            double longitude = jsonObject.getDouble("lon");
-
-            String type = jsonObject.getJSONObject("tags").getString("tourism");
-            String name = jsonObject.getJSONObject("tags").getString("name");
-
-            try{
-                String artWorkType = jsonObject.getJSONObject("tags").getString("artwork_type");
-                type = artWorkType;
-            }catch (Exception e){
-            }
-
-            TouristicPlace touristicPlace = new TouristicPlace(longitude, latitude, type, name);
-            touristicPlaces.add(touristicPlace);
-            }catch (Exception e){
-                System.err.println("Imposible to parse " + jsonArray.getJSONObject(i));
-            }
-        }
-
-
-        return touristicPlaces;
-    }
-
-    public static String extractTextBetweenBrackets(String input) {
-        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
-        Matcher matcher = pattern.matcher(input);
-
-        if (matcher.find()) {
-            return "["+matcher.group(1)+"]";
-        } else {
-            return input;
-        }
-    }
-
-
-
-    /**Clase Touristic Place**/
-
-    private static class TouristicPlace {
-        private double longitude;
-        private double latitude;
-        private String type;
-        private String name;
-
-        public TouristicPlace(double longitude, double latitude, String type, String name) {
-            this.longitude = longitude;
-            this.latitude = latitude;
-            this.type = type;
-            this.name = name;
-        }
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-        public void setLongitude(double longitude) {
-            this.longitude = longitude;
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public void setLatitude(double latitude) {
-            this.latitude = latitude;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return "TouristicPlace{" +
-                    "longitude=" + longitude +
-                    ", latitude=" + latitude +
-                    ", type='" + type + '\'' +
-                    ", name='" + name + '\'' +
-                    '}';
-        }
     }
 
     /**Metodo de estadisticas**/

@@ -203,7 +203,7 @@ public class RoomService implements IRoomService {
                 if(jobs.get(0).toString().equals("10") && !(idsHotel.get(0).toString().equals(hotelIds.get(0).toString()))){
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
-                    error.setMessage("This hotel manager can only " + operation + " the rooms in the hotel " + idsHotel.get(0).toString());
+                    error.setMessage("This hotel manager can not " + operation + " rooms in this hotel");
                     return error;
                 }
             }
@@ -241,7 +241,7 @@ public class RoomService implements IRoomService {
                 if(jobs.get(0).toString().equals("10") && !(idsHotel.get(0).toString().equals(idHotel))){
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
-                    error.setMessage("This hotel manager can only insert the rooms in the hotel " + idsHotel.get(0).toString());
+                    error.setMessage("This hotel manager can not insert rooms in this hotel");
                     return error;
                 }
             }

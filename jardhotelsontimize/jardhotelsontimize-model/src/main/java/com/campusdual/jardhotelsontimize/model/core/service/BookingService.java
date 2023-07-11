@@ -265,7 +265,7 @@ public class BookingService implements IBookingService {
                 if (jobs.get(0) == 3 && (idHotel != (int) idsHotel.get(0))) {
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
-                    error.setMessage("This receptionist can only " + operation + " bookings in rooms from the hotel " + idsHotel.get(0));
+                    error.setMessage("This receptionist can not " + operation + " bookings in rooms from this hotel");
                     return error;
                 }
 
@@ -277,7 +277,7 @@ public class BookingService implements IBookingService {
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
                     if (jobs.get(0) == 3) {
-                        error.setMessage("This receptionist can only " + operation + " bookings in rooms from the hotel " + idsHotel.get(0));
+                        error.setMessage("This receptionist can not " + operation + " bookings in rooms from this hotel");
                     } else {
                         error.setMessage("This guest can only " + operation + " their bookings");
                     }

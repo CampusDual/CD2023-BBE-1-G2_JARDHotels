@@ -323,7 +323,7 @@ public class HotelService implements IHotelService {
                 if(jobs.get(0).toString().equals("10") && !(idsHotel.get(0).toString().equals(idHotel))){
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
-                    error.setMessage("This hotel manager can only update the hotel " + idsHotel.get(0).toString());
+                    error.setMessage("This hotel manager can not update this hotel");
                     return error;
                 }
             }

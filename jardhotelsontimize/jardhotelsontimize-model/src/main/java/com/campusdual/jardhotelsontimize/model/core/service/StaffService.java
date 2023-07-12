@@ -298,7 +298,7 @@ public class StaffService implements IStaffService {
             if (idhotel != idhotel2 && jobs.get(0).toString().equals("10")) {
                 EntityResult error = new EntityResultMapImpl();
                 error.setCode(EntityResult.OPERATION_WRONG);
-                error.setMessage("This hotel manager can only " + operation + " staff in the hotel " + idhotel);
+                error.setMessage("This hotel manager can not " + operation + " staff in this hotel");
                 return error;
             }
         }

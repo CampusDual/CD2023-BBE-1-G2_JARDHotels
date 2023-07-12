@@ -4,20 +4,22 @@ import com.campusdual.jardhotelsontimize.api.core.service.IBookingService;
 import com.campusdual.jardhotelsontimize.api.core.service.ICountryService;
 import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
 import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
+import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
+import com.campusdual.jardhotelsontimize.model.core.model.TouristicPlace;
+import com.campusdual.jardhotelsontimize.model.core.service.HotelService;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
-import com.ontimize.jee.common.security.PermissionsProviderSecured;
 import com.ontimize.jee.server.rest.ORestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -41,6 +43,8 @@ public class HotelRestController extends ORestController<IHotelService> {
     public IHotelService getService() {
         return this.iHotelService;
     }
+
+    /**Metodo de puerta de hotel**/
 
     @RequestMapping(value = "/hotelDoor", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult hotelDoor(@RequestBody Map<String, Object> req){
@@ -125,6 +129,8 @@ public class HotelRestController extends ORestController<IHotelService> {
         }
 
     }
+
+    /**Metodo de filtro**/
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult filter(@RequestBody Map<String, Object> req) {
@@ -389,4 +395,199 @@ public class HotelRestController extends ORestController<IHotelService> {
         BasicField field = new BasicField(HotelDao.ATTR_COUNTRY);
         return new BasicExpression(field, BasicOperator.EQUAL_OP, country);
     }
+
+    /**Métodos de lugares turísticos**/
+
+    @RequestMapping(value = "/touristicPlaces", method = RequestMethod.POST, produces =  MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult touristicPlaces(@RequestBody Map<String, Object> req){
+
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+
+        Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+
+        if(!filter.containsKey("hotel")){
+            error.setMessage("Missing hotel attribute");
+            return error;
+        }
+
+        if(!filter.containsKey("radio")){
+            error.setMessage("Missing radio attribute");
+            return error;
+        }
+
+        Map<String, Object> key = new HashMap<>();
+        key.put("id", filter.get("hotel"));
+
+        List<String> attrList = new ArrayList<>();
+        attrList.add("latitude");
+        attrList.add("longitude");
+
+        EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
+
+        if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+            return hotelQuery;
+        }
+
+        List<BigDecimal> coordenates = (List<BigDecimal>) hotelQuery.get("latitude");
+        double latitude = coordenates.get(0).doubleValue();
+        coordenates = (List<BigDecimal>) hotelQuery.get("longitude");
+        double longitude = coordenates.get(0).doubleValue();
+
+        try{
+            double radio = 0;
+
+            try {
+                radio = (double) filter.get("radio");
+            }catch (Exception e){
+                int raux = (int)filter.get("radio");
+                radio = raux;
+            }
+
+            if(radio <= 0){
+                error.setMessage("radio must be greater than 0");
+                return error;
+            }
+
+            EntityResult touristicPlaces =  getTouristicPlaces(latitude, longitude, radio);
+            return touristicPlaces;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            error.setMessage(e.getMessage());
+            return error;
+        }
+    }
+
+    private static EntityResult getTouristicPlaces(double latitude, double longitude, double distance) throws IOException {
+        List<TouristicPlace> touristicPlaceList = TouristicPlace.parseTouristicPlaces(HotelService.getTouristicPlacesString(latitude, longitude, distance));
+
+        if (touristicPlaceList.size() == 0) {
+            EntityResult error = new EntityResultMapImpl();
+            error.setMessage("No nearby tourist places founded");
+            error.setCode(EntityResult.OPERATION_WRONG);
+            return error;
+        }
+
+        EntityResult toret = new EntityResultMapImpl();
+
+        for (TouristicPlace tp : touristicPlaceList) {
+            if (!(tp.getType().equalsIgnoreCase("hostel") || tp.getType().equalsIgnoreCase("hotel") || tp.getType().equalsIgnoreCase("motel") || tp.getType().equalsIgnoreCase("motel"))) {
+                Hashtable<String, Object> row = new Hashtable<>();
+                row.put("latitude", tp.getLatitude());
+                row.put("longitude", tp.getLongitude());
+                row.put("name", tp.getName());
+                row.put("type", tp.getType());
+                toret.addRecord(row);
+            }
+        }
+
+        return toret;
+    }
+
+    /**Metodo de estadisticas**/
+
+    @RequestMapping(value = "/capacity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult capacity(@RequestBody Map<String, Object> req){
+        EntityResult error = new EntityResultMapImpl();
+        error.setCode(EntityResult.OPERATION_WRONG);
+
+        EntityResult toret = new EntityResultMapImpl();
+
+        Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+        try {
+            Map<String, Object> key = new HashMap<>();
+            key.put("id", filter.get("hotel"));
+
+            List<String>attrList = new ArrayList<>();
+            attrList.add("id");
+
+            EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
+            if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+                return hotelQuery;
+            }
+            key = new HashMap<>();
+            key.put("hotel", filter.get("hotel"));
+
+            EntityResult roomQuery = iRoomService.roomQuery(key, attrList);
+            if(roomQuery.getCode() == EntityResult.OPERATION_WRONG){
+                error.setMessage("This hotel doesn't have any room to generate the capacity");
+                return error;
+            }
+
+            List<Integer>idsRoom = (List<Integer>) roomQuery.get("id");
+
+            key = new HashMap<>();
+            key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
+                    concatenateExpressionsBooking(idsRoom));
+
+            attrList = new ArrayList<>();
+            attrList.add("id");
+            attrList.add("room");
+
+            EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
+
+            int totalRooms = idsRoom.size();
+            int occupiedRooms = 0;
+            double percent;
+            int bookingCount = 0;
+
+            if(bookingQuery.getCode() == EntityResult.OPERATION_WRONG){
+                toret.put("total_rooms", totalRooms);
+                toret.put("occupied_rooms", occupiedRooms);
+                percent = (occupiedRooms * 100)/totalRooms;
+                toret.put("occupation_percent", percent);
+                toret.put("total_bookings", bookingCount);
+                return toret;
+            }
+
+            List<Integer>idsRoomBooking = (List<Integer>) bookingQuery.get("room");
+            bookingCount = idsRoomBooking.size();
+            HashSet<Integer> roomsNotRepeated = new HashSet<>(idsRoomBooking);
+            idsRoomBooking = new ArrayList<>(roomsNotRepeated);
+
+            occupiedRooms = idsRoomBooking.size();
+            toret.put("total_rooms", totalRooms);
+            toret.put("occupied_rooms", occupiedRooms);
+            percent = (occupiedRooms * 100)/totalRooms;
+            toret.put("occupation_percent", percent);
+            toret.put("total_bookings", bookingCount);
+
+            return toret;
+        }catch (Exception e){
+            error.setMessage(e.getMessage());
+            return error;
+        }
+
+    }
+
+    private BasicExpression concatenateExpressionsBooking(List<Integer>idsRoom){
+        return new BasicExpression(searchBookingFromRooms(idsRoom), BasicOperator.AND_OP, searchBookingInActualDate());
+    }
+
+    private BasicExpression searchBookingFromRooms(List<Integer>idsRoom) {
+
+        BasicField field = new BasicField(BookingDao.ATTR_ROOM);
+        BasicExpression bexp = new BasicExpression(field, BasicOperator.EQUAL_OP, idsRoom.get(0));
+
+        for(int i = 1 ; i < idsRoom.size() ; i++){
+            BasicExpression bexp2 = new BasicExpression(field, BasicOperator.EQUAL_OP, idsRoom.get(i));
+            bexp = new BasicExpression(bexp, BasicOperator.OR_OP, bexp2);
+        }
+
+        return bexp;
+    }
+
+    private BasicExpression searchBookingInActualDate(){
+        Date date = new Date();
+
+        BasicField field = new BasicField(BookingDao.ATTR_ARRIVALDATE);
+        BasicExpression bexp = new BasicExpression(field, BasicOperator.LESS_EQUAL_OP, date);
+
+        BasicField field2 = new BasicField(BookingDao.ATTR_DEPARTUREDATE);
+        BasicExpression bexp2 = new BasicExpression(field2, BasicOperator.MORE_EQUAL_OP, date);
+
+        return new BasicExpression(bexp, BasicOperator.AND_OP, bexp2);
+    }
+
 }

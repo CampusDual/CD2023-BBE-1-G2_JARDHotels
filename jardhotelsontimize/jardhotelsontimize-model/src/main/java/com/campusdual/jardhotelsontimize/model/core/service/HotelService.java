@@ -13,6 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.ontimize.jee.common.services.user.UserInformation;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -347,4 +353,34 @@ public class HotelService implements IHotelService {
         }
         return result;
     }
+
+    public static String getTouristicPlacesString(double latitude, double longitude, double distance) throws IOException {
+        String formattedLatitude = String.valueOf(latitude);
+        String formattedLongitude = String.valueOf(longitude);
+        String formattedDistance = String.valueOf(distance);
+
+        String query = "[out:json];" +
+                "node(around:" + formattedDistance + "," + formattedLatitude + "," + formattedLongitude + ")" +
+                "[tourism];" +
+                "out 20;";
+
+        String encodedQuery = URLEncoder.encode(query, "UTF-8");
+
+        String requestUrl = "https://lz4.overpass-api.de/api/interpreter?data=" + encodedQuery;
+
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(requestUrl).openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+
+        return response.toString();
+    }
+
 }

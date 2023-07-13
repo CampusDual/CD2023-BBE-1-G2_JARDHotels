@@ -30,7 +30,7 @@ public class PersonService implements IPersonService {
     private UserService userService;
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult personQuery(Map<String, Object> keyMap, List<String> attrList) {
 
         boolean deleteId = false;
@@ -54,22 +54,22 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult personInsert(Map<String, Object> attrMap) {
 
         EntityResult result = new EntityResultMapImpl();
         try {
-            Map<String, Object>userMap = checkAtributesUserInsert(attrMap);
+            Map<String, Object> userMap = checkAtributesUserInsert(attrMap);
             attrMap = filterAttrMap(attrMap);
 
             result = this.daoHelper.insert(this.personDao, attrMap);
 
-            Map <String, Object>keyMap = new HashMap<>();
+            Map<String, Object> keyMap = new HashMap<>();
             keyMap.put("documentation", attrMap.get("documentation"));
             List<String> attrList = new ArrayList<>();
             attrList.add("id");
             EntityResult personQuery = personQuery(keyMap, attrList);
-            List<Object>ids = (List<Object>) personQuery.get("id");
+            List<Object> ids = (List<Object>) personQuery.get("id");
             userMap.put("idperson", ids.get(0));
             userService.userInsert(userMap);
 
@@ -126,7 +126,7 @@ public class PersonService implements IPersonService {
             } else if (e.getMessage().contains("insert or update on table \"person\" violates foreign key constraint \"person_country_fkey\"")) {
                 result.setMessage("The country doesn't exist");
             } else if (e.getMessage().contains("insert or update on table \"person\" violates foreign key constraint \"person_phonecountry_fkey\"")) {
-                    result.setMessage("The phone country doesn't exist");
+                result.setMessage("The phone country doesn't exist");
             } else {
                 result.setMessage(e.getMessage());
             }
@@ -135,23 +135,23 @@ public class PersonService implements IPersonService {
     }
 
     private Map<String, Object> filterAttrMap(Map<String, Object> attrMap) {
-        if(attrMap.containsKey("username")){
+        if (attrMap.containsKey("username")) {
             attrMap.remove("username");
         }
 
         attrMap.remove("email");
         attrMap.remove("password");
 
-        if(attrMap.containsKey("lastpasswordupdate")){
+        if (attrMap.containsKey("lastpasswordupdate")) {
             attrMap.remove("lastpasswordupdate");
         }
-        if(attrMap.containsKey("firstlogin")){
+        if (attrMap.containsKey("firstlogin")) {
             attrMap.remove("firstlogin");
         }
-        if(attrMap.containsKey("userbloqued")){
+        if (attrMap.containsKey("userbloqued")) {
             attrMap.remove("userbloqued");
         }
-        if(attrMap.containsKey("idperson")){
+        if (attrMap.containsKey("idperson")) {
             attrMap.remove("idperson");
         }
         return attrMap;
@@ -160,32 +160,32 @@ public class PersonService implements IPersonService {
     private Map<String, Object> checkAtributesUserInsert(Map<String, Object> attrMap) {
         Map<String, Object> toret = new HashMap<>();
 
-        if(!attrMap.containsKey("username")){
+        if (!attrMap.containsKey("username")) {
             throw new RuntimeException("Missing username attribute");
-        }else{
+        } else {
             Map<String, Object> key = new HashMap<>();
             key.put("username", attrMap.get("username"));
             List<String> attrList = new ArrayList<>();
             attrList.add("username");
             EntityResult userQuery = userService.userQuery(key, attrList);
-            if(userQuery.getCode() != EntityResult.OPERATION_WRONG){
+            if (userQuery.getCode() != EntityResult.OPERATION_WRONG) {
                 throw new RuntimeException("Repeated username");
             }
 
             toret.put("username", attrMap.get("username"));
         }
 
-        if(!attrMap.containsKey("email")){
+        if (!attrMap.containsKey("email")) {
             throw new RuntimeException("Missing email attribute");
-        }else if(!isValidEmail(attrMap.get("email").toString())){
+        } else if (!isValidEmail(attrMap.get("email").toString())) {
             throw new RuntimeException("Email format not valid");
-        }else{
+        } else {
             toret.put("email", attrMap.get("email"));
         }
 
-        if(!attrMap.containsKey("password")){
+        if (!attrMap.containsKey("password")) {
             throw new RuntimeException("Missing password attribute");
-        }else{
+        } else {
             toret.put("password", attrMap.get("password"));
         }
         return toret;
@@ -214,13 +214,13 @@ public class PersonService implements IPersonService {
             }
         }
 
-        if(attrMap.containsKey("email")) {
-            if(!isValidEmail(attrMap.get("email").toString())) {
+        if (attrMap.containsKey("email")) {
+            if (!isValidEmail(attrMap.get("email").toString())) {
                 throw new RuntimeException("Email format not valid");
             }
         }
 
-        if(attrMap.containsKey("password")) {
+        if (attrMap.containsKey("password")) {
             List<String> passwords = (List<String>) userQuery.get("password");
             String password = attrMap.get("password").toString();
             if (!passwords.get(0).equals(password)) {
@@ -239,18 +239,19 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult personUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap) {
 
         try {
             int idAdmin = (int) keyMap.get("id");
-            if (idAdmin == -1) {
+            if (idAdmin == -1 || idAdmin == -2) {
                 EntityResult error = new EntityResultMapImpl();
                 error.setCode(EntityResult.OPERATION_WRONG);
                 error.setMessage("The given id is not valid");
                 return error;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
@@ -369,27 +370,28 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    @Secured({ PermissionsProviderSecured.SECURED })
+    @Secured({PermissionsProviderSecured.SECURED})
     public EntityResult personDelete(Map<String, Object> keyMap) {
 
         try {
             int idAdmin = (int) keyMap.get("id");
-            if (idAdmin == -1) {
+            if (idAdmin == -1 || idAdmin == -2) {
                 EntityResult error = new EntityResultMapImpl();
                 error.setCode(EntityResult.OPERATION_WRONG);
                 error.setMessage("The given id is not valid");
                 return error;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
         attrList.add("name");
         EntityResult query = this.daoHelper.query(this.personDao, keyMap, attrList);
 
-        if (query.toString().contains("id")){
-            List<Integer>ids = (List<Integer>) query.get("id");
-            if(ids.get(0) == -1){
+        if (query.toString().contains("id")) {
+            List<Integer> ids = (List<Integer>) query.get("id");
+            if (ids.get(0) == -1) {
                 EntityResult error = new EntityResultMapImpl();
                 error.setMessage("The system´s admin cannot be deleted");
             }

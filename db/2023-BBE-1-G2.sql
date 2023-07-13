@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS pantry;
+DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS booking;
 DROP TABLE IF EXISTS trole_server_permission;
 DROP TABLE IF EXISTS tserver_permission;
@@ -13,6 +15,7 @@ DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS hotel;
 DROP TABLE IF EXISTS country;
 DROP TABLE IF EXISTS coin;
+
 
 /******************Tabla moneda******************/
 
@@ -526,6 +529,30 @@ CREATE TABLE IF NOT EXISTS staff (
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE
 );
+
+ /*************************************************/
+/******************Tabla menu******************/
+CREATE TABLE IF NOT EXISTS menu (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(50) NOT NULL
+);
+
+
+ /*************************************************/
+/******************Tabla despensa******************/
+CREATE TABLE IF NOT EXISTS pantry (
+	id SERIAL PRIMARY KEY,
+	idmenu INTEGER NOT NULL,
+	idhotel INTEGER NOT NULL,
+	amount INTEGER NOT NULL,
+	FOREIGN KEY(idmenu) REFERENCES menu(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,	
+	FOREIGN KEY(idhotel) REFERENCES hotel(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+
 
  /*************************************************/
 /******************Tabla reserva******************/

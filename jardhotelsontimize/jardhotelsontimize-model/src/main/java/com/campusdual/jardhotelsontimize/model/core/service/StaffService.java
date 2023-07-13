@@ -152,13 +152,14 @@ public class StaffService implements IStaffService {
 
             try {
                 int idAdmin = (int) attrMap.get("id");
-                if (idAdmin == -1) {
+                if (idAdmin == -1 || idAdmin == -2) {
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
                     error.setMessage("The given id is not valid");
                     return error;
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
 
             Map<String, Object> map = new HashMap<>();
             map.put("id", attrMap.get("id"));
@@ -279,7 +280,7 @@ public class StaffService implements IStaffService {
         attrList.add("username");
         EntityResult userQuery = userService.userQuery(keyMap, attrList);
         keyMap = new HashMap<>();
-        List<Integer>ids = (List<Integer>) userQuery.get("idperson");
+        List<Integer> ids = (List<Integer>) userQuery.get("idperson");
         keyMap.put("id", ids.get(0));
         attrList = new ArrayList<>();
         attrList.add("idhotel");
@@ -287,7 +288,7 @@ public class StaffService implements IStaffService {
         attrList.add("id");
         EntityResult staffQuery = staffQuery(keyMap, attrList);
 
-        if (staffQuery.getCode() != EntityResult.OPERATION_WRONG ) {
+        if (staffQuery.getCode() != EntityResult.OPERATION_WRONG) {
 
             List<Object> jobs = (List<Object>) staffQuery.get("job");
             List<Integer> idsStaff = (List<Integer>) staffQuery.get("idhotel");
@@ -570,7 +571,7 @@ public class StaffService implements IStaffService {
         EntityResult erStaff = this.daoHelper.query(this.staffDao, keyMap, attrList);
         if (erStaff.toString().contains("id")) {
             Map<String, Object> key = new HashMap<>();
-            List<Integer>idsHotel = (List<Integer>) erStaff.get("idhotel");
+            List<Integer> idsHotel = (List<Integer>) erStaff.get("idhotel");
             key.put("idhotel", idsHotel.get(0));
             try {
                 EntityResult checkPermissions = checkPermissionsInsert(key, "delete");

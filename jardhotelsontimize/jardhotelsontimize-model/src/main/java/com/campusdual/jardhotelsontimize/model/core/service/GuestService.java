@@ -87,7 +87,7 @@ public class GuestService implements IGuestService {
 
             try {
                 int idAdmin = (int) attrMap.get("id");
-                if (idAdmin == -1) {
+                if (idAdmin == -1 || idAdmin == -2) {
                     EntityResult error = new EntityResultMapImpl();
                     error.setCode(EntityResult.OPERATION_WRONG);
                     error.setMessage("The given id is not valid");

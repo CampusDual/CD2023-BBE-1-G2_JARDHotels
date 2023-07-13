@@ -1,9 +1,6 @@
 package com.campusdual.jardhotelsontimize.ws.core.rest;
 
-import com.campusdual.jardhotelsontimize.api.core.service.IBookingService;
-import com.campusdual.jardhotelsontimize.api.core.service.ICountryService;
-import com.campusdual.jardhotelsontimize.api.core.service.IHotelService;
-import com.campusdual.jardhotelsontimize.api.core.service.IRoomService;
+import com.campusdual.jardhotelsontimize.api.core.service.*;
 import com.campusdual.jardhotelsontimize.model.core.dao.BookingDao;
 import com.campusdual.jardhotelsontimize.model.core.dao.HotelDao;
 import com.campusdual.jardhotelsontimize.model.core.model.TouristicPlace;
@@ -11,10 +8,12 @@ import com.campusdual.jardhotelsontimize.model.core.service.HotelService;
 import com.ontimize.jee.common.db.SQLStatementBuilder.*;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.services.user.UserInformation;
 import com.ontimize.jee.server.rest.ORestController;
 import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -41,39 +40,47 @@ public class HotelRestController extends ORestController<IHotelService> {
     @Autowired
     private IRoomService iRoomService;
 
+    @Autowired
+    private IUserService iUserService;
+
+    @Autowired
+    private IStaffService iStaffService;
+
     @Override
     public IHotelService getService() {
         return this.iHotelService;
     }
 
-    /**Metodo de puerta de hotel**/
+    /**
+     * Metodo de puerta de hotel
+     **/
 
     @RequestMapping(value = "/hotelDoor", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EntityResult hotelDoor(@RequestBody Map<String, Object> req){
+    public EntityResult hotelDoor(@RequestBody Map<String, Object> req) {
         Map<String, Object> filter = (Map<String, Object>) req.get("filter");
 
         EntityResult error = new EntityResultMapImpl();
         error.setCode(EntityResult.OPERATION_WRONG);
 
-        if(filter.get("code") == null){
+        if (filter.get("code") == null) {
             error.setMessage("Missing code");
             return error;
         }
 
-        if(filter.get("hotel") == null){
+        if (filter.get("hotel") == null) {
             error.setMessage("Missing hotel");
             return error;
         }
 
         try {
-            Map<String, Object>key = new HashMap<>();
+            Map<String, Object> key = new HashMap<>();
             key.put("id", filter.get("hotel"));
 
-            List<String>attrList = new ArrayList<>();
+            List<String> attrList = new ArrayList<>();
             attrList.add("id");
 
             EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
-            if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+            if (hotelQuery.getCode() == EntityResult.OPERATION_WRONG) {
                 error.setMessage(hotelQuery.getMessage());
                 return error;
             }
@@ -87,12 +94,12 @@ public class HotelRestController extends ORestController<IHotelService> {
 
             EntityResult bookingQuery = iBookingService.bookingQuery(key, attrList);
 
-            if(bookingQuery.getCode() == EntityResult.OPERATION_WRONG){
+            if (bookingQuery.getCode() == EntityResult.OPERATION_WRONG) {
                 error.setMessage(bookingQuery.getMessage());
                 return error;
             }
 
-            List<Integer>rooms = (List<Integer>) bookingQuery.get("room");
+            List<Integer> rooms = (List<Integer>) bookingQuery.get("room");
             key = new HashMap<>();
             key.put("id", rooms.get(0));
 
@@ -101,14 +108,14 @@ public class HotelRestController extends ORestController<IHotelService> {
             attrList.add("hotel");
 
             EntityResult roomQuery = iRoomService.roomQuery(key, attrList);
-            List<Integer>hotels = (List<Integer>) roomQuery.get("hotel");
+            List<Integer> hotels = (List<Integer>) roomQuery.get("hotel");
 
             int hotelToPass = (int) filter.get("hotel");
             int hotelFromBooking = hotels.get(0);
 
-            if(hotelToPass == hotelFromBooking){
-                List<Date>arrivalDates = (List<Date>) bookingQuery.get("arrivaldate");
-                List<Date>departureDates = (List<Date>) bookingQuery.get("departuredate");
+            if (hotelToPass == hotelFromBooking) {
+                List<Date> arrivalDates = (List<Date>) bookingQuery.get("arrivaldate");
+                List<Date> departureDates = (List<Date>) bookingQuery.get("departuredate");
 
                 Date fechaActual = new Date();
                 if (fechaActual.compareTo(arrivalDates.get(0)) >= 0 && fechaActual.compareTo(departureDates.get(0)) <= 0) {
@@ -119,12 +126,12 @@ public class HotelRestController extends ORestController<IHotelService> {
                     error.setMessage("Access denied");
                     return error;
                 }
-            }else{
+            } else {
                 error.setMessage("Access denied");
                 return error;
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             error.setMessage(e.getMessage());
             return error;
@@ -132,7 +139,9 @@ public class HotelRestController extends ORestController<IHotelService> {
 
     }
 
-    /**Metodo de filtro**/
+    /**
+     * Metodo de filtro
+     **/
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public EntityResult filter(@RequestBody Map<String, Object> req) {
@@ -147,36 +156,36 @@ public class HotelRestController extends ORestController<IHotelService> {
             key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
                     concatenateExpressions(filter));
 
-            if(!columns.contains("latitude")){
+            if (!columns.contains("latitude")) {
                 columns.add("latitude");
                 deleteLatitude = true;
             }
-            if(!columns.contains("longitude")){
+            if (!columns.contains("longitude")) {
                 columns.add("longitude");
                 deleteLongitude = true;
             }
 
             EntityResult hotelQuery = iHotelService.hotelQuery(key, columns);
 
-            if(filter.get("latitude") != null && filter.get("longitude") != null){
-                hotelQuery = calculateDistance(hotelQuery, (double)filter.get("latitude"), (double)filter.get("longitude"));
+            if (filter.get("latitude") != null && filter.get("longitude") != null) {
+                hotelQuery = calculateDistance(hotelQuery, (double) filter.get("latitude"), (double) filter.get("longitude"));
                 hotelQuery = orderQueryByDistance(hotelQuery, columns);
-            }else if (filter.get("latitude") != null && filter.get("longitude") == null){
+            } else if (filter.get("latitude") != null && filter.get("longitude") == null) {
                 throw new RuntimeException("You cannot apply the distance filter without the longitude. Please add it or remove latitude");
-            }else if (filter.get("latitude") == null && filter.get("longitude") != null){
+            } else if (filter.get("latitude") == null && filter.get("longitude") != null) {
                 throw new RuntimeException("You cannot apply the distance filter without the latitude. Please add it or remove longitude");
             }
-            boolean isEmpty=false;
-            if (hotelQuery.get("latitude")==null){
-                isEmpty=true;
+            boolean isEmpty = false;
+            if (hotelQuery.get("latitude") == null) {
+                isEmpty = true;
             }
-            if(deleteLatitude){
+            if (deleteLatitude) {
                 hotelQuery.remove("latitude");
             }
-            if(deleteLongitude){
+            if (deleteLongitude) {
                 hotelQuery.remove("longitude");
             }
-            if (isEmpty){
+            if (isEmpty) {
                 EntityResult empty = new EntityResultMapImpl();
                 empty.setCode(EntityResult.OPERATION_WRONG);
                 empty.setMessage("No hotels founded with this filter");
@@ -194,10 +203,12 @@ public class HotelRestController extends ORestController<IHotelService> {
         }
     }
 
-    /**Métodos de cálculo de distancias**/
+    /**
+     * Métodos de cálculo de distancias
+     **/
     private EntityResult calculateDistance(EntityResult query, double latitude, double longitude) {
-        List<BigDecimal>latitudeList = (List<BigDecimal>) query.get("latitude");
-        List<BigDecimal>longitudeList = (List<BigDecimal>) query.get("longitude");
+        List<BigDecimal> latitudeList = (List<BigDecimal>) query.get("latitude");
+        List<BigDecimal> longitudeList = (List<BigDecimal>) query.get("longitude");
         if (latitudeList == null) {
             latitudeList = new ArrayList<>();
         }
@@ -248,9 +259,9 @@ public class HotelRestController extends ORestController<IHotelService> {
         List<Double> distances = (List<Double>) hotelQuery.get("distance(km)");
         List<List<Object>> listAttrlist = new ArrayList<>();
 
-        for(String column : columns){
-            if(!column.equals("distance(km)")){
-                List<Object>listAttr = (List<Object>) hotelQuery.get(column);
+        for (String column : columns) {
+            if (!column.equals("distance(km)")) {
+                List<Object> listAttr = (List<Object>) hotelQuery.get(column);
                 listAttrlist.add(listAttr);
             }
         }
@@ -261,7 +272,7 @@ public class HotelRestController extends ORestController<IHotelService> {
                 Double next = distances.get(j + 1);
 
                 if (now.compareTo(next) > 0) {
-                    for(List<Object>list : listAttrlist){
+                    for (List<Object> list : listAttrlist) {
                         Object oNow = new ArrayList<>(list).get(j);
                         Object oNext = new ArrayList<>(list).get(j + 1);
                         list.set(j, oNext);
@@ -275,8 +286,8 @@ public class HotelRestController extends ORestController<IHotelService> {
 
         EntityResult toret = new EntityResultMapImpl();
         toret.put("distance(km)", distances);
-        for(int i = 0; i < columns.size(); i++){
-            if(!columns.get(i).equals("distance(km)")){
+        for (int i = 0; i < columns.size(); i++) {
+            if (!columns.get(i).equals("distance(km)")) {
                 toret.put(columns.get(i), listAttrlist.get(i));
             }
         }
@@ -284,7 +295,9 @@ public class HotelRestController extends ORestController<IHotelService> {
         return toret;
     }
 
-    /**Método de concatenación y filtros**/
+    /**
+     * Método de concatenación y filtros
+     **/
     private BasicExpression concatenateExpressions(Map<String, Object> filter) {
 
         // filtro estrellas
@@ -346,25 +359,25 @@ public class HotelRestController extends ORestController<IHotelService> {
         }
 
         //filtro latitud
-        if(filter.get("latitude") != null){
-            try{
-                double latitude = (double)filter.get("latitude");
-                if(latitude < -90 || latitude > 90){
+        if (filter.get("latitude") != null) {
+            try {
+                double latitude = (double) filter.get("latitude");
+                if (latitude < -90 || latitude > 90) {
                     throw new RuntimeException("Latitude must be a range between -90 and +90");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("Latitude must be a decimal number");
             }
         }
 
         //filtro longitud
-        if(filter.get("longitude") != null){
-            try{
-                double longitude = (double)filter.get("longitude");
-                if(longitude < -180 || longitude > 180){
+        if (filter.get("longitude") != null) {
+            try {
+                double longitude = (double) filter.get("longitude");
+                if (longitude < -180 || longitude > 180) {
                     throw new RuntimeException("Longitude must be a range between -180 and +180");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("Longitude must be a decimal number");
             }
         }
@@ -398,22 +411,24 @@ public class HotelRestController extends ORestController<IHotelService> {
         return new BasicExpression(field, BasicOperator.EQUAL_OP, country);
     }
 
-    /**Métodos de lugares turísticos**/
+    /**
+     * Métodos de lugares turísticos
+     **/
 
-    @RequestMapping(value = "/touristicPlaces", method = RequestMethod.POST, produces =  MediaType.APPLICATION_JSON_VALUE)
-    public EntityResult touristicPlaces(@RequestBody Map<String, Object> req){
+    @RequestMapping(value = "/touristicPlaces", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public EntityResult touristicPlaces(@RequestBody Map<String, Object> req) {
 
         EntityResult error = new EntityResultMapImpl();
         error.setCode(EntityResult.OPERATION_WRONG);
 
         Map<String, Object> filter = (Map<String, Object>) req.get("filter");
 
-        if(!filter.containsKey("hotel")){
+        if (!filter.containsKey("hotel")) {
             error.setMessage("Missing hotel attribute");
             return error;
         }
 
-        if(!filter.containsKey("radio")){
+        if (!filter.containsKey("radio")) {
             error.setMessage("Missing radio attribute");
             return error;
         }
@@ -427,7 +442,7 @@ public class HotelRestController extends ORestController<IHotelService> {
 
         EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
 
-        if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+        if (hotelQuery.getCode() == EntityResult.OPERATION_WRONG) {
             return hotelQuery;
         }
 
@@ -436,25 +451,25 @@ public class HotelRestController extends ORestController<IHotelService> {
         coordenates = (List<BigDecimal>) hotelQuery.get("longitude");
         double longitude = coordenates.get(0).doubleValue();
 
-        try{
+        try {
             double radio = 0;
 
             try {
                 radio = (double) filter.get("radio");
-            }catch (Exception e){
-                int raux = (int)filter.get("radio");
+            } catch (Exception e) {
+                int raux = (int) filter.get("radio");
                 radio = raux;
             }
 
-            if(radio <= 0){
+            if (radio <= 0) {
                 error.setMessage("radio must be greater than 0");
                 return error;
             }
 
-            EntityResult touristicPlaces =  getTouristicPlaces(latitude, longitude, radio);
+            EntityResult touristicPlaces = getTouristicPlaces(latitude, longitude, radio);
             return touristicPlaces;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             error.setMessage(e.getMessage());
             return error;
@@ -487,10 +502,12 @@ public class HotelRestController extends ORestController<IHotelService> {
         return toret;
     }
 
-    /**Metodo de estadisticas**/
+    /**
+     * Metodo de estadisticas
+     **/
 
     @RequestMapping(value = "/capacity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EntityResult capacity(@RequestBody Map<String, Object> req){
+    public EntityResult capacity(@RequestBody Map<String, Object> req) {
         EntityResult error = new EntityResultMapImpl();
         error.setCode(EntityResult.OPERATION_WRONG);
 
@@ -506,23 +523,23 @@ public class HotelRestController extends ORestController<IHotelService> {
             Map<String, Object> key = new HashMap<>();
             key.put("id", filter.get("hotel"));
 
-            List<String>attrList = new ArrayList<>();
+            List<String> attrList = new ArrayList<>();
             attrList.add("id");
 
             EntityResult hotelQuery = iHotelService.hotelQuery(key, attrList);
-            if(hotelQuery.getCode() == EntityResult.OPERATION_WRONG){
+            if (hotelQuery.getCode() == EntityResult.OPERATION_WRONG) {
                 return hotelQuery;
             }
             key = new HashMap<>();
             key.put("hotel", filter.get("hotel"));
 
             EntityResult roomQuery = iRoomService.roomQuery(key, attrList);
-            if(roomQuery.getCode() == EntityResult.OPERATION_WRONG){
+            if (roomQuery.getCode() == EntityResult.OPERATION_WRONG) {
                 error.setMessage("This hotel doesn't have any room to generate the capacity");
                 return error;
             }
 
-            List<Integer>idsRoom = (List<Integer>) roomQuery.get("id");
+            List<Integer> idsRoom = (List<Integer>) roomQuery.get("id");
 
             key = new HashMap<>();
             key.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
@@ -539,16 +556,16 @@ public class HotelRestController extends ORestController<IHotelService> {
             double percent;
             int bookingCount = 0;
 
-            if(bookingQuery.getCode() == EntityResult.OPERATION_WRONG){
+            if (bookingQuery.getCode() == EntityResult.OPERATION_WRONG) {
                 toret.put("total_rooms", totalRooms);
                 toret.put("occupied_rooms", occupiedRooms);
-                percent = (occupiedRooms * 100)/totalRooms;
+                percent = (occupiedRooms * 100) / totalRooms;
                 toret.put("occupation_percent", percent);
                 toret.put("total_bookings", bookingCount);
                 return toret;
             }
 
-            List<Integer>idsRoomBooking = (List<Integer>) bookingQuery.get("room");
+            List<Integer> idsRoomBooking = (List<Integer>) bookingQuery.get("room");
             bookingCount = idsRoomBooking.size();
             HashSet<Integer> roomsNotRepeated = new HashSet<>(idsRoomBooking);
             idsRoomBooking = new ArrayList<>(roomsNotRepeated);
@@ -556,12 +573,12 @@ public class HotelRestController extends ORestController<IHotelService> {
             occupiedRooms = idsRoomBooking.size();
             toret.put("total_rooms", totalRooms);
             toret.put("occupied_rooms", occupiedRooms);
-            percent = (occupiedRooms * 100)/totalRooms;
+            percent = (occupiedRooms * 100) / totalRooms;
             toret.put("occupation_percent", percent);
             toret.put("total_bookings", bookingCount);
 
             return toret;
-        }catch (Exception e){
+        } catch (Exception e) {
             error.setMessage(e.getMessage());
             return error;
         }
@@ -585,6 +602,10 @@ public class HotelRestController extends ORestController<IHotelService> {
             return error;
         }
 
+        EntityResult checkPermission = checkPermissions(filter.get("hotel").toString());
+        if (checkPermission.getCode() == EntityResult.OPERATION_WRONG) {
+            return checkPermission;
+        }
         try {
             int currentYear = LocalDate.now().getYear();
             int yearToCheck = (int) filter.get("year");
@@ -650,7 +671,51 @@ public class HotelRestController extends ORestController<IHotelService> {
         }
     }
 
-    private BasicExpression concatenateExpressionsBooking(List<Integer>idsRoom){
+    private EntityResult checkPermissions(String idHotel) {
+        try {
+            UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            if (userInformation.getUsername().equals("admin")) {
+                return new EntityResultMapImpl();
+            }
+            Map<String, Object> key = new HashMap<>();
+            key.put("username", userInformation.getUsername());
+            List<String> attrList = new ArrayList<>();
+            attrList.add("idperson");
+            attrList.add("username");
+            EntityResult userQuery = iUserService.userQuery(key, attrList);
+
+            key = new HashMap<>();
+            List<Object> ids = (List<Object>) userQuery.get("idperson");
+            key.put("id", ids.get(0));
+            attrList = new ArrayList<>();
+            attrList.add("idhotel");
+            attrList.add("job");
+            attrList.add("id");
+
+            EntityResult staffQuery = iStaffService.staffQuery(key, attrList);
+
+            if (staffQuery.getCode() == 0) {
+
+                List<Object> idsHotel = (List<Object>) staffQuery.get("idhotel");
+                List<Object> jobs = (List<Object>) staffQuery.get("job");
+
+                if (jobs.get(0).toString().equals("10") && idsHotel.get(0).toString().equals(idHotel)) {
+                    return new EntityResultMapImpl();
+                } else {
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("Access is denied");
+                    return error;
+                }
+            }
+        } catch (Exception e) {
+            return new EntityResultMapImpl();
+        }
+        return new EntityResultMapImpl();
+    }
+
+    private BasicExpression concatenateExpressionsBooking(List<Integer> idsRoom) {
         return new BasicExpression(searchBookingFromRooms(idsRoom), BasicOperator.AND_OP, searchBookingInActualDate());
     }
 
@@ -659,12 +724,12 @@ public class HotelRestController extends ORestController<IHotelService> {
         return new BasicExpression(searchBookingFromRooms(idsRoom), BasicOperator.AND_OP, searchBookingsInMonth(year, month));
     }
 
-    private BasicExpression searchBookingFromRooms(List<Integer>idsRoom) {
+    private BasicExpression searchBookingFromRooms(List<Integer> idsRoom) {
 
         BasicField field = new BasicField(BookingDao.ATTR_ROOM);
         BasicExpression bexp = new BasicExpression(field, BasicOperator.EQUAL_OP, idsRoom.get(0));
 
-        for(int i = 1 ; i < idsRoom.size() ; i++){
+        for (int i = 1; i < idsRoom.size(); i++) {
             BasicExpression bexp2 = new BasicExpression(field, BasicOperator.EQUAL_OP, idsRoom.get(i));
             bexp = new BasicExpression(bexp, BasicOperator.OR_OP, bexp2);
         }
@@ -672,7 +737,7 @@ public class HotelRestController extends ORestController<IHotelService> {
         return bexp;
     }
 
-    private BasicExpression searchBookingInActualDate(){
+    private BasicExpression searchBookingInActualDate() {
         Date date = new Date();
 
         BasicField field = new BasicField(BookingDao.ATTR_ARRIVALDATE);

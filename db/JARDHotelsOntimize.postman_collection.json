@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "647f8b2f-9d16-4daf-a5d4-2d6c00842ccb",
+		"_postman_id": "d95cbde4-a9d6-423d-95e6-fa31c5413a07",
 		"name": "JARDHotelsOntimize",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 10\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":1,\r\n        \"phone\": \"987099889\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 1\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Hotel 1\",\r\n        \"stars\": 1,\r\n        \"address\": \"Calle 1\",\r\n        \"country\":1,\r\n        \"phone\": \"987099889\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -424,7 +424,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":8,\r\n        \"year\":2023\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":10,\r\n        \"year\":2023\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2241,12 +2241,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "demo",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "demouser",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -2255,7 +2255,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Patatas fritas\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 11\r\n    },\r\n    \"data\": {\r\n        \"name\": \"Patatas fritas con ketchup\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2299,7 +2299,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 9\r\n    },\r\n     \"columns\": [\"id\", \"name\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    },\r\n     \"columns\": [\"id\", \"name\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2371,12 +2371,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "password1",
+									"value": "admin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "juan123",
+									"value": "admin",
 									"type": "string"
 								}
 							]
@@ -2385,7 +2385,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 13\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 11\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2420,12 +2420,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -2434,7 +2434,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\":{\r\n        \"idmenu\": 2,\r\n        \"idhotel\":1,\r\n        \"amount\": 20\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\":{\r\n        \"idmenu\": 2,\r\n        \"idhotel\":10,\r\n        \"amount\": 200\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2478,7 +2478,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 2\r\n    },\r\n    \"data\": {\r\n        \"idhotel\": 1,\r\n        \"idmenu\": 2,\r\n        \"amount\": 8\r\n    }\r\n}",
+							"raw": "{\r\n   \"filter\": {\r\n        \"id\": 2\r\n    },\r\n    \"data\": {\r\n        \"idhotel\": 1,\r\n        \"idmenu\": 2,\r\n        \"amount\": 100\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2522,7 +2522,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 2\r\n    },\r\n     \"columns\": [\"idhotel\", \"idmenu\", \"amount\", \"id\"]\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 83\r\n    },\r\n     \"columns\": [\"idhotel\", \"idmenu\", \"amount\", \"id\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -204,8 +204,8 @@ public class PantryService implements IPantryService {
             return pantryQuery;
         }
 
-        List<String>idsHotel = (List<String>) pantryQuery.get("idhotel");
-        EntityResult checkPermissions = checkPermissions(idsHotel.get(0), "delete");
+        List<Integer>idsHotel = (List<Integer>) pantryQuery.get("idhotel");
+        EntityResult checkPermissions = checkPermissions(idsHotel.get(0) + "", "delete");
         if(checkPermissions.getCode() == EntityResult.OPERATION_WRONG){
             return checkPermissions;
         }

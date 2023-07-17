@@ -30,7 +30,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel CALIFORNIA 2\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle CALIFORNIA\",\r\n    \"country\": 1,\r\n    \"latitude\":22.888216,\r\n    \"longitude\": -109.950484,\r\n    \"phone\": \"111303288\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n    \"name\": \"Hotel de Madrid\",\r\n    \"stars\": 5,\r\n    \"address\": \"Calle del Prado\",\r\n    \"country\": 1,\r\n    \"latitude\":40.414736,\r\n    \"longitude\": -3.699519,\r\n    \"phone\": \"678910109\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -190,12 +190,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -336,7 +336,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":1,\r\n        \"radio\": 5000\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":11,\r\n        \"radio\": 100\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -380,7 +380,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":10\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -424,7 +424,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":10,\r\n        \"year\":2023\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"hotel\":1,\r\n        \"year\":2023\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1286,7 +1286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\":2,\r\n    \"arrivaldate\": \"2023-07-10\",\r\n    \"departuredate\": \"2023-07-30\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n    \"data\": {\r\n    \"room\":1,\r\n    \"guest\":2,\r\n    \"arrivaldate\": \"2023-07-17\",\r\n    \"departuredate\": \"2023-07-30\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2434,7 +2434,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\":{\r\n        \"idmenu\": 2,\r\n        \"idhotel\":10,\r\n        \"amount\": 200\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\":{\r\n        \"idmenu\": 2,\r\n        \"idhotel\":10,\r\n        \"amount\": 5\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2464,12 +2464,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "password1",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "juan123",
 									"type": "string"
 								}
 							]
@@ -2523,6 +2523,51 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 83\r\n    },\r\n     \"columns\": [\"idhotel\", \"idmenu\", \"amount\", \"id\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:65431/pantries/pantry/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "65431",
+							"path": [
+								"pantries",
+								"pantry",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Menu And Hotel",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"idhotel\": 10\r\n    },\r\n     \"columns\": [\"idhotel\", \"idmenu\", \"amount\", \"id\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2606,12 +2651,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "password1",
+									"value": "password10",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "juan123",
+									"value": "ana456",
 									"type": "string"
 								}
 							]
@@ -2620,7 +2665,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"raw": "{\r\n    \"filter\": {\r\n        \"id\": 83\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

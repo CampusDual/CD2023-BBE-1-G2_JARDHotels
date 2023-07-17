@@ -489,7 +489,7 @@ public class HotelRestController extends ORestController<IHotelService> {
         EntityResult toret = new EntityResultMapImpl();
 
         for (TouristicPlace tp : touristicPlaceList) {
-            if (!(tp.getType().equalsIgnoreCase("hostel") || tp.getType().equalsIgnoreCase("hotel") || tp.getType().equalsIgnoreCase("motel") || tp.getType().equalsIgnoreCase("motel"))) {
+            if (!(tp.getType().equalsIgnoreCase("hostel") || tp.getType().equalsIgnoreCase("hotel") || tp.getType().equalsIgnoreCase("motel") || tp.getType().equalsIgnoreCase("motel")|| tp.getType().equalsIgnoreCase("guest_house"))) {
                 Hashtable<String, Object> row = new Hashtable<>();
                 row.put("latitude", tp.getLatitude());
                 row.put("longitude", tp.getLongitude());

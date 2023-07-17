@@ -5,10 +5,12 @@ import com.campusdual.jardhotelsontimize.model.core.dao.PantryDao;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.security.PermissionsProviderSecured;
+import com.ontimize.jee.common.services.user.UserInformation;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,8 +34,13 @@ public class PantryService implements IPantryService {
     @Autowired
     private HotelService hotelService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private StaffService staffService;
+
     @Override
-    //@Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult pantryQuery(Map<String, Object> keyMap, List<String> attrList) {
         boolean removeId = false;
         if (!attrList.contains("id")) {
@@ -65,6 +72,7 @@ public class PantryService implements IPantryService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult pantryInsert(Map<String, Object> attrMap) {
 
         EntityResult error = new EntityResultMapImpl();
@@ -119,7 +127,9 @@ public class PantryService implements IPantryService {
                 key = new HashMap<>();
                 key.put("id", idsPantry.get(0));
                 attrMap.put("amount", (Integer) attrMap.get("amount") + amounts.get(0));
-                return this.pantryUpdate(attrMap, key);
+                EntityResult pantryUpdate = pantryUpdate(attrMap, key);
+                pantryUpdate.put("id", idsPantry.get(0));
+                return pantryUpdate;
             }
             EntityResult result = this.daoHelper.insert(this.pantryDao, attrMap);
             result.setMessage("Successful pantry insert");
@@ -154,6 +164,10 @@ public class PantryService implements IPantryService {
                     error.setMessage("idhotel cannot be changed");
                     return error;
                 }
+                EntityResult checkPermissions = checkPermissions(attrMap.get("idhotel").toString(), "update");
+                if(checkPermissions.getCode() == EntityResult.OPERATION_WRONG){
+                    return checkPermissions;
+                }
             }
 
             if (attrMap.containsKey("idmenu")) {
@@ -180,13 +194,22 @@ public class PantryService implements IPantryService {
     }
 
     @Override
+    @Secured({ PermissionsProviderSecured.SECURED })
     public EntityResult pantryDelete(Map<String, Object> keyMap) {
         List<String> attrList = new ArrayList<>();
         attrList.add("id");
+        attrList.add("idhotel");
         EntityResult pantryQuery = this.pantryQuery(keyMap, attrList);
         if (pantryQuery.getCode() == EntityResult.OPERATION_WRONG) {
             return pantryQuery;
         }
+
+        List<Integer>idsHotel = (List<Integer>) pantryQuery.get("idhotel");
+        EntityResult checkPermissions = checkPermissions(idsHotel.get(0) + "", "delete");
+        if(checkPermissions.getCode() == EntityResult.OPERATION_WRONG){
+            return checkPermissions;
+        }
+
         try {
             EntityResult result = this.daoHelper.delete(this.pantryDao, keyMap);
             result.setMessage("Successful pantry delete");
@@ -197,5 +220,45 @@ public class PantryService implements IPantryService {
             error.setMessage(e.getMessage());
             return error;
         }
+    }
+
+    private EntityResult checkPermissions(String idHotel, String operation){
+        try {
+            UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            Map<String, Object>key = new HashMap<>();
+            key.put("username", userInformation.getUsername());
+            List<String>attrList = new ArrayList<>();
+            attrList.add("idperson");
+            attrList.add("username");
+            EntityResult userQuery = userService.userQuery(key, attrList);
+
+            key = new HashMap<>();
+            List<Object> ids=(List<Object>)userQuery.get("idperson");
+            key.put("id", ids.get(0));
+            attrList = new ArrayList<>();
+            attrList.add("idhotel");
+            attrList.add("job");
+            attrList.add("id");
+
+            EntityResult staffQuery = staffService.staffQuery(key, attrList);
+
+            if(staffQuery.getCode() == 0){
+
+                List<Object>idsHotel = (List<Object>) staffQuery.get("idhotel");
+                List<Object>jobs = (List<Object>) staffQuery.get("job");
+
+                if(jobs.get(0).toString().equals("10") && !(idsHotel.get(0).toString().equals(idHotel))){
+                    EntityResult error = new EntityResultMapImpl();
+                    error.setCode(EntityResult.OPERATION_WRONG);
+                    error.setMessage("This hotel manager can not " + operation + " the pantry from this hotel");
+                    return error;
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new EntityResultMapImpl();
+        }
+        return new EntityResultMapImpl();
     }
 }

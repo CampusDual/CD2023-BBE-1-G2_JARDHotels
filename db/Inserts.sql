@@ -165,7 +165,9 @@ INSERT INTO tserver_permission VALUES
 	 (26,'com.campusdual.jardhotelsontimize.api.core.service.IUserService/userQuery'),
 	 (27,'com.campusdual.jardhotelsontimize.api.core.service.IMenuService/menuInsert'),
 	 (28,'com.campusdual.jardhotelsontimize.api.core.service.IMenuService/menuUpdate'),
-	 (29,'com.campusdual.jardhotelsontimize.api.core.service.IMenuService/menuDelete');
+	 (29,'com.campusdual.jardhotelsontimize.api.core.service.IMenuService/menuDelete'),
+	 (30,'com.campusdual.jardhotelsontimize.api.core.service.IPantryService/pantryDelete'),
+	 (31,'com.campusdual.jardhotelsontimize.api.core.service.IPantryService/pantryInsert');
 	 
 	 
 INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES 
@@ -214,6 +216,8 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (3, 17),
 	 (3, 9),
 	 (3, 16),
+	 (3, 30),
+	 (3, 31),
 	 (4, 1), -- 4 -> admin
 	 (4, 2),
 	 (4, 3),
@@ -243,6 +247,8 @@ INSERT INTO trole_server_permission(id_rolename, id_server_permission) VALUES
 	 (4, 27),
 	 (4, 28),
 	 (4, 29),
+	 (4, 30),
+	 (4, 31),
 	 (5, 9),  -- 5 -> demouser
 	 (5, 26),
      (5, 10);

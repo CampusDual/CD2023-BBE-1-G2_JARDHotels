@@ -19,11 +19,11 @@ INSERT INTO hotel (name, stars, address, country, latitude, longitude, phone) VA
     ('Hotel Grand Hyatt', 5, '123 Main Street, Cityville', 3, 40.7128, -74.0060, '9121212121'),
     ('Hotel Hilton', 4, '456 Elm Avenue, Townsville', 7, 51.5074, -0.1278, '775546543'),
     ('Hotel Marriott', 4, '789 Oak Lane, Villageland', 4, 39.9526, -75.1652, '748396655'),
-    ('Hotel Radisson', 3, '321 Pine Road, Countryside', 1, 41.8781, -87.6298, '112233445'),
+    ('Hotel Radisson Deluxe', 3, '321 Pine Road, Countryside', 2, 41.8781, -87.6298, '112233445'),
     ('Hotel Sheraton', 4, '987 Cedar Drive, Mountainview', 5, 37.3861, -122.0839, '12345678901234567890'),
     ('Hotel Holiday Inn', 3, '654 Maple Court, Lakeside', 6, 45.4215, -75.6906, '688899944'),
     ('Hotel Four Seasons', 5, '876 Birch Street, Beachtown', 4, 40.7128, -74.0060, '001100223'),
-    ('Hotel Ritz-Carlton', 5, '543 Walnut Circle, Seaside', 2, 25.7617, -80.1918, '9998887776'),
+    ('Hotel Ritz-Carlton Deluxe', 5, '543 Walnut Circle, Seaside', 1, 25.7617, -80.1918, '9998887776'),
     ('Hotel Best Western', 3, '210 Spruce Avenue, Hillside', 3, 40.7128, -74.0060, '5728192836'),
     ('Hotel Ibis', 2, '135 Oakwood Lane, Riverside', 8, 34.0522, -118.2437, '01912718919');
 
@@ -35,14 +35,14 @@ INSERT INTO room (number, capacity, description, hotel, price) VALUES
     (202, 4, 'Family Suite with two queen beds', 2, 120),
     (301, 1, 'Single Room with a twin bed', 3, 75),
     (302, 1, 'Single Room with a twin bed', 3, 75),
-    (401, 2, 'Double Room with two double beds', 4, 75),
-    (402, 2, 'Double Room with two double beds', 4, 75),
+    (401, 4, 'Double Room with two double beds', 4, 25),
+    (402, 2, 'Double Room with two small beds', 4, 75),
     (501, 2, 'Deluxe Room with a king bed and ocean view', 5, 200),
     (502, 2, 'Deluxe Room with a king bed and ocean view', 5, 200);
    
 
 INSERT INTO person (name, surname, phone, documentation, country, phonecountry) VALUES
-    ('Juan', 'Gómez', '123456789', '12345678Z', 1,1),
+    ('Francisco', 'Gómez', '123456789', '12345678Z', 1,1),
     ('María', 'Rodríguez', '16012345', 'XY9876543', 5,5),
     ('Antonio', 'López', '1234567891', '111222333', 2,2),
     ('Carmen', 'García', '111222333', '76543210D', 8,8),
@@ -59,7 +59,7 @@ INSERT INTO person (id, name, surname, phone, documentation, country, phonecount
 	(-2, 'Demo', 'Demo', 'Demo', 'Demo', 8,8);
    
 INSERT INTO tuser (username, password, email, idperson) VALUES
-	('juan123', 'password1', 'juan123@example.com', 1),
+	('francisco123', 'password1', 'francisco123@example.com', 1),
 	('maria456', 'password2', 'maria456@example.com', 2),
 	('antonio789', 'password3', 'antonio789@example.com', 3),
 	('carmen123', 'password4', 'carmen123@example.com', 4),
@@ -131,7 +131,7 @@ INSERT INTO tuser_role(id_role, user_name) VALUES
 	(2, 'laura321'),
 	(1, 'isabel987'),
 	(1, 'ana456'),
-	(2, 'juan123'),
+	(2, 'francisco123'),
 	(3, 'ana456'),
 	(4, 'admin'),
 	(5, 'demouser');

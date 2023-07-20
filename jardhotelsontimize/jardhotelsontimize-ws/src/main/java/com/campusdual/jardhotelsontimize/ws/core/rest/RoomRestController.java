@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -102,7 +103,9 @@ public class RoomRestController extends ORestController<IRoomService> {
                         key = new HashMap<>();
                         key.put("id", ids.get(0));
                         Map<String, Object>attrMap = new HashMap<>();
-                        attrMap.put("checkindate", now);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        String dateNow = sdf.format(now);
+                        attrMap.put("checkindate", dateNow);
                         iBookingService.bookingUpdate(attrMap, key);
                     }
                     return ok;

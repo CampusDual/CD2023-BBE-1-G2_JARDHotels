@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -187,6 +188,7 @@ public class PantryServiceTest {
             er.setCode(0);
             er.setMessage("");
             er.put("id", 1);
+            er.put("idhotel", List.of(1));
             Map<String, Object> pantryKey = new HashMap<>();
             pantryKey.put("id", 1);
             when(daoHelper.delete(any(PantryDao.class), anyMap())).thenReturn(er);

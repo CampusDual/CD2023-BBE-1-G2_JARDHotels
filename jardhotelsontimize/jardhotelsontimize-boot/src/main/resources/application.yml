@@ -51,7 +51,7 @@ ontimize:
          role-login-column: username
          role-name-column: rolename
 server:
-   port: 65431
+   port: 33333
    error:
       include-message: always
    tomcat:
@@ -62,7 +62,7 @@ server:
 spring:
    datasource:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://45.84.210.174:65432/2023-BBE-1-G2
+      jdbc-url: jdbc:postgresql://db:5432/2023-BBE-1-G2
       username: Backend_2023_G2
       password: 1qaz2wsx
       initial-size: 10

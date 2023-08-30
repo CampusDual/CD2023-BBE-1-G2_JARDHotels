@@ -1,0 +1,6 @@
+FROM postgres:14-alpine
+ENV POSTGRES_USER=Backend_2023_G2
+ENV POSTGRES_PASSWORD=1qaz2wsx
+ENV POSTGRES_DB=2023-BBE-1-G2
+COPY dump-2023-BBE-1-G2.sql /docker-entrypoint-initdb.d/
+EXPOSE 5432
